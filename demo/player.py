@@ -80,9 +80,20 @@ def _record_timeline(step_info: dict[str, Any], scn: Any, results: Any):
         pass
 
 
-def start_demo():
+def is_demo_running(state: dict[str, Any] | None = None) -> bool:
+    """Checks whether the automated demo mode is currently running."""
+    if state is None:
+        try:
+            state = getattr(st, "session_state", {})
+        except Exception:
+            state = {}
+    return state.get("demo", {}).get("active", False)
+
+
+def start_demo(state: dict[str, Any] | None = None):
     """Initializes and kicks off demo mode."""
-    st.session_state["demo"] = {
+    target = state if state is not None else st.session_state
+    target["demo"] = {
         "active": True,
         "step": 1,
         "started_at": time.time(),
@@ -98,22 +109,23 @@ def start_demo():
         except Exception:
             pass
 
-    _apply_step(1)
+    _apply_step(1, state=target)
 
 
-def stop_demo():
+def stop_demo(state: dict[str, Any] | None = None):
     """Exits demo mode cleanly and restores base state."""
-    st.session_state["demo"] = {
+    target = state if state is not None else st.session_state
+    target["demo"] = {
         "active": False,
         "step": 0,
         "started_at": 0.0,
         "step_started_at": 0.0,
         "paused": False
     }
-    reset_to_base()
+    reset_to_base(target)
 
 
-def _apply_step(step_idx: int):
+def _apply_step(step_idx: int, state: dict[str, Any] | None = None):
     """Executes actions for the target step."""
     steps = load_storyboard()
     if not steps or step_idx < 1 or step_idx > len(steps):
@@ -124,15 +136,18 @@ def _apply_step(step_idx: int):
 
     if action == "apply_preset":
         preset_name = step_info.get("preset", "base_case")
-        apply_preset_by_name(preset_name)
+        if state is not None:
+            apply_preset_by_name(state, preset_name)
+        else:
+            apply_preset_by_name(preset_name)
 
     elif action == "tween_slider":
         target = step_info.get("target", "metal_master")
         val = step_info.get("value", 15.0)
-        apply_scenario_values({target: val, "name": "Custom Sensitivity"})
+        apply_scenario_values({target: val, "name": "Custom Sensitivity"}, state=state)
 
     # Evaluate live metrics and log
-    scn = get_current_scenario()
+    scn = get_current_scenario(state)
     results = run_all(scn)
     _record_timeline(step_info, scn, results)
 
