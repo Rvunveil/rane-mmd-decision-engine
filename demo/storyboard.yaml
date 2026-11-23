@@ -1,0 +1,90 @@
+# 12-Step Guided Storyboard for Rane (Madras) MMD Decision Engine
+# Team 11:59 · Xovate'26 · Management Hackathon
+# Defines playback sequence, targeted pages, actions, and dynamic executive captions.
+
+steps:
+  - id: 1
+    page: "pages/0_Command_Centre.py"
+    title: "Master Materials Control Room — Baseline"
+    action: "apply_preset"
+    preset: "base_case"
+    caption: "FY25 Baseline: ₹3,421 Cr revenue, ₹297.7 Cr EBITDA (8.7% margin), 0 delay days."
+    duration: 4.5
+
+  - id: 2
+    page: "pages/0_Command_Centre.py"
+    title: "Live Market Signals & Tickers"
+    action: "highlight_tape"
+    caption: "Dynamic Market Tape: Copper +54.8%, Freight -43.6% calculated from live processed datasets."
+    duration: 4.0
+
+  - id: 3
+    page: "pages/0_Command_Centre.py"
+    title: "Geopolitical Shock Injection"
+    action: "apply_preset"
+    preset: "red_sea_hormuz"
+    caption: "Injecting Red Sea / Hormuz crisis: freight jumps 2.73x to $5,937/FEU, shipping delay expands to 18 days."
+    duration: 4.5
+
+  - id: 4
+    page: "pages/0_Command_Centre.py"
+    title: "Instant Financial Exposure & Andon Alerts"
+    action: "inspect_kpi"
+    caption: "Operating profit falls to ₹251.3 Cr (-₹46.4 Cr). Inbound exposure map highlights 6 affected trade lanes."
+    duration: 4.5
+
+  - id: 5
+    page: "pages/1_Price_Forecast.py"
+    title: "Module 1: Statistical Price Forecasting"
+    action: "navigate"
+    caption: "AutoTheta forecasts on LME Copper show realistic forward drift ($14,549 to $15,008/t) with 80% & 95% intervals."
+    duration: 4.5
+
+  - id: 6
+    page: "pages/2_Scenario_Simulator.py"
+    title: "Module 2: Real-Time Sensitivity Engine"
+    action: "navigate"
+    caption: "Interactive sensitivity sliders simulate multi-commodity shocks with live P&L and cash flow recalculation."
+    duration: 4.5
+
+  - id: 7
+    page: "pages/3_Profit_Chain.py"
+    title: "Module 3: Profit Chain & Landed Cost Waterfall"
+    action: "navigate"
+    caption: "Full EBIT bridge breaks down metal costs, freight surges, and 50% OEM index-linked recovery."
+    duration: 4.5
+
+  - id: 8
+    page: "pages/4_Containers_Inventory.py"
+    title: "Module 4: Container Optimization & Inventory Runway"
+    action: "navigate"
+    caption: "Dynamic runway warns when Brake Lining drops to 22 days of cover; container payload efficiency tracks at 89.7%."
+    duration: 4.5
+
+  - id: 9
+    page: "pages/5_Action_Matrix.py"
+    title: "Module 5: Prescriptive PuLP Action Optimization"
+    action: "navigate"
+    caption: "Mathematical 0-1 integer programming selects optimal mitigation bundle (Cape Reroute + Consolidation) within budget."
+    duration: 4.5
+
+  - id: 10
+    page: "pages/0_Command_Centre.py"
+    title: "Control Deck Guided Helper"
+    action: "navigate"
+    caption: "'What happened? Get a recommendation' wizard diagnoses supply disruption and applies prioritized playbooks."
+    duration: 4.5
+
+  - id: 11
+    page: "pages/0_Command_Centre.py"
+    title: "Working Capital Cash Deficit Timeline"
+    action: "navigate"
+    caption: "12-month cash profile identifies peak funding trough at month 3 caused by 75-day OEM reimbursement lag."
+    duration: 4.5
+
+  - id: 12
+    page: "pages/0_Command_Centre.py"
+    title: "Audit-Ready Executive Brief"
+    action: "navigate"
+    caption: "Complete decision architecture: Truth Pass + Control Deck + PuLP Optimization. Team 11:59 · XIME Chennai."
+    duration: 5.0

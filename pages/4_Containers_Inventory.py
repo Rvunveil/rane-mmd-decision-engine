@@ -23,13 +23,13 @@ page_header("Containers & Inventory Model", "Inbound container payloads, freight
 kpi_strip(results, base_results)
 
 # 1. Dynamic Inventory Runway Chart
-section("📊 Inventory Runway vs Effective Lead Time (Days of Cover)", "Visualising vulnerability: Red = Stock-out risk (< Effective LT); Amber = Reorder trigger (< ROP)")
+section(":material/bar_chart: Inventory Runway vs Effective Lead Time (Days of Cover)", "Visualising vulnerability: Red = Stock-out risk (< Effective LT); Amber = Reorder trigger (< ROP)")
 
 fig_inv = plot_inventory_runway(results.inventory_summary)
 st.plotly_chart(fig_inv, use_container_width=True)
 
 # 2. Granular Inventory Policy Table
-section("📋 Inventory Policy & Buffer Health Matrix", "Safety stock sizing (95% service level) and reorder points reacting to shipping delays")
+section(":material/table_chart: Inventory Policy & Buffer Health Matrix", "Safety stock sizing (95% service level) and reorder points reacting to shipping delays")
 
 inv_table_rows = []
 for row in results.inventory_summary:
@@ -55,7 +55,7 @@ st.write(df_inv_display.to_html(escape=False, index=False), unsafe_allow_html=Tr
 st.markdown("<br>", unsafe_allow_html=True)
 
 # 2. Global Inbound Trade Lane Exposure Map (N2)
-section("🌐 Global Inbound Trade Lane Exposure Map (N2)", "Maritime corridors into Chennai / Ennore & JNPT with transit days and spend at risk")
+section(":material/public: Global Inbound Trade Lane Exposure Map (N2)", "Maritime corridors into Chennai / Ennore & JNPT with transit days and spend at risk")
 exposure_data = compute_exposure_map(active_scn)
 fig_map = plot_exposure_map(exposure_data)
 st.plotly_chart(fig_map, use_container_width=True)
@@ -63,7 +63,7 @@ st.plotly_chart(fig_map, use_container_width=True)
 st.markdown("<br>", unsafe_allow_html=True)
 
 # 3. Inbound Container Shipments & Payload Utilisation
-section("🚢 Inbound Container Tracking & Payload Efficiency " + data_badge("SAMPLE DATA"), "40ft container payload utilisation (%) and ocean freight landed cost per tonne")
+section(":material/directions_boat: Inbound Container Tracking & Payload Efficiency " + data_badge("SAMPLE DATA"), "40ft container payload utilisation (%) and ocean freight landed cost per tonne")
 
 col_cnt1, col_cnt2, col_cnt3 = st.columns(3)
 with col_cnt1:

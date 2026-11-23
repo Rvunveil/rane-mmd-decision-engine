@@ -146,3 +146,8 @@ def optimize_action_bundle(actions: list[dict], cash_budget_cr: float) -> tuple[
                     best_combo = [candidates[j] for j in range(n) if (i & (1 << j))]
 
     return best_combo, best_spend, best_val
+
+
+# Backward-compatible alias
+optimize_action_portfolio = optimize_action_bundle
+

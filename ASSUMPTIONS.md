@@ -1,4 +1,4 @@
-# ASSUMPTIONS.md · Rane (Madras) MMD Decision Engine
+# ASSUMPTIONS.md · Rane (Madras) MMD Decision Engine (V3)
 **Event:** Xovate'26 Management Hackathon  
 **Team 11:59:** Vikram T · Sayoni Dan · Trisha Pal · XIME Chennai  
 **Governing Standard:** Section 4 & 7 of the Hackathon Mandate  
@@ -84,17 +84,16 @@ Rane (Madras) operates four core manufacturing divisions. Material spend is allo
 
 ---
 
-## 6. V2 Upgrade Parameters & Calibrations
+## 6. V3 Truth Pass Parameters & Calibrations (T1–T5)
 
-- **Container Consolidation Benefit (ACT-07):**  
-  Calibrated benefit moving from current average payload ($89.7\%$ in raw sample data) to target payload ($98.0\%$):  
-  $$\text{Freight Reduction Fraction} = 1.0 - \frac{89.7}{98.0} = 8.469\%$$  
-  $$\text{Net Benefit} = \text{Freight Spend} \times 8.469\% - \text{₹1.2 Cr packaging redesign}$$
-- **Monte Carlo Profit-at-Risk Engine (N3):**  
-  2,000 multivariate joint disruption paths with fixed seed ($42$). Covariance matrix $D \times R \times D$ calibrated against historical annual price volatilities (Cu 14.5%, Al 12.8%, Ni 16.2%, Steels 9.5%, Resin 18.0%, Freight 28.0%, FX 4.5%, Demand 6.0%) and empirical metal/energy/freight correlations.
-- **OEM Price Recovery Partitioning (N5):**  
-  Partitioned across Rane's 4 core operating divisions: Steering (40%), Castings (27%), Friction (18%), Engine Valves (15%). Matches total contractual reimbursement to $0.001$ Cr.
-- **Dynamic Andon Triggers (N7):**  
-  7 operational triggers governing Red Sea maritime diversions (>12d RED), LME Copper (>25% RED), LME Aluminium (>20% RED), Freight multiplier (>2.2x RED), Cash gap (>₹16 Cr RED), Days of cover (<=20d RED), and FX depreciation (>₹92 RED).
-- **Cross-Functional Ripple Lenses (N8):**  
-  Simultaneous tracking of 7 departments: MMD (Procurement), Finance (Working Capital), Production (Line Starvation), HR/IR (Overtime), Quality (PPAP), Logistics (Demurrage), and Sales (OEM OTIF).
+- **Symmetric Pass-Through Monte Carlo (T4):**  
+  In accordance with Rule T4, pass-through recovery operates symmetrically across positive and negative shocks:  
+  $$\text{Recovery} = \text{PassThrough}\% \times (\Delta \text{Material} + \Delta \text{Freight})$$  
+  $$\Delta \text{EBITDA} = -\Delta \text{Material} - \Delta \text{Freight} + \text{Recovery}$$  
+  - Under zero volatility scale (`volatility_scale=0.0`), the simulation collapses identically to deterministic arithmetic: $P10 = P50 = P90 = \text{₹}297.70$ Cr.
+  - Base case median EBITDA is ₹293.74 Cr (within $\pm 5$ Cr of baseline).
+  - Material volatilities are computed dynamically from cleaned historical returns.
+- **Strict Neutral Labelling (T5):**  
+  In compliance with hackathon rules, all references to real commercial entities not in the dataset have been replaced with neutral descriptive labels (e.g., "OEM customer group A", "Carrier 1", "Domestic smelter option") and explicitly flagged with `[SAMPLE DATA]` or `[TEAM ASSUMPTION]`.
+- **Reproducible Backtest Metrics (T2 & T3):**  
+  Cross-validation metrics and 12-month forward forecasts are dynamically generated via `scripts/run_backtests.py` and `scripts/precompute_forecasts.py` using genuine statsforecast algorithms (AutoTheta, AutoETS, AutoARIMA) with zero manual edits.

@@ -14,17 +14,17 @@ from ui.charts import plot_freight_redating_trace
 page_header("Assumptions, Data Trace & About", "Complete data lineage, deliberate fixes, formula sheet & institutional credits", "Governance")
 
 tab_trace, tab_assumptions, tab_formulas, tab_about = st.tabs([
-    "🔍 Data Trace & Judgement Fixes",
-    "⚙️ Model Assumptions & Parameters",
-    "📐 Official Formula Sheet",
-    "👥 About Team 11:59 & Credits"
+    "Data Trace & Judgement Fixes",
+    "Model Assumptions & Parameters",
+    "Official Formula Sheet",
+    "About Team 11:59 & Credits"
 ])
 
 # ==============================================================================
 # TAB 1: DATA TRACE & DELIBERATE DATA-JUDGEMENT FIXES
 # ==============================================================================
 with tab_trace:
-    section("🚢 Deliberate Data-Judgement Fix: Container Freight Weekly Re-Dating", "Correcting spreadsheet error where 165 weekly values were labelled as consecutive days")
+    section(":material/directions_boat: Deliberate Data-Judgement Fix: Container Freight Weekly Re-Dating", "Correcting spreadsheet error where 165 weekly values were labelled as consecutive days")
     
     st.markdown(
         """
@@ -48,7 +48,7 @@ with tab_trace:
 
     st.markdown("---")
     
-    section("📋 Comprehensive Data Quality Audit Matrix", "Audit findings and engineering transformations across all 12 raw files")
+    section(":material/checklist: Comprehensive Data Quality Audit Matrix", "Audit findings and engineering transformations across all 12 raw files")
     
     trace_matrix = [
         {
@@ -106,7 +106,7 @@ with tab_trace:
 # TAB 2: MODEL ASSUMPTIONS & PARAMETERS
 # ==============================================================================
 with tab_assumptions:
-    section("⚙️ Transparent Assumption Ledger", "All parameters not present in raw datasets are explicitly documented, justified, and labelled")
+    section(":material/tune: Transparent Assumption Ledger", "All parameters not present in raw datasets are explicitly documented, justified, and labelled")
     
     st.markdown(
         """
@@ -138,7 +138,7 @@ with tab_assumptions:
 # TAB 3: OFFICIAL FORMULA SHEET
 # ==============================================================================
 with tab_formulas:
-    section("📐 Mathematical Formulations Reference", "Exact engine equations governing recalculation across all modules")
+    section(":material/calculate: Mathematical Formulations Reference", "Exact engine equations governing recalculation across all modules")
 
     st.markdown("#### 1. Landed Cost per Tonne")
     st.latex(r"\text{Landed}_i = \text{BasePrice}_i \times (1 + \text{Shock}_i) \times \left(\frac{\text{FX}_{\text{scn}}}{\text{FX}_{\text{base}}}\right)^{\mathbb{I}_{\text{USD}}} \times (1 + \text{Duty}_i + \text{Tariff}) + \text{Freight}_i \times \text{Multiplier} + \text{Handling}_i")
@@ -169,7 +169,7 @@ with tab_formulas:
 # TAB 4: ABOUT TEAM 11:59 & CREDITS
 # ==============================================================================
 with tab_about:
-    section("👥 Team 11:59 Profile", "Built for Xovate'26 Management Hackathon")
+    section(":material/groups: Team 11:59 Profile", "Built for Xovate'26 Management Hackathon")
     
     st.markdown(
         """
@@ -197,7 +197,7 @@ with tab_about:
         unsafe_allow_html=True
     )
 
-    section("📚 Open-Source Reference Architecture & Repositories", "Architectural patterns adapted and credited in accordance with Section 10")
+    section(":material/menu_book: Open-Source Reference Architecture & Repositories", "Architectural patterns adapted and credited in accordance with Section 10")
     
     credits = [
         ("Nixtla statsforecast & utilsforecast", "https://github.com/Nixtla/statsforecast", "Core automated time-series forecasting (AutoARIMA, AutoETS, AutoTheta)."),

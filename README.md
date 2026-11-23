@@ -1,4 +1,4 @@
-# Rane (Madras) MMD Decision Engine · Team 11:59
+# Rane (Madras) MMD Decision Engine · Team 11:59 (V3)
 **Event:** Xovate'26 Management Hackathon  
 **Tagline:** *"See the shock coming, measure what it costs, decide what to do."*  
 **Team 11:59:** Vikram T · Sayoni Dan · Trisha Pal  
@@ -12,7 +12,7 @@ Rane (Madras) Limited manufactures safety-critical automotive systems (steering 
 
 A global supply chain disruption—such as the Red Sea/Bab el-Mandeb chokepoint collapse, a 4x container freight surge, or a 10% unhedged commodity price shock—threatens to inflict over **₹60 Cr in unrecovered cost erosion**, completely wiping out annual net profit (PAT ₹37.6 Cr).
 
-The **MMD Decision Engine (V2)** is an autonomous enterprise cockpit developed for Rane's Materials Management Department (MMD). It unifies time-series commodity forecasting, driver-based P&L recalculation, dynamic inventory runway tracking, a 7-trigger Andon playbook, 2,000-path Monte Carlo profit-at-risk, global inbound trade lane exposure mapping, and a prescriptive action matrix with mathematical linear integer optimization to protect operating margins.
+The **MMD Decision Engine (V3)** is an industrial decision terminal developed for Rane's Materials Management Department (MMD). It unifies time-series commodity forecasting, driver-based P&L recalculation, dynamic inventory runway tracking, a 7-trigger Andon playbook, 2,000-path symmetric Monte Carlo profit-at-risk, global inbound trade lane exposure mapping, an interactive Control Deck with inline levers and "@st.dialog" guided recommendations, and a prescriptive action matrix with mathematical linear integer optimization to protect operating margins.
 
 ---
 
@@ -30,7 +30,7 @@ $$\Delta \text{Material} = \sum_{i=1}^7 \left[ \text{Tonnes}_i \times (1 + \text
 ### 3. Inbound Ocean Freight Delta
 $$\Delta \text{Freight} = \text{BaseOceanFreight (₹25 Cr)} \times \left( \text{FreightMultiplier} \times \frac{\text{FX}_{\text{scn}}}{\text{FX}_{\text{base}}} - 1 \right) \times (1 + \text{Demand}\%)$$
 
-### 4. OEM Pass-Through Recovery & Working Capital Cash Gap
+### 4. Symmetric OEM Pass-Through Recovery & Cash Gap (T4)
 $$\text{Recovery} = \text{PassThrough}\% \times (\Delta \text{Material} + \Delta \text{Freight})$$
 $$\text{Working Capital Cash Gap} = \text{Recovery} \times \frac{\text{PassThroughLagDays (Default: 75 days)}}{365}$$
 
@@ -46,14 +46,20 @@ $$\text{Status} = \begin{cases} \text{RED (Stock-out Risk)} & \text{if Days of C
 
 ---
 
-## System Architecture (V2 Upgrade)
+## System Architecture (V3)
 
 ```
 mmd-decision-engine/
-├── .streamlit/config.toml             # Minimal toolbar, clean industrial presentation
+├── .streamlit/config.toml             # Minimal toolbar, industrial graphite palette
 ├── app.py                             # Master Navigation & Session State
+├── demo/                              # Guided Executive Demo subsystem (Section 4)
+│   ├── __init__.py                    # Guarded hook exporter
+│   ├── player.py                      # State machine & auto-advance player
+│   ├── overlay.py                     # Lower-third floating caption bar
+│   ├── storyboard.yaml                # 12-step guided narrative script
+│   └── README.md                      # Demo manual & uninstallation instructions
 ├── pages/
-│   ├── 0_Command_Centre.py            # Master Materials Control Room (Trading Desk, Exposure Map, Andon Board)
+│   ├── 0_Command_Centre.py            # Master Materials Control Room (Control Deck, Tape, Map, Andon)
 │   ├── 1_Forecast.py                  # Module 1: statsforecast pool, prediction intervals & buy-timing signals
 │   ├── 2_Scenario_Simulator.py        # Module 2: Presets, side-by-side comparison & tornado chart
 │   ├── 3_Profit_Chain.py              # Module 3: Landed cost/t, 12M cash timeline & OEM claim dossier
@@ -61,29 +67,35 @@ mmd-decision-engine/
 │   ├── 5_Action_Matrix.py             # Module 5: Re-ranking mitigation matrix, ripple & PuLP 0-1 optimizer
 │   └── 6_Assumptions_Data_Trace_About.py # Data trace, assumptions ledger & team profile
 ├── engine/                            # Pure-Python mathematical and analytical engines
+│   ├── state.py                       # Canonical state dict & control sync (Section 3)
 │   ├── data_loader.py                 # Data cleaning, unit conversions & re-dating
 │   ├── scenario.py                    # Frozen Scenario dataclass & presets
 │   ├── results.py                     # High-density typed Results dataclass
 │   ├── forecast.py                    # statsforecast pool & empirical fallbacks
-│   ├── signals.py                     # Chokepoints, GSCPI, Brent & Forex radar
+│   ├── signals.py                     # Market tape, chokepoints, GSCPI, Brent & Forex radar
 │   ├── chain.py                       # P&L recalculation and division allocation
 │   ├── inventory.py                   # Runway, safety stock, and container payloads
 │   ├── actions.py                     # Mitigation catalogue, ranking & PuLP optimizer
-│   ├── exposure.py                    # N2: Inbound Trade Lane Exposure Map (Plotly scattergeo)
-│   ├── risk.py                        # N3: 2,000-Path Monte Carlo Profit-at-Risk (VaR & loss probability)
-│   ├── timeline.py                    # N4: 12-Month Cash Deficit Trough & OEM Recovery Timeline
-│   ├── claims.py                      # N5: OEM Price-Recovery Claim Pack Generator & HTML memo
-│   ├── buy_signal.py                  # N6: Buy-Timing Signal Engine (Buy Now / Stagger / Hold)
-│   ├── triggers.py                    # N7: Dynamic 7-Trigger Andon Playbook
-│   └── functions.py                   # N8: Cross-Functional Department Impact Lenses (7 functions)
+│   ├── exposure.py                    # Inbound Trade Lane Exposure Map (natural earth projection)
+│   ├── risk.py                        # Symmetric 2,000-Path Monte Carlo Profit-at-Risk (VaR & loss probability)
+│   ├── timeline.py                    # 12-Month Cash Deficit Trough & OEM Recovery Timeline
+│   ├── claims.py                      # OEM Price-Recovery Claim Pack Generator & HTML memo
+│   ├── buy_signal.py                  # Buy-Timing Signal Engine (Buy Now / Stagger / Hold)
+│   ├── triggers.py                    # Dynamic 7-Trigger Andon Playbook
+│   └── functions.py                   # Cross-Functional Department Impact Lenses (7 functions)
 ├── ui/                                # Presentation tokens, Plotly charts, and styles
-├── config/                            # Baseline, assumptions, presets, triggers, and actions YAMLs
+│   ├── control_deck.py                # Inline control deck with live deltas & popovers
+│   ├── guided_helper.py               # @st.dialog disruption diagnosis wizard
+│   ├── theme.py                       # Concrete mill-scale color tokens & formatters
+│   ├── charts.py                      # Unified Plotly charts with transparent layouts
+│   └── styles.css                     # Archivo typography & tabular numerals
+├── config/                            # Baseline, assumptions, presets, triggers, glossary, demo YAMLs
 ├── data/                              # Raw, processed, and pre-computed fallback tables
-├── tests/                             # 76 Unit, Acceptance, Stress & UI AppTests (100% Green)
+├── tests/                             # 90 Unit, Acceptance, Stress & UI AppTests (100% Green)
 ├── DESIGN_PLAN.md                     # Token design specification & ASCII wireframes
 ├── ASSUMPTIONS.md                     # Comprehensive assumption documentation
 ├── DATA_TRACE.md                      # Complete data lineage & reconciliation log
-└── DEMO_SCRIPT.md                     # 15-minute presentation script & judge Q&A guide
+└── V3_REPORT.md                       # Complete V3 upgrade audit report
 ```
 
 ---
@@ -93,23 +105,35 @@ mmd-decision-engine/
 The application is completely self-contained and operates 100% offline without external API dependencies:
 
 ```bash
-# 1. Clone the repository
+# 1. Clone the repository and checkout v3 branch
 git clone https://github.com/Rvunveil/rane-mmd-decision-engine.git
 cd rane-mmd-decision-engine
+git checkout v3
 
 # 2. Set up virtual environment and install dependencies
 python -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
-# 3. Execute the full test suite (76 tests: Unit + Stress + Acceptance + AppTest)
-pytest -v
+# 3. Execute the full test suite (90 tests: Unit + Stress + Acceptance + AppTest)
+pytest -q
 
 # 4. Launch the Streamlit Application
 streamlit run app.py
 ```
 
 The app will open automatically in your browser at `http://localhost:8501`.
+
+---
+
+## Guided Executive Demo Mode
+
+- **In-App Tour:** Click the **🎬 Run Director Demo (60s)** button in the sidebar. Use the lower-third caption controls to pause, advance, or stop.
+- **Headless Video Recording:** Run `python scripts/record_demo.py` to record a video into `demo_out/` via Playwright.
+- **How to Remove Demo Mode (2 Minutes):**
+  1. Delete `demo/` and `config/demo.yaml`.
+  2. Remove the 6-line hook from `app.py`.
+  Core calculation engines and acceptance test suites will remain 100% green and unaffected.
 
 ---
 

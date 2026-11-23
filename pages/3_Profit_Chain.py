@@ -25,7 +25,7 @@ page_header("Live Recalculation Chain", "Landed cost/t, division allocations, ca
 kpi_strip(results, base_results)
 
 # 1. Landed Cost per Tonne Breakdown
-section("📦 Landed Cost per Tonne Breakdown (All 7 Inputs)", "Pure driver calculations linking spot commodity price, FX, duties, and freight")
+section(":material/inventory: Landed Cost per Tonne Breakdown (All 7 Inputs)", "Pure driver calculations linking spot commodity price, FX, duties, and freight")
 
 landed_rows = []
 for mat_id, item in results.landed_costs.items():
@@ -48,7 +48,7 @@ st.dataframe(pd.DataFrame(landed_rows), hide_index=True, use_container_width=Tru
 col_div1, col_div2 = st.columns([1.2, 1.0])
 
 with col_div1:
-    section("🏭 Division Cost Allocation Impact", "Propagating raw material shock into Rane's 4 core manufacturing divisions")
+    section(":material/factory: Division Cost Allocation Impact", "Propagating raw material shock into Rane's 4 core manufacturing divisions")
     
     div_rows = []
     for d_id, d in results.division_costs.items():
@@ -80,7 +80,7 @@ with col_div2:
     st.plotly_chart(fig_div, use_container_width=True)
 
 # 3. P&L Waterfall Bridge (EBITDA & PAT)
-section("📊 EBITDA & Net Profit (PAT) Waterfall Bridge", "Transparent reconciliation from Baseline EBITDA to Scenario PAT")
+section(":material/waterfall_chart: EBITDA & Net Profit (PAT) Waterfall Bridge", "Transparent reconciliation from Baseline EBITDA to Scenario PAT")
 
 fig_waterfall = plot_ebitda_waterfall(
     base_ebitda=base_results.ebitda_cr,
@@ -97,7 +97,7 @@ st.plotly_chart(fig_waterfall, use_container_width=True)
 col_lag1, col_lag2 = st.columns([1.5, 1.0])
 
 with col_lag1:
-    section("⏳ Working Capital Recovery Cash Gap & 12-Month Timeline", "Commercial friction from OEM 60–90 day price adjustment lag")
+    section(":material/schedule: Working Capital Recovery Cash Gap & 12-Month Timeline", "Commercial friction from OEM 60–90 day price adjustment lag")
     st.markdown(
         f"""
         Although the active contract pass-through is set to **{active_scn.oem_pass_through_pct:.0f}%**, 
@@ -126,7 +126,7 @@ fig_tl = plot_cash_timeline_trough(timeline_data)
 st.plotly_chart(fig_tl, use_container_width=True)
 
 # 5. OEM Price-Recovery Claim Pack Dossier (N5)
-section("📑 OEM Price-Recovery Claim Pack Generator (N5)", "Contractual cost escalation claim partitioned across Rane's 4 operating divisions")
+section(":material/request_quote: OEM Price-Recovery Claim Pack Generator (N5)", "Contractual cost escalation claim partitioned across Rane's 4 operating divisions")
 claims_pack = generate_oem_claims_pack(active_scn, results)
 
 c_col1, c_col2 = st.columns([1.5, 1.0])
@@ -148,14 +148,14 @@ with c_col2:
         st.markdown(f"**Total Reconciled Claim:** ₹{claims_pack['total_recovery_cr']:.2f} Cr")
         st.markdown(f"**Unrecovered Absorption:** ₹{claims_pack['total_unrecovered_cr']:.2f} Cr")
         st.download_button(
-            "📥 Download OEM Claim Dossier (HTML)",
+            ":material/download: Download OEM Claim Dossier (HTML)",
             data=claims_pack["html_memo"],
             file_name=f"Rane_OEM_Claim_Dossier_{active_scn.name.replace(' ', '_')}.html",
             mime="text/html",
             use_container_width=True
         )
 
-with st.expander("👁️ Preview Formal OEM Price Escalation Notice", expanded=False):
+with st.expander(":material/visibility: Preview Formal OEM Price Escalation Notice", expanded=False):
     st.components.v1.html(claims_pack["html_memo"], height=500, scrolling=True)
 
 insight(

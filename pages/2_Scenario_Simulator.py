@@ -6,6 +6,7 @@ Team 11:59 · Xovate'26
 import streamlit as st
 import pandas as pd
 from engine.scenario import Scenario, get_default_presets, compute_todays_market_scenario
+from engine.state import apply_preset_by_name, get_current_scenario
 from engine.chain import run_all
 from ui.components import page_header, kpi_strip, section, insight, explain_box, status_badge
 from ui.charts import plot_tornado_sensitivity
@@ -24,7 +25,7 @@ page_header("What-if Scenario Simulator", "Preset crisis calibrations, sensitivi
 kpi_strip(results, base_results)
 
 # 2. Preset Selection & Evidence Cards
-section("⚡ Calibrated Crisis Presets", "Empirically sized from historical shocks in the dataset")
+section(":material/bolt: Calibrated Crisis Presets", "Empirically sized from historical shocks in the dataset")
 
 preset_cols = st.columns(6)
 preset_keys = [
@@ -42,18 +43,11 @@ for col, (k, title, sub) in zip(preset_cols, preset_keys):
             st.markdown(f"**{title}**")
             st.caption(sub)
             if st.button("Load Preset", key=f"btn_p_{k}", use_container_width=True):
-                if k == "todays_market":
-                    from engine.scenario import compute_todays_market_scenario
-                    scn = compute_todays_market_scenario()
-                    st.session_state.active_preset_name = scn.name
-                    st.session_state.active_scenario = scn
-                else:
-                    st.session_state.active_preset_name = presets[k].name
-                    st.session_state.active_scenario = presets[k]
+                apply_preset_by_name(k)
                 st.rerun()
 
 # 3. Side-by-Side Comparison Matrix
-section("📋 Multi-Scenario P&L Comparison Matrix", "Side-by-side benchmark of Baseline, Active, and Saved Scenarios")
+section(":material/compare: Multi-Scenario P&L Comparison Matrix", "Side-by-side benchmark of Baseline, Active, and Saved Scenarios")
 
 comparison_list = [("Base Case (Handout)", base_results), (f"Active: {active_scn.name}", results)]
 
@@ -73,7 +67,7 @@ metrics = [
     ("EBITDA Margin (%)", lambda r: f"{r.ebitda_margin_pct:.1f}%"),
     ("Net Profit / PAT (₹ Cr)", lambda r: f"₹{r.pat_cr:,.1f}"),
     ("Worst Days of Cover", lambda r: f"{r.worst_days_of_cover:.0f} days ({r.worst_material_name})"),
-    ("Top Recommended Action", lambda r: r.top_action_title[:24] + "..."),
+    ("Top Recommended Action", lambda r: r.top_action_short_name or r.top_action_title),
     ("Top Action Net Benefit", lambda r: f"+₹{r.top_action_net_benefit_cr:,.1f} Cr")
 ]
 
@@ -86,7 +80,7 @@ for label, func in metrics:
 st.dataframe(pd.DataFrame(comp_rows), hide_index=True, use_container_width=True)
 
 # 4. Tornado Sensitivity Analysis
-section("🌪️ Tornado Sensitivity Chart: What Hurts EBITDA Most?", "Independent univariate stress testing from Base Case")
+section(":material/tune: Tornado Sensitivity Chart: What Hurts EBITDA Most?", "Independent univariate stress testing from Base Case")
 
 @st.cache_data
 def compute_tornado_data() -> list[dict]:

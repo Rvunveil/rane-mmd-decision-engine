@@ -1,0 +1,8 @@
+# Demo Mode Feature Flag (Team 11:59 · Xovate'26)
+# Set enabled: false or set MMD_DEMO=0 environment variable to disable completely.
+enabled: true
+speed_scale: 1.0
+auto_advance: true
+step_duration_sec: 4.5
+interactive_controls: true
+record_dir: "demo_out"

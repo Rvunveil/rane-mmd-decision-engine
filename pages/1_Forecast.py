@@ -6,6 +6,7 @@ Team 11:59 · Xovate'26
 import streamlit as st
 import pandas as pd
 from engine.scenario import Scenario, get_default_presets
+from engine.state import apply_scenario_values, get_current_scenario
 from engine.chain import run_all
 from engine.forecast import get_all_forecasts, load_processed_series, SERIES_TIERS
 from engine.buy_signal import compute_buy_signals
@@ -77,7 +78,7 @@ st.plotly_chart(fig, use_container_width=True)
 col_proj, col_action = st.columns([1.6, 1.0])
 
 with col_proj:
-    section("📅 Horizon Projections & Prediction Intervals", "Point forecasts with 80% and 95% risk bounds")
+    section(":material/calendar_month: Horizon Projections & Prediction Intervals", "Point forecasts with 80% and 95% risk bounds")
     if not mat_fcst.empty:
         # 3, 6, 12 month slices
         p3 = mat_fcst.iloc[min(2, len(mat_fcst)-1)]
@@ -115,7 +116,7 @@ with col_proj:
         st.dataframe(pd.DataFrame(proj_data), hide_index=True, use_container_width=True)
 
 with col_action:
-    section("⚙️ Use Forecast as Active Scenario", "Transfer statistical projection directly into P&L simulation")
+    section(":material/sync: Use Forecast as Active Scenario", "Transfer statistical projection directly into P&L simulation")
     with st.container(border=True):
         st.markdown("**1. Select Projection Mode:**")
         scenario_mode = st.radio(
@@ -143,32 +144,24 @@ with col_action:
 
         st.markdown(f"Implied Shock: **{pct_shock:+.1f}%** for **{selected_id.upper()}**")
         
-        if st.button(f"Apply {horizon_choice} ({mode_tag}) to Sliders", use_container_width=True):
-            # Update scenario state
-            new_shocks = dict(active_scn.price_shock_pct)
+        if st.button(f":material/arrow_forward: Apply {horizon_choice} ({mode_tag}) to Sliders", use_container_width=True):
+            scn_name = f"Forecast Driven ({selected_id.title()} {horizon_choice} {mode_tag})"
             if selected_id == "freight":
                 new_mult = max(1.0 + pct_shock / 100.0, 0.5)
-                st.session_state.active_scenario = Scenario(
-                    name=f"Forecast Driven ({selected_id.title()} {horizon_choice} {mode_tag})",
-                    price_shock_pct=new_shocks,
-                    freight_multiplier=round(new_mult, 2),
-                    fx_inr_usd=active_scn.fx_inr_usd,
-                    shipping_delay_days=active_scn.shipping_delay_days
-                )
+                apply_scenario_values({
+                    "freight_multiplier": round(new_mult, 2),
+                    "name": scn_name
+                }, source="forecast")
             else:
-                new_shocks[selected_id] = round(pct_shock, 1)
-                st.session_state.active_scenario = Scenario(
-                    name=f"Forecast Driven ({selected_id.title()} {horizon_choice} {mode_tag})",
-                    price_shock_pct=new_shocks,
-                    freight_multiplier=active_scn.freight_multiplier,
-                    fx_inr_usd=active_scn.fx_inr_usd,
-                    shipping_delay_days=active_scn.shipping_delay_days
-                )
+                apply_scenario_values({
+                    selected_id: round(pct_shock, 1),
+                    "name": scn_name
+                }, source="forecast")
             st.toast(f"Applied {selected_id.title()} {horizon_choice} {mode_tag} forecast to scenario!")
             st.rerun()
 
 # Backtest Scorecard Table
-section("🏆 Model Selection Rationale & Rolling-Origin Backtest Scorecard", "Evaluating AutoARIMA, AutoETS, AutoTheta, and Empirical Naive across 8 inputs")
+section(":material/analytics: Model Selection Rationale & Rolling-Origin Backtest Scorecard", "Evaluating AutoARIMA, AutoETS, AutoTheta, and Empirical Naive across 8 inputs")
 col_cfg_score = {
     "material": st.column_config.TextColumn("Material / Input", width="small"),
     "model": st.column_config.TextColumn("Best Model", width="medium"),
@@ -187,7 +180,7 @@ col_cfg_score = {
 st.dataframe(score_df, hide_index=True, use_container_width=True, column_config=col_cfg_score)
 
 # Re-fit Live Button
-if st.button("🔄 Re-fit Forecasting Models Live"):
+if st.button(":material/refresh: Re-fit Forecasting Models Live"):
     with st.spinner("Fitting statsforecast pool on raw dataset..."):
         fcst_df_new, score_df_new = get_all_forecasts(use_cache=False)
         st.success("All 8 series successfully re-estimated and cached!")

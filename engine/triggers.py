@@ -98,6 +98,7 @@ def evaluate_andon_triggers(
             "current_value": val,
             "current_value_formatted": f"{val:.1f}{unit}" if isinstance(val, float) else f"{val}{unit}",
             "threshold_rule": threshold,
+            "threshold_label": threshold,
             "owner": t.get("owner", "MMD"),
             "playbook_action": t.get("playbook_action", "ACT-01"),
             "mitigation_sop": t.get("mitigation_sop", "")

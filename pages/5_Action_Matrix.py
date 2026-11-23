@@ -23,7 +23,7 @@ page_header("Prescriptive Action Matrix", "Dynamic decision ranking, 6-function 
 kpi_strip(results, base_results)
 
 # 1. Dynamic Ranked Actions Table
-section("📋 Dynamic Ranked Mitigation Matrix", "Actions dynamically re-rank based on active commodity shocks and shipping delays")
+section(":material/checklist: Dynamic Ranked Mitigation Matrix", "Actions dynamically re-rank based on active commodity shocks and shipping delays")
 
 act_rows = []
 for act in results.action_rankings:
@@ -44,7 +44,7 @@ for act in results.action_rankings:
 st.dataframe(pd.DataFrame(act_rows), hide_index=True, use_container_width=True)
 
 # Andon Trigger Playbook Linkage (N7)
-with st.expander("🚨 View Active Andon Trigger Playbook Status (N7)", expanded=False):
+with st.expander(":material/notifications_active: View Active Andon Trigger Playbook Status (N7)", expanded=False):
     andon_triggers = evaluate_andon_triggers(active_scn, results)
     trig_cols = st.columns(len(andon_triggers))
     for col, t in zip(trig_cols, andon_triggers):
@@ -59,7 +59,7 @@ col_ba1, col_ba2 = st.columns([1.2, 1.0])
 top_action = results.action_rankings[0] if results.action_rankings else None
 
 with col_ba1:
-    section("⚡ Decision Impact: Before vs After Top Action", f"Implementing Rank #1 ({top_action['title']})")
+    section(":material/compare_arrows: Decision Impact: Before vs After Top Action", f"Implementing Rank #1 ({top_action['title']})")
     if top_action:
         ba_data = [
             {
@@ -90,7 +90,7 @@ with col_ba1:
         st.dataframe(pd.DataFrame(ba_data), hide_index=True, use_container_width=True)
 
 with col_ba2:
-    section("🎯 Selected Action Specifications", "Operational scope and affected supplier base")
+    section(":material/description: Selected Action Specifications", "Operational scope and affected supplier base")
     if top_action:
         with st.container(border=True):
             st.markdown(f"**{top_action['title']}**")
@@ -99,7 +99,7 @@ with col_ba2:
             st.markdown(f"**Affected Supply Partners:** {', '.join(top_action['affected_suppliers'])}")
 
 # 3. Cross-Functional Ripple Matrix
-section("🌊 Cross-Functional Ripple Matrix (6 Enterprise Functions)", "Evaluating systemic organizational trade-offs across MMD, Finance, Production, HR, Quality, Logistics, and Sales")
+section(":material/hub: Cross-Functional Ripple Matrix (6 Enterprise Functions)", "Evaluating systemic organizational trade-offs across MMD, Finance, Production, HR, Quality, Logistics, and Sales")
 
 selected_act_id = st.selectbox(
     "Inspect Functional Ripple for Action:",
@@ -122,7 +122,7 @@ if act_obj and "function_impacts" in act_obj:
     
     for c, (f_name, f_key) in zip(ripple_cols, funcs):
         f_info = act_obj["function_impacts"].get(f_key, {"status": "neutral", "reason": "No direct change"})
-        st_icon = "🟢 POSITIVE" if f_info["status"] == "+" else ("🔴 STRAIN" if f_info["status"] == "-" else "⚪ NEUTRAL")
+        st_icon = "POSITIVE" if f_info["status"] == "+" else ("STRAIN" if f_info["status"] == "-" else "NEUTRAL")
         b_color = "green" if f_info["status"] == "+" else ("red" if f_info["status"] == "-" else "neutral")
         
         with c:
@@ -132,7 +132,7 @@ if act_obj and "function_impacts" in act_obj:
                 st.caption(f_info["reason"])
 
 # 4. PuLP Linear Programming Action Bundle Optimizer
-section("🤖 PuLP Mathematical Optimization: Action Bundle under Cash Budget", "Solves integer linear program to find the highest total Net Benefit within capital limits")
+section(":material/calculate: PuLP Mathematical Optimization: Action Bundle under Cash Budget", "Solves integer linear program to find the highest total Net Benefit within capital limits")
 
 col_opt1, col_opt2 = st.columns([1.0, 1.8])
 
@@ -154,7 +154,7 @@ with col_opt2:
             f"- **Total Maximized Net Benefit:** **+{format_money_cr(total_net_rec)}**"
         )
         if chosen_actions:
-            chosen_names = ", ".join([f"**{a['id']}** ({a['title'][:20]}...)" for a in chosen_actions])
+            chosen_names = ", ".join([f"**{a['id']}** ({a.get('short_name', a['title'])})" for a in chosen_actions])
             st.caption(f"Recommended Bundle: {chosen_names}")
         else:
             st.caption("Budget too low to activate mitigation actions; 'Do Nothing' applies.")

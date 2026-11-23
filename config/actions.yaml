@@ -210,7 +210,7 @@ actions:
     affected_suppliers: ["Global Freight Forwarders (Kuehne+Nagel, DHL Global Forwarding)"]
 
   - id: "ACT-08"
-    short_name: "Material Sub"
+    short_name: "Material Switch"
     title: "Engineering Material Substitution (Alternate Resins/Alloys)"
     category: "R&D / Value Engineering"
     description: "Deploy Rane R&D validated low-nickel stainless steel and composite phenolic friction grades with Tier-1 OEM sign-off."

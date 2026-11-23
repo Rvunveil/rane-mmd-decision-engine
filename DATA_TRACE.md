@@ -111,3 +111,14 @@ All metrics displayed on the Shock Radar (Page 0) are computed strictly from und
 4. **RBI Forex Reference:** FY25 average computed as average daily RBI reference rate (₹84.56/$) from `fx_daily.csv`.
 5. **LME Copper Benchmark:** FY25 average computed from `copper.csv` ($9,369/t). Current spot ~$14,508/t (+54.8%).
 6. **No Invented Claims:** All radar texts cite data observations only (e.g. transit vessel count drops, lead time extensions) with zero speculative non-data claims.
+
+---
+
+## 5. V3 Truth Pass Lineage & Reproducible Scripts (T1–T3)
+
+1. **Dynamic Market Tape (T1):**  
+   Computed dynamically via `engine.signals.get_market_tape()`. Scans `data/processed/*.csv` to extract the latest recorded transaction, calculates the exact FY25 average (April 2024 to March 2025), and renders an SVG sparkline showing historical movement without external API dependencies.
+2. **Rolling-Origin Backtest Scorecards (T2):**  
+   Generated autonomously by `scripts/run_backtests.py`. Performs 6-window rolling cross-validation using statsforecast (AutoTheta, AutoETS, AutoARIMA) comparing against a Naive baseline. Output saved to `data/fallback/backtest_scores.csv` with full MAE, MAPE (3m, 6m, 12m), sMAPE, 80%/95% empirical coverage, and tier flags.
+3. **Precomputed 12-Month Forecasts (T3):**  
+   Generated via `scripts/precompute_forecasts.py`. Directly fits the backtest-winning model per input series to generate 12-month forward point forecasts with 80% and 95% confidence intervals. Guarantees that header MAPEs, scorecard numbers, and chart curves match identically. Copper point forecast features realistic trend drift ($14,549 to $15,008/t). Output saved to `data/fallback/precomputed_forecasts.csv`.
