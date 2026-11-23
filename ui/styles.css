@@ -224,8 +224,7 @@
 /* Clean industrial shell: hide Streamlit defaults */
 [data-testid="stDeployButton"],
 #MainMenu,
-footer,
-header[data-testid="stHeader"] > div:first-child {
+footer {
     display: none !important;
 }
 
