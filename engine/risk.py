@@ -129,15 +129,19 @@ def run_profit_at_risk_monte_carlo(
     weights = np.array([cu_w, al_w, ni_w, fe_w, res_w])
 
     # Extract scenario expected shock centers (%)
-    fx_baseline = 84.56
+    fx_baseline = 84.5648
+    hr_shock = float(scenario.price_shock_pct.get("steel_hr", 0.0))
+    cr_shock = float(scenario.price_shock_pct.get("steel_cr", 0.0))
+    fe_combined_shock = (hr_shock * 342.44 + cr_shock * 269.06) / 611.50
+
     mean_shocks = np.array([
-        scenario.price_shock_pct.get("copper", 0.0),
-        scenario.price_shock_pct.get("aluminium", 0.0),
-        scenario.price_shock_pct.get("nickel", 0.0),
-        scenario.price_shock_pct.get("steel_hr", 0.0),
-        scenario.price_shock_pct.get("resin", 0.0),
-        (scenario.freight_multiplier - 1.0) * 100.0,
-        ((scenario.fx_inr_usd / fx_baseline) - 1.0) * 100.0
+        float(scenario.price_shock_pct.get("copper", 0.0)),
+        float(scenario.price_shock_pct.get("aluminium", 0.0)),
+        float(scenario.price_shock_pct.get("nickel", 0.0)),
+        fe_combined_shock,
+        float(scenario.price_shock_pct.get("resin", 0.0)),
+        (float(scenario.freight_multiplier) - 1.0) * 100.0,
+        ((float(scenario.fx_inr_usd) / fx_baseline) - 1.0) * 100.0
     ])
 
     vols_dict = compute_historical_volatilities()
