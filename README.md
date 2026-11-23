@@ -1,4 +1,7 @@
 # Rane (Madras) MMD Decision Engine · Team 11:59 (V3)
+
+> [!TIP]
+> **Complete Project Handbook**: For the comprehensive, auditable system handbook containing complete case analysis, formula proofs, user guides, data trace, and file reference, see [docs/HANDBOOK.md](docs/HANDBOOK.md).
 **Event:** Xovate'26 Management Hackathon  
 **Tagline:** *"See the shock coming, measure what it costs, decide what to do."*  
 **Team 11:59:** Vikram T · Sayoni Dan · Trisha Pal  
