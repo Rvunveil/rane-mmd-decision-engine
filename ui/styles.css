@@ -219,3 +219,11 @@
     align-items: center;
     gap: 0.5rem;
 }
+
+/* Clean industrial shell: hide Streamlit defaults */
+[data-testid="stDeployButton"],
+#MainMenu,
+footer,
+header[data-testid="stHeader"] > div:first-child {
+    display: none !important;
+}

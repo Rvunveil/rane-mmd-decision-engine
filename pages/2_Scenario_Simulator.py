@@ -26,9 +26,10 @@ kpi_strip(results, base_results)
 # 2. Preset Selection & Evidence Cards
 section("⚡ Calibrated Crisis Presets", "Empirically sized from historical shocks in the dataset")
 
-preset_cols = st.columns(5)
+preset_cols = st.columns(6)
 preset_keys = [
     ("base_case", "Base case", "FY25 Baseline"),
+    ("todays_market", "Today's Market", "Live Spot Data"),
     ("red_sea_hormuz", "Red Sea / Hormuz", "Freight 2.7x, 18d delay"),
     ("metal_shock", "Metal Shock", "Base metals +30%+"),
     ("tariff_fx", "Tariff & FX", "FX 96.5, Tariff 10%"),
@@ -41,16 +42,20 @@ for col, (k, title, sub) in zip(preset_cols, preset_keys):
             st.markdown(f"**{title}**")
             st.caption(sub)
             if st.button("Load Preset", key=f"btn_p_{k}", use_container_width=True):
-                st.session_state.active_preset_name = presets[k].name
-                st.session_state.active_scenario = presets[k]
+                if k == "todays_market":
+                    from engine.scenario import compute_todays_market_scenario
+                    scn = compute_todays_market_scenario()
+                    st.session_state.active_preset_name = scn.name
+                    st.session_state.active_scenario = scn
+                else:
+                    st.session_state.active_preset_name = presets[k].name
+                    st.session_state.active_scenario = presets[k]
                 st.rerun()
 
 # 3. Side-by-Side Comparison Matrix
 section("📋 Multi-Scenario P&L Comparison Matrix", "Side-by-side benchmark of Baseline, Active, and Saved Scenarios")
 
-comparison_list = [("Base Case (Handout)", base_results)]
-if active_scn.name != "Base case":
-    comparison_list.append((f"Active: {active_scn.name}", results))
+comparison_list = [("Base Case (Handout)", base_results), (f"Active: {active_scn.name}", results)]
 
 for idx, s in enumerate(saved_scns):
     comparison_list.append((f"Saved #{idx+1}: {s.name}", run_all(s)))
@@ -140,9 +145,17 @@ tornado_data = compute_tornado_data()
 fig_tornado = plot_tornado_sensitivity(tornado_data)
 st.plotly_chart(fig_tornado, use_container_width=True)
 
+df_t = pd.DataFrame(tornado_data)
+df_t['swing'] = (df_t['high_ebitda'] - df_t['low_ebitda']).abs()
+df_t = df_t.sort_values('swing', ascending=False)
+top_factor = df_t.iloc[0]['factor']
+top_swing = df_t.iloc[0]['swing']
+second_factor = df_t.iloc[1]['factor']
+second_swing = df_t.iloc[1]['swing']
+
 insight(
-    "The <b>Tornado Sensitivity Analysis</b> clearly reveals that <b>Steel HR & CR Coils</b> and <b>Aluminium</b> "
-    "wield the largest single-factor swing on operating profit due to their combined 72% spend share. "
+    f"The <b>Tornado Sensitivity Analysis</b> identifies <b>{top_factor}</b> (₹{top_swing:.1f} Cr swing) and <b>{second_factor}</b> (₹{second_swing:.1f} Cr swing) "
+    "as the largest sensitivity drivers on Rane's operating profit. "
     "Furthermore, negotiating OEM pass-through from 50% to 75% recaptures over <b>₹30 Cr</b> of margin under heavy shock."
 )
 

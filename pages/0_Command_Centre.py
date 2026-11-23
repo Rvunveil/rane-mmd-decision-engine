@@ -31,10 +31,9 @@ st.markdown(
         <div class="mmd-hero-tag">Xovate'26 Management Hackathon · Automotive Supply Chain Cockpit</div>
         <h1 class="mmd-hero-heading">Rane (Madras) MMD Decision Engine</h1>
         <div class="mmd-hero-tagline">"See the shock. Measure it. Decide."</div>
-        <div style="font-size: 0.85rem; color: #E2E8F0; line-height: 1.5; max-width: 900px;">
-            An autonomous, driver-based enterprise decision cockpit engineered for the Materials Management Department (MMD). 
-            Empowers executive leadership to detect global supply chain bottlenecks, measure cross-functional P&L ripple, 
-            and deploy prescriptive mitigation actions before line stoppages occur.
+        <div style="font-size: 0.88rem; color: #E2E8F0; line-height: 1.5; max-width: 900px;">
+            Rane (Madras) materials control room: see the shock coming, measure what it costs, decide what to do.
+            Calibrated against FY25 financial statements and daily commodity feeds across steering, castings, and friction divisions.
         </div>
         <div class="mmd-hero-meta">
             <span><b>Team:</b> Team 11.59</span>
@@ -97,7 +96,7 @@ with col_left:
             with r_col3:
                 rec_preset = s.get('recommended_preset')
                 if rec_preset:
-                    if st.button("Apply Preset", key=f"btn_{s['id']}", help=f"Simulate {rec_preset}"):
+                    if st.button("Show impact →", key=f"btn_{s['id']}", help=f"Simulate {rec_preset}"):
                         st.session_state.active_preset_name = rec_preset
                         if rec_preset == "Red Sea / Hormuz crisis":
                             st.session_state.active_scenario = presets["red_sea_hormuz"]

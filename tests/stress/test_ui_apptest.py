@@ -115,3 +115,27 @@ def test_H09_saved_scenarios_management():
     at.run()
     assert not at.exception
     assert len(at.session_state["saved_scenarios"]) == 2
+
+
+def test_B01_regression_text_leak_scanner():
+    """B1 Regression: Scans all rendered pages for broken f-strings, NaN, None, or raw format specifiers."""
+    for p in PAGE_FILES:
+        at = AppTest.from_file(str(ROOT / "pages" / p), default_timeout=30)
+        at.run()
+        assert not at.exception, f"Page {p} crashed on load: {at.exception}"
+
+        for md in at.markdown:
+            val = str(md.value)
+            # Check for unformatted Python format specifiers
+            assert ":.1f}" not in val, f"Broken format specifier ':.1f}}' in {p}: {val}"
+            assert ":.2f}" not in val, f"Broken format specifier ':.2f}}' in {p}: {val}"
+            assert "{results." not in val, f"Broken template '{{results.' in {p}: {val}"
+            assert "{active_scn." not in val, f"Broken template '{{active_scn.' in {p}: {val}"
+
+            # Check for standalone None or nan tokens in UI text (ignoring LaTeX)
+            if "\\begin" not in val and "$$" not in val:
+                clean_text = val.replace("(", " ").replace(")", " ").replace(",", " ").replace(".", " ")
+                words = clean_text.split()
+                assert "NaN" not in words, f"NaN token in {p}: {val}"
+                assert "nan" not in words, f"nan token in {p}: {val}"
+                assert "None" not in words, f"None token in {p}: {val}"

@@ -20,7 +20,7 @@ def page_header(title: str, subtitle: str, module_no: str = None):
     )
 
 
-def kpi_card(label: str, value: str, delta_str: str = "", delta_type: str = "neutral"):
+def kpi_card(label: str, value: str, delta_str: str = "", delta_type: str = "neutral", tooltip: str = ""):
     """Render a single KPI card."""
     delta_class = "mmd-delta-neutral"
     if delta_type == "good":
@@ -29,10 +29,11 @@ def kpi_card(label: str, value: str, delta_str: str = "", delta_type: str = "neu
         delta_class = "mmd-delta-up-bad"
 
     delta_html = f'<div class="mmd-kpi-delta {delta_class}">{delta_str}</div>' if delta_str else ''
+    title_attr = f'title="{tooltip}"' if tooltip else ''
 
     st.markdown(
         f"""
-        <div class="mmd-kpi-card">
+        <div class="mmd-kpi-card" {title_attr}>
             <div class="mmd-kpi-label">{label}</div>
             <div class="mmd-kpi-value">{value}</div>
             {delta_html}
@@ -81,10 +82,10 @@ def kpi_strip(results, base_results):
 
     # 6. Top Action
     top_act = results.top_action_title
+    short_act = getattr(results, "top_action_short_name", "") or (top_act if len(top_act) <= 20 else top_act[:18])
     net_val = results.top_action_net_benefit_cr
-    display_act = top_act if len(top_act) <= 20 else top_act[:18] + "…"
     with col6:
-        kpi_card("Top Ranked Action", display_act, f"Net: +₹{net_val:.1f} Cr", "good")
+        kpi_card("Top Ranked Action", short_act, f"Net: +₹{net_val:.1f} Cr", "good", tooltip=top_act)
 
 
 def status_badge(text: str, status: str = "green") -> str:

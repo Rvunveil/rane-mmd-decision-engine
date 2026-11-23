@@ -99,7 +99,7 @@ with col_lag1:
     st.markdown(
         f"""
         Although the active contract pass-through is set to **{active_scn.oem_pass_through_pct:.0f}%**, 
-        Tier-1 OEM contract renegotiations (e.g., Maruti Suzuki, Tata Motors) legally require a **{active_scn.pass_through_lag_days}-day settlement lag**.
+        the case states OEM price recovery lags 60–90 days; the lag slider sets it (now **{active_scn.pass_through_lag_days} days**).
         
         - **Total Monthly Shock Incurred:** {format_money_cr((results.delta_material_cr + results.delta_freight_cr) / 12.0)} / month
         - **Cumulative Working Capital Cash Deficit:** **{format_money_cr(results.working_capital_gap_cr)}**

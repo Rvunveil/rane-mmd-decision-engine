@@ -7,17 +7,18 @@ import math
 from typing import Any
 from engine.scenario import Scenario
 
-def evaluate_inventory(scenario: Scenario, assumptions: dict, annual_tonnes_map: dict[str, float]) -> tuple[list[dict[str, Any]], float, str, float]:
+def evaluate_inventory(scenario: Scenario, assumptions: dict, annual_tonnes_map: dict[str, float]) -> tuple[list[dict[str, Any]], float, str, float, str]:
     """
     Evaluates inventory coverage vs supplier lead times + shipping delays.
-    Returns: (inventory_summary_list, worst_days_of_cover, worst_material_name, worst_runway_margin_days)
+    Returns: (inventory_summary_list, worst_days_of_cover, worst_days_material_name, worst_runway_margin_days, worst_margin_material_name)
     """
     materials_cfg = assumptions.get("materials", {})
     summary = []
     
     worst_days = 999.0
-    worst_mat = ""
+    worst_days_mat = ""
     worst_margin = 999.0
+    worst_margin_mat = ""
 
     for mat_id, cfg in materials_cfg.items():
         tonnes_yr = annual_tonnes_map.get(mat_id, 1000.0)
@@ -55,10 +56,11 @@ def evaluate_inventory(scenario: Scenario, assumptions: dict, annual_tonnes_map:
             
         if days_of_cover < worst_days:
             worst_days = days_of_cover
-            worst_mat = cfg.get("name", mat_id)
+            worst_days_mat = cfg.get("name", mat_id)
             
         if margin_days < worst_margin:
             worst_margin = margin_days
+            worst_margin_mat = cfg.get("name", mat_id)
 
         summary.append({
             "material_id": mat_id,
@@ -77,12 +79,14 @@ def evaluate_inventory(scenario: Scenario, assumptions: dict, annual_tonnes_map:
             "import_dependent": is_import
         })
 
-    return summary, worst_days, worst_mat, worst_margin
+    return summary, worst_days, worst_days_mat, worst_margin, worst_margin_mat
 
 
 def evaluate_containers(scenario: Scenario, assumptions: dict) -> tuple[list[dict[str, Any]], float, float]:
     """
     Evaluates inbound container shipments, payload %, and freight ₹/t.
+    B6 fix: In Base case (delay 0), routes and ETAs show normal on-schedule transit.
+    Under disruption (delay > 0), routes reflect rerouting via Cape and Hormuz convoy delays.
     """
     container_cfg = assumptions.get("container_logistics", {})
     max_payload = float(container_cfg.get("max_payload_tonnes", 26.0))
@@ -95,26 +99,63 @@ def evaluate_containers(scenario: Scenario, assumptions: dict) -> tuple[list[dic
     total_payload_pct = 0.0
     total_freight_per_t = 0.0
 
+    delay = scenario.shipping_delay_days
+
     for s in shipments:
         cargo_t = float(s.get("cargo_tonnes", 20.0))
         payload_pct = min((cargo_t / max_payload) * 100.0, 100.0)
         freight_per_t = current_freight_inr / cargo_t if cargo_t > 0 else 0.0
         
-        # Effective ETA
         base_eta = int(s.get("eta_days", 20))
+        mat = s.get("material", "")
+
+        # Dynamic routing and transit status based on active scenario delay
         is_delayed = "Bottleneck" in s.get("status", "") or "Disrupted" in s.get("route", "")
-        effective_eta = base_eta + (scenario.shipping_delay_days if is_delayed else 0)
+        if delay == 0:
+            if mat == "copper":
+                route = "Suez Canal / Direct Maritime"
+                status = "In Transit / On Schedule"
+            elif mat == "aluminium":
+                route = "Strait of Hormuz (Normal Transit)"
+                status = "In Transit / On Schedule"
+            elif mat == "nickel":
+                route = "Strait of Malacca (Normal Transit)"
+                status = "In Transit / On Schedule"
+            elif mat == "resin":
+                route = "East China Sea -> Malacca"
+                status = "In Transit / On Schedule"
+            else:
+                route = "Standard Ocean Lane"
+                status = "In Transit / On Schedule"
+            effective_eta = base_eta
+        else:
+            if mat == "copper":
+                route = "Cape of Good Hope (Rerouted from Suez)"
+                status = f"Diverted (+{delay}d transit)" if is_delayed else "In Transit"
+            elif mat == "aluminium":
+                route = "Strait of Hormuz (Disrupted / Convoy)"
+                status = f"Delayed / Bottleneck (+{delay}d)"
+            elif mat == "nickel":
+                route = "Strait of Malacca (Normal Transit)"
+                status = "On Schedule"
+            elif mat == "resin":
+                route = "East China Sea -> Malacca"
+                status = "On Schedule"
+            else:
+                route = s.get("route", "Disrupted Ocean Lane")
+                status = f"Delayed (+{delay}d)"
+            effective_eta = base_eta + (delay if is_delayed else 0)
 
         processed_shipments.append({
             "id": s.get("id"),
-            "material": s.get("material"),
+            "material": mat,
             "origin": s.get("origin"),
-            "route": s.get("route"),
+            "route": route,
             "cargo_tonnes": cargo_t,
             "payload_pct": payload_pct,
             "base_eta_days": base_eta,
             "effective_eta_days": effective_eta,
-            "status": s.get("status"),
+            "status": status,
             "carrier": s.get("carrier"),
             "freight_cost_per_tonne_inr": freight_per_t
         })

@@ -94,7 +94,13 @@ with tab_trace:
             "Model Impact": "100% mathematical fidelity to hackathon handout and acceptance tests"
         }
     ]
-    st.dataframe(pd.DataFrame(trace_matrix), hide_index=True, use_container_width=True)
+    col_cfg_trace = {
+        "Dataset File": st.column_config.TextColumn("Dataset File", width="medium"),
+        "Observed Data Issue": st.column_config.TextColumn("Observed Data Issue", width="large"),
+        "Team 11.59 Engineering Fix": st.column_config.TextColumn("Team 11.59 Engineering Fix", width="large"),
+        "Model Impact": st.column_config.TextColumn("Model Impact", width="medium"),
+    }
+    st.dataframe(pd.DataFrame(trace_matrix), hide_index=True, use_container_width=True, column_config=col_cfg_trace)
 
 # ==============================================================================
 # TAB 2: MODEL ASSUMPTIONS & PARAMETERS
@@ -120,7 +126,13 @@ with tab_assumptions:
         {"Parameter": "Safety Stock Service Level", "Value": "95.0% (z = 1.65)", "Source Tag": "OPERATIONS STANDARD", "Rationale": "Target stock availability for safety-critical automotive parts."},
         {"Parameter": "Container Max Payload", "Value": "26.0 tonnes / 40ft", "Source Tag": "LOGISTICS STANDARD", "Rationale": "Standard payload limit for dry 40ft high-cube ocean containers."}
     ]
-    st.dataframe(pd.DataFrame(assumptions_list), hide_index=True, use_container_width=True)
+    col_cfg_assumptions = {
+        "Parameter": st.column_config.TextColumn("Parameter", width="medium"),
+        "Value": st.column_config.TextColumn("Value", width="small"),
+        "Source Tag": st.column_config.TextColumn("Source Tag", width="small"),
+        "Rationale": st.column_config.TextColumn("Rationale", width="large"),
+    }
+    st.dataframe(pd.DataFrame(assumptions_list), hide_index=True, use_container_width=True, column_config=col_cfg_assumptions)
 
 # ==============================================================================
 # TAB 3: OFFICIAL FORMULA SHEET
@@ -128,33 +140,30 @@ with tab_assumptions:
 with tab_formulas:
     section("📐 Mathematical Formulations Reference", "Exact engine equations governing recalculation across all modules")
 
-    st.markdown(
-        r"""
-        ### 1. Landed Cost per Tonne
-        $$\text{Landed}_i = \text{BasePrice}_i \times (1 + \text{Shock}_i) \times \left(\frac{\text{FX}_{\text{scn}}}{\text{FX}_{\text{base}}}\right)^{\mathbb{I}_{\text{USD}}} \times (1 + \text{Duty}_i + \text{Tariff}) + \text{Freight}_i \times \text{Multiplier} + \text{Handling}_i$$
-        
-        ### 2. Calibrated Material Spend & Gross Shock
-        $$\text{Tonnes}_i = \frac{\text{BaseSpend}_i \times 10^7}{\text{BaseMaterialCost}_i}$$
-        $$\Delta \text{Material} = \sum_{i} \left[ \text{Tonnes}_i \times (1 + \text{Demand}\%) \times \text{ScenarioMaterialCost}_i \right] - \text{BaseSpend} \times (1 + \text{Demand}\%)$$
+    st.markdown("#### 1. Landed Cost per Tonne")
+    st.latex(r"\text{Landed}_i = \text{BasePrice}_i \times (1 + \text{Shock}_i) \times \left(\frac{\text{FX}_{\text{scn}}}{\text{FX}_{\text{base}}}\right)^{\mathbb{I}_{\text{USD}}} \times (1 + \text{Duty}_i + \text{Tariff}) + \text{Freight}_i \times \text{Multiplier} + \text{Handling}_i")
 
-        ### 3. Ocean Freight Delta
-        $$\Delta \text{Freight} = \text{BaseFreight} \times \left( \text{FreightMultiplier} \times \frac{\text{FX}_{\text{scn}}}{\text{FX}_{\text{base}}} - 1 \right) \times (1 + \text{Demand}\%)$$
+    st.markdown("#### 2. Calibrated Material Spend & Gross Shock")
+    st.latex(r"\text{Tonnes}_i = \frac{\text{BaseSpend}_i \times 10^7}{\text{BaseMaterialCost}_i}")
+    st.latex(r"\Delta \text{Material} = \sum_{i} \left[ \text{Tonnes}_i \times (1 + \text{Demand}\%) \times \text{ScenarioMaterialCost}_i \right] - \text{BaseSpend} \times (1 + \text{Demand}\%)")
 
-        ### 4. OEM Pass-Through Recovery & Cash Gap
-        $$\text{Recovery} = \text{PassThrough}\% \times (\Delta \text{Material} + \Delta \text{Freight})$$
-        $$\text{Working Capital Cash Gap} = \text{Recovery} \times \frac{\text{RecoveryLagDays}}{365}$$
+    st.markdown("#### 3. Ocean Freight Delta")
+    st.latex(r"\Delta \text{Freight} = \text{BaseFreight} \times \left( \text{FreightMultiplier} \times \frac{\text{FX}_{\text{scn}}}{\text{FX}_{\text{base}}} - 1 \right) \times (1 + \text{Demand}\%)")
 
-        ### 5. Operating Profit (EBITDA) & Net Profit (PAT)
-        $$\text{EBITDA}_{\text{scn}} = \text{BaseEBITDA} - \Delta \text{Material} - \Delta \text{Freight} + \text{Recovery} + (\Delta \text{Revenue} \times \text{ContributionMargin})$$
-        $$\text{PBT} = \text{EBITDA}_{\text{scn}} - \text{Fixed D\&A / Interest (₹247.46 Cr)}$$
-        $$\text{PAT} = \begin{cases} \text{PBT} \times (1 - 0.2517) & \text{if } \text{PBT} > 0 \\ \text{PBT} & \text{if } \text{PBT} \le 0 \end{cases}$$
+    st.markdown("#### 4. OEM Pass-Through Recovery & Cash Gap")
+    st.latex(r"\text{Recovery} = \text{PassThrough}\% \times (\Delta \text{Material} + \Delta \text{Freight})")
+    st.latex(r"\text{Working Capital Cash Gap} = \text{Recovery} \times \frac{\text{RecoveryLagDays}}{365}")
 
-        ### 6. Inventory Runway & Reorder Point (ROP)
-        $$\text{Daily Usage} = \frac{\text{Annual Tonnes}}{365}, \quad \text{Effective LT} = \text{Supplier LT} + \text{Shipping Delay}$$
-        $$\text{Safety Stock} = z \times \sigma_{\text{daily}} \times \sqrt{\text{Effective LT}}, \quad \text{ROP} = (\text{Daily Usage} \times \text{Effective LT}) + \text{Safety Stock}$$
-        $$\text{Status} = \begin{cases} \text{RED (Stock-out Risk)} & \text{if Days of Cover} < \text{Effective LT} \\ \text{AMBER (Watch/Reorder)} & \text{if Stock} \le \text{ROP} \\ \text{GREEN (Safe)} & \text{otherwise} \end{cases}$$
-        """
-    )
+    st.markdown("#### 5. Operating Profit (EBITDA) & Net Profit (PAT)")
+    st.latex(r"\text{EBITDA}_{\text{scn}} = \text{BaseEBITDA} - \Delta \text{Material} - \Delta \text{Freight} + \text{Recovery} + (\Delta \text{Revenue} \times \text{ContributionMargin})")
+    st.latex(r"\text{PBT} = \text{EBITDA}_{\text{scn}} - \text{Fixed D\&A / Interest (₹247.46 Cr)}")
+    st.latex(r"\text{PAT} = \begin{cases} \text{PBT} \times (1 - 0.2517) & \text{if } \text{PBT} > 0 \\ \text{PBT} & \text{if } \text{PBT} \le 0 \end{cases}")
+
+    st.markdown("#### 6. Inventory Runway & Reorder Point (ROP)")
+    st.latex(r"\text{Daily Usage} = \frac{\text{Annual Tonnes}}{365}, \quad \text{Effective LT} = \text{Supplier LT} + \text{Shipping Delay}")
+    st.latex(r"\text{Safety Stock} = z \times \sigma_{\text{daily}} \times \sqrt{\text{Effective LT}}")
+    st.latex(r"\text{ROP} = (\text{Daily Usage} \times \text{Effective LT}) + \text{Safety Stock}")
+    st.latex(r"\text{Status} = \begin{cases} \text{RED (Stock-out Risk)} & \text{if Days of Cover} < \text{Effective LT} \\ \text{AMBER (Watch/Reorder)} & \text{if Stock} \le \text{ROP} \\ \text{GREEN (Safe)} & \text{otherwise} \end{cases}")
 
 # ==============================================================================
 # TAB 4: ABOUT TEAM 11.59 & CREDITS

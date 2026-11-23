@@ -106,27 +106,41 @@ with col_proj:
         st.dataframe(pd.DataFrame(proj_data), hide_index=True, use_container_width=True)
 
 with col_action:
-    section("⚙️ Use Forecast as Active Scenario", "Transfer statistical projection into P&L simulation")
+    section("⚙️ Use Forecast as Active Scenario", "Transfer statistical projection directly into P&L simulation")
     with st.container(border=True):
-        st.markdown("**Simulate Forecast Shock:**")
-        horizon_choice = st.radio("Select Target Horizon", ["3 Months", "6 Months", "12 Months"], horizontal=True)
-        stress_mode = st.checkbox("Apply Upper 95% Stress Bound (Tail Risk)", value=False)
+        st.markdown("**1. Select Projection Mode:**")
+        scenario_mode = st.radio(
+            "Projection Risk Level",
+            ["Point Forecast (P50)", "P80 Stress Case", "P95 Worst Case"],
+            horizontal=False
+        )
+        st.markdown("**2. Target Horizon:**")
+        horizon_choice = st.radio("Horizon", ["3 Months", "6 Months", "12 Months"], horizontal=True)
         
         target_idx = 2 if horizon_choice == "3 Months" else (5 if horizon_choice == "6 Months" else 11)
         target_idx = min(target_idx, len(mat_fcst)-1)
-        target_pt = mat_fcst.iloc[target_idx]['hi_95'] if stress_mode else mat_fcst.iloc[target_idx]['point']
         
+        if scenario_mode == "Point Forecast (P50)":
+            target_pt = mat_fcst.iloc[target_idx]['point']
+            mode_tag = "P50 Point"
+        elif scenario_mode == "P80 Stress Case":
+            target_pt = mat_fcst.iloc[target_idx]['hi_80']
+            mode_tag = "P80 Stress"
+        else:
+            target_pt = mat_fcst.iloc[target_idx]['hi_95']
+            mode_tag = "P95 Worst Case"
+            
         pct_shock = ((target_pt - last_hist) / last_hist) * 100.0
 
-        st.markdown(f"Simulated Shock: **{pct_shock:+.1f}%** for **{selected_id.upper()}**")
+        st.markdown(f"Implied Shock: **{pct_shock:+.1f}%** for **{selected_id.upper()}**")
         
-        if st.button(f"Apply {horizon_choice} Forecast to Sliders", use_container_width=True):
+        if st.button(f"Apply {horizon_choice} ({mode_tag}) to Sliders", use_container_width=True):
             # Update scenario state
             new_shocks = dict(active_scn.price_shock_pct)
             if selected_id == "freight":
                 new_mult = max(1.0 + pct_shock / 100.0, 0.5)
                 st.session_state.active_scenario = Scenario(
-                    name=f"Forecast Driven ({horizon_choice} {'95% Stress' if stress_mode else 'Point'})",
+                    name=f"Forecast Driven ({selected_id.title()} {horizon_choice} {mode_tag})",
                     price_shock_pct=new_shocks,
                     freight_multiplier=round(new_mult, 2),
                     fx_inr_usd=active_scn.fx_inr_usd,
@@ -135,18 +149,33 @@ with col_action:
             else:
                 new_shocks[selected_id] = round(pct_shock, 1)
                 st.session_state.active_scenario = Scenario(
-                    name=f"Forecast Driven ({horizon_choice} {'95% Stress' if stress_mode else 'Point'})",
+                    name=f"Forecast Driven ({selected_id.title()} {horizon_choice} {mode_tag})",
                     price_shock_pct=new_shocks,
                     freight_multiplier=active_scn.freight_multiplier,
                     fx_inr_usd=active_scn.fx_inr_usd,
                     shipping_delay_days=active_scn.shipping_delay_days
                 )
-            st.toast(f"Updated scenario with {horizon_choice} forecast!")
+            st.toast(f"Applied {selected_id.title()} {horizon_choice} {mode_tag} forecast to scenario!")
             st.rerun()
 
 # Backtest Scorecard Table
 section("🏆 Model Selection Rationale & Rolling-Origin Backtest Scorecard", "Evaluating AutoARIMA, AutoETS, AutoTheta, and Empirical Naive across 8 inputs")
-st.dataframe(score_df, hide_index=True, use_container_width=True)
+col_cfg_score = {
+    "material": st.column_config.TextColumn("Material / Input", width="small"),
+    "model": st.column_config.TextColumn("Best Model", width="medium"),
+    "mae": st.column_config.NumberColumn("MAE", format="%.1f", width="small"),
+    "mape_3m": st.column_config.NumberColumn("MAPE (3m)", format="%.1f%%", width="small"),
+    "mape_6m": st.column_config.NumberColumn("MAPE (6m)", format="%.1f%%", width="small"),
+    "mape_12m": st.column_config.NumberColumn("MAPE (12m)", format="%.1f%%", width="small"),
+    "smape": st.column_config.NumberColumn("sMAPE", format="%.1f%%", width="small"),
+    "coverage_80": st.column_config.NumberColumn("80% Cov", format="%.1f%%", width="small"),
+    "coverage_95": st.column_config.NumberColumn("95% Cov", format="%.1f%%", width="small"),
+    "naive_mape": st.column_config.NumberColumn("Naive MAPE", format="%.1f%%", width="small"),
+    "improvement_vs_naive": st.column_config.TextColumn("vs Naive", width="small"),
+    "tier": st.column_config.TextColumn("Tier", width="small"),
+    "notes": st.column_config.TextColumn("Methodology & Data Characteristics", width="large")
+}
+st.dataframe(score_df, hide_index=True, use_container_width=True, column_config=col_cfg_score)
 
 # Re-fit Live Button
 if st.button("🔄 Re-fit Forecasting Models Live"):

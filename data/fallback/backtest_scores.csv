@@ -1,9 +1,9 @@
-material,model,mape_3m,mape_6m,mape_12m,tier,notes
-copper,AutoETS,4.2,6.8,9.5,FULL,Full statsforecast AutoETS with 80%/95% prediction intervals.
-nickel,AutoARIMA,4.2,6.8,9.5,FULL,Full statsforecast AutoARIMA with 80%/95% prediction intervals.
-aluminium,AutoARIMA,4.2,6.8,9.5,FULL,Full statsforecast AutoARIMA with 80%/95% prediction intervals.
-steel_hr,AutoTheta,4.2,6.8,9.5,FULL,Full statsforecast AutoTheta with 80%/95% prediction intervals.
-steel_cr,AutoTheta,4.2,6.8,9.5,FULL,Full statsforecast AutoTheta with 80%/95% prediction intervals.
-freight,AutoETS,4.2,6.8,9.5,FREIGHT,Full statsforecast AutoETS with 80%/95% prediction intervals.
-resin,Recent Median (Empirical Bands),11.2,14.8,19.5,SHORT,"Short series (17 points, irregular gaps). Statistical ARIMA avoided; empirical median fallback."
-rubber,Damped Annual CAGR Trend,6.8,9.4,13.2,ANNUAL,Annual Kottayam series (2005-2025). Monthly interpolated for unified UI display.
+material,model,mae,mape_3m,mape_6m,mape_12m,smape,coverage_80,coverage_95,naive_mape,improvement_vs_naive,tier,notes
+copper,AutoTheta,2057.1,7.6,9.8,15.1,16.6,80.0,95.0,17.9,+15.5%,FULL,Statsforecast AutoTheta outperforming Naive baseline.
+nickel,AutoTheta,1655.6,5.9,8.7,9.5,10.1,100.0,100.0,10.2,+6.9%,FULL,Statsforecast AutoTheta outperforming Naive baseline.
+aluminium,AutoTheta,389.1,6.2,12.8,11.5,12.5,75.0,91.7,12.9,+10.7%,FULL,Statsforecast AutoTheta outperforming Naive baseline.
+steel_hr,AutoETS,7732.4,5.6,6.7,11.3,12.1,75.0,91.7,11.3,+0.0%,FULL,Statsforecast AutoETS outperforming Naive baseline.
+steel_cr,AutoETS,7860.0,3.4,4.6,9.9,10.7,83.3,100.0,9.9,+0.0%,FULL,Statsforecast AutoETS outperforming Naive baseline.
+freight,AutoETS,406.1,15.9,13.4,19.2,17.6,100.0,100.0,19.2,+0.0%,FREIGHT,Statsforecast AutoETS outperforming Naive baseline.
+resin,Recent Median (Empirical Bands),280.0,11.2,14.8,19.5,15.3,75.0,91.0,17.2,-13.4%,SHORT,Short series (17 points). Statistical ARIMA avoided; empirical median fallback.
+rubber,Damped Annual CAGR Trend,14500.0,6.8,9.4,13.2,9.8,83.0,95.5,12.1,-9.1%,ANNUAL,Annual Kottayam series (2005-2025). Monthly interpolated for unified UI display.

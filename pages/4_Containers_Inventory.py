@@ -7,7 +7,7 @@ import streamlit as st
 import pandas as pd
 from engine.scenario import Scenario, get_default_presets
 from engine.chain import run_all
-from ui.components import page_header, kpi_strip, section, insight, explain_box, status_badge
+from ui.components import page_header, kpi_strip, section, insight, explain_box, status_badge, data_badge
 from ui.charts import plot_inventory_runway
 from ui.theme import format_money_cr, format_days, format_inr_t
 
@@ -54,7 +54,7 @@ st.write(df_inv_display.to_html(escape=False, index=False), unsafe_allow_html=Tr
 st.markdown("<br>", unsafe_allow_html=True)
 
 # 3. Inbound Container Shipments & Payload Utilisation
-section("🚢 Inbound Container Tracking & Payload Efficiency", "40ft container payload utilisation (%) and ocean freight landed cost per tonne")
+section("🚢 Inbound Container Tracking & Payload Efficiency " + data_badge("SAMPLE DATA"), "40ft container payload utilisation (%) and ocean freight landed cost per tonne")
 
 col_cnt1, col_cnt2, col_cnt3 = st.columns(3)
 with col_cnt1:
@@ -62,7 +62,8 @@ with col_cnt1:
 with col_cnt2:
     st.metric("Avg Inbound Freight Landed Cost", f"₹ {results.avg_freight_per_tonne_inr:,.0f} / t", f"Multiplier: {active_scn.freight_multiplier:.2f}x")
 with col_cnt3:
-    st.metric("Active Maritime Shipping Delay", f"+{active_scn.shipping_delay_days} days", "Cape of Good Hope rerouting")
+    delay_sub = "Cape of Good Hope rerouting" if active_scn.shipping_delay_days > 0 else "Normal Suez & Gulf routing"
+    st.metric("Active Maritime Shipping Delay", f"+{active_scn.shipping_delay_days} days", delay_sub)
 
 container_table_rows = []
 for c in results.containers:
@@ -94,8 +95,8 @@ if stock_out_items:
     )
 else:
     insight(
-        f"Inventory buffer is stable. Worst runway margin is <b>{results.worst_runway_margin_days:+.1f} days</b> on <b>{results.worst_material_name}</b>. "
-        "Container payload efficiency stands at <b>{results.avg_container_payload_pct:.1f}%</b>."
+        f"Inventory buffer is stable. Worst runway margin is <b>{results.worst_runway_margin_days:+.1f} days</b> on <b>{results.worst_margin_material_name}</b>. "
+        f"Container payload efficiency stands at <b>{results.avg_container_payload_pct:.1f}%</b>."
     )
 
 explain_box(
