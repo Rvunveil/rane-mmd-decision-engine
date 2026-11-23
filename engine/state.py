@@ -200,9 +200,19 @@ def apply_scenario_values(values: dict[str, Any] | None = None, maybe_values: di
     if not source.startswith("preset:") and "name" not in vals:
         target_state["scn"]["name"] = "Custom"
 
-    # Set flag for top-of-script sync. Do NOT modify widget keys here.
+    # Set flag for top-of-script sync. Do NOT modify widget keys directly here.
     target_state["_sync_widgets"] = True
     target_state["active_scenario"] = get_current_scenario(target_state)
+
+    # When testing offline with a plain dictionary (not active st.session_state),
+    # immediately synchronize via sync_widgets_from_scn so mock-state unit tests see updated keys.
+    try:
+        is_st_session = (target_state is getattr(st, "session_state", None))
+    except Exception:
+        is_st_session = False
+
+    if not is_st_session:
+        sync_widgets_from_scn(target_state)
 
 
 def apply_preset_by_name(preset_key_or_state: Any, preset_key_or_none: Any = None, state: dict[str, Any] | None = None):

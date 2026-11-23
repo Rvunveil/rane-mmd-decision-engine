@@ -248,7 +248,7 @@ The MMD Decision Engine's automated Claim Pack generator compiles this data into
 ## 5. What the Tool Does Well
 
 ### 5.1 Relentless Automated Verification
-The repository maintains an exhaustive suite of **90 automated tests** executing in **51.8 seconds** across 12 test files:
+The repository maintains an exhaustive suite of **90 automated tests** executing in **52.3 seconds** across 12 test files:
 * **Unit and Mathematical Acceptance**: Validates formula invariants, tax asymmetry, and calibration against hand-calculated oracle values.
 * **Stress and Boundary Testing**: Fuzzes inputs with extreme shocks (-100% to +500%), zero volume, infinite freight, and negative margins.
 * **Streamlit AppTest Harness**: Verifies that all 7 multipage applications compile, render widgets, and react to state updates without runtime exceptions.
@@ -256,8 +256,8 @@ The repository maintains an exhaustive suite of **90 automated tests** executing
 
 ### 5.2 Sub-Second Deterministic Calculation
 All analytical calculations are implemented in pure vectorized Python and NumPy:
-* **`engine.chain.run_all`**: Recalculates the entire multi-echelon P&L, exposure maps, triggers, and inventory metrics in **35.94 milliseconds**.
-* **2,000-Path Correlated Monte Carlo**: Generates Cholesky-decomposed joint log-normal distributions and computes P10/P50/P90 percentiles in **36.85 milliseconds**.
+* **`engine.chain.run_all`**: Recalculates the entire multi-echelon P&L, exposure maps, triggers, and inventory metrics in **46.89 milliseconds**.
+* **2,000-Path Correlated Monte Carlo**: Generates Cholesky-decomposed joint log-normal distributions and computes P10/P50/P90 percentiles in **60.81 milliseconds**.
 * **Zero UI Latency**: Sliders on the Control Deck update instantly without waiting on network API requests or remote database queries.
 
 ### 5.3 Complete Offline Independence
@@ -913,7 +913,7 @@ The table below catalogs every file in the repository (excluding `.git`, `_refs`
 | `STRESS_TEST_REPORT.md` | `root` | 274 | 27.5 | - | File in root |
 | `V2_REPORT.md` | `root` | 120 | 11.4 | - | File in root |
 | `V3_REPORT.md` | `root` | 159 | 13.5 | - | File in root |
-| `app.py` | `root` | 38 | 1.5 | - | File in root |
+| `app.py` | `root` | 42 | 1.6 | - | File in root |
 | `conftest.py` | `root` | 4 | 0.1 | - | File in root |
 | `pytest.ini` | `root` | 3 | 0.0 | - | File in root |
 | `requirements.txt` | `root` | 11 | 0.2 | - | File in root |
@@ -968,10 +968,10 @@ The table below catalogs every file in the repository (excluding `.git`, `_refs`
 | `data/raw/Dataset xovate (!)/Rane financials/revenue_of_rane_madras_limited_from_2021_to_2025_in_billion_indian_rupees.xlsx` | `data` | 0 | 8.9 | - | File in data |
 | `demo/README.md` | `demo` | 48 | 1.7 | - | File in demo |
 | `demo/__init__.py` | `demo` | 8 | 0.2 | - | File in demo |
-| `demo/overlay.py` | `demo` | 130 | 4.1 | `render_demo_overlay` | File in demo |
-| `demo/player.py` | `demo` | 226 | 6.6 | `load_demo_config`, `load_storyboard`, `_record_timeline`, `start_demo`, `stop_demo`, `_apply_step`, `run_demo_player` | File in demo |
+| `demo/overlay.py` | `demo` | 122 | 3.9 | `render_demo_overlay` | File in demo |
+| `demo/player.py` | `demo` | 220 | 6.5 | `load_demo_config`, `load_storyboard`, `_record_timeline`, `start_demo`, `stop_demo`, `_apply_step`, `run_demo_player` | File in demo |
 | `demo/storyboard.yaml` | `demo` | 90 | 3.3 | - | File in demo |
-| `demo_out/demo_timeline.json` | `demo_out` | 0 | 9.0 | - | File in demo_out |
+| `demo_out/demo_timeline.json` | `demo_out` | 0 | 0.4 | - | File in demo_out |
 | `engine/__init__.py` | `engine` | 1 | 0.0 | - | File in engine |
 | `engine/actions.py` | `engine` | 153 | 5.6 | `load_actions_config`, `evaluate_actions`, `optimize_action_bundle` | File in engine |
 | `engine/buy_signal.py` | `engine` | 80 | 3.4 | `compute_buy_signals` | File in engine |
@@ -986,18 +986,19 @@ The table below catalogs every file in the repository (excluding `.git`, `_refs`
 | `engine/risk.py` | `engine` | 230 | 9.1 | `compute_historical_volatilities`, `run_profit_at_risk_monte_carlo` | File in engine |
 | `engine/scenario.py` | `engine` | 116 | 4.3 | `Scenario`, `get_default_presets`, `compute_todays_market_scenario` | File in engine |
 | `engine/signals.py` | `engine` | 354 | 15.0 | `get_shock_radar_signals`, `make_svg_sparkline`, `get_market_tape` | File in engine |
-| `engine/state.py` | `engine` | 220 | 8.4 | `_get_state_store`, `load_glossary`, `init_canonical_state`, `get_current_scenario`, `apply_scenario_values`, `apply_preset_by_name`, `reset_to_base` | File in engine |
+| `engine/state.py` | `engine` | 260 | 10.3 | `_get_state_store`, `load_glossary`, `init_canonical_state`, `sync_widgets_from_scn`, `get_current_scenario`, `apply_scenario_values`, `apply_preset_by_name`, `reset_to_base` | File in engine |
 | `engine/timeline.py` | `engine` | 94 | 3.4 | `compute_cash_recovery_timeline` | File in engine |
 | `engine/triggers.py` | `engine` | 107 | 4.0 | `load_triggers_config`, `evaluate_andon_triggers` | File in engine |
 | `pages/0_Command_Centre.py` | `pages` | 383 | 20.9 | - | File in pages |
-| `pages/1_Forecast.py` | `pages` | 199 | 9.7 | - | File in pages |
-| `pages/2_Scenario_Simulator.py` | `pages` | 160 | 8.1 | `compute_tornado_data` | File in pages |
+| `pages/1_Forecast.py` | `pages` | 203 | 9.7 | - | File in pages |
+| `pages/2_Scenario_Simulator.py` | `pages` | 158 | 8.0 | `compute_tornado_data` | File in pages |
 | `pages/3_Profit_Chain.py` | `pages` | 171 | 8.2 | - | File in pages |
 | `pages/4_Containers_Inventory.py` | `pages` | 115 | 5.6 | - | File in pages |
 | `pages/5_Action_Matrix.py` | `pages` | 171 | 8.4 | - | File in pages |
 | `pages/6_Assumptions_Data_Trace_About.py` | `pages` | 211 | 14.8 | - | File in pages |
 | `qa/logs/pytest_final.txt` | `qa` | 1907 | 129.3 | - | File in qa |
 | `qa/logs/pytest_run1.txt` | `qa` | 1907 | 129.3 | - | File in qa |
+| `qa/release/inventory.json` | `qa` | 0 | 10.1 | - | File in qa |
 | `qa/v2/pytest_v2.txt` | `qa` | 69 | 4.5 | - | File in qa |
 | `qa/v3/pytest_v3.txt` | `qa` | 27 | 2.0 | - | File in qa |
 | `scripts/build_handbook.py` | `scripts` | 1493 | 101.6 | `slugify`, `get_live_engine_numbers`, `get_repository_inventory`, `build_part_a`, `build_part_b`, `build_part_c`, `build_part_d`, `build_part_e`, `build_part_f`, `build_handbook`, `main` | File in scripts |
@@ -1012,6 +1013,8 @@ The table below catalogs every file in the repository (excluding `.git`, `_refs`
 | `tests/test_app_smoke.py` | `tests` | 68 | 2.6 | `test_app_smoke_base_case`, `test_command_centre_smoke`, `test_forecast_page_smoke`, `test_scenario_simulator_smoke`, `test_profit_chain_smoke`, `test_containers_inventory_smoke`, `test_action_matrix_smoke`, `test_assumptions_page_smoke` | File in tests |
 | `tests/test_data_loader.py` | `tests` | 103 | 3.5 | `test_container_freight_redating_anchors`, `test_forex_dedup_and_numeric`, `test_aluminium_reshape`, `test_steel_not_fx_converted`, `test_resin_and_rubber_conversions` | File in tests |
 | `tests/test_handbook.py` | `tests` | 167 | 7.6 | `handbook_text`, `test_handbook_exists_and_toc_resolves`, `test_all_repo_files_in_inventory`, `test_all_engine_functions_and_pages_mentioned`, `test_deny_list_absent`, `test_baseline_and_shock_numbers_match_engine` | File in tests |
+| `tests/release/inventory.py` | `tests` | 228 | 8.3 | `extract_ast_elements`, `discover_inventory`, `save_inventory`, `get_inventory` | File in tests |
+| `tests/release/test_p0_widgets.py` | `tests` | 165 | 7.9 | `get_all_widget_keys`, `test_P0_1_no_direct_widget_key_assignments_outside_sync`, `test_P0_2_no_if_button_calling_scenario_mutation`, `test_P0_3_control_room_preset_clicks_and_reset_in_apptest`, `test_P0_4_demo_lifecycle_in_apptest` | File in tests |
 | `tests/stress/__init__.py` | `tests` | 1 | 0.1 | - | File in tests |
 | `tests/stress/test_actions.py` | `tests` | 79 | 3.6 | `test_M21_action_matrix_hand_calc`, `test_M22_action_reranking_under_crisis`, `test_M23_ripple_matrix_and_suppliers` | File in tests |
 | `tests/stress/test_control_deck.py` | `tests` | 101 | 3.7 | `test_CD01_canonical_state_lifecycle`, `test_CD02_apply_preset_synchronization`, `test_CD03_glossary_content`, `test_CD04_command_centre_control_deck_apptest`, `test_CD05_simple_view_toggle_behavior` | File in tests |
@@ -1029,9 +1032,9 @@ The table below catalogs every file in the repository (excluding `.git`, `_refs`
 | `ui/__init__.py` | `ui` | 1 | 0.0 | - | File in ui |
 | `ui/charts.py` | `ui` | 551 | 18.0 | `plot_forecast_chart`, `plot_ebitda_waterfall`, `plot_tornado_sensitivity`, `plot_inventory_runway`, `plot_freight_redating_trace`, `plot_profit_at_risk_distribution`, `plot_cash_timeline_trough` | File in ui |
 | `ui/components.py` | `ui` | 150 | 5.9 | `page_header`, `kpi_card`, `kpi_strip`, `status_badge`, `data_badge`, `insight`, `section`, `explain_box` | File in ui |
-| `ui/control_deck.py` | `ui` | 209 | 10.1 | `render_control_deck` | File in ui |
-| `ui/guided_helper.py` | `ui` | 199 | 9.2 | `compute_guided_recommendation`, `render_guided_helper_dialog` | File in ui |
-| `ui/layout.py` | `ui` | 186 | 8.5 | `load_yaml`, `page_setup`, `render_sidebar` | File in ui |
+| `ui/control_deck.py` | `ui` | 208 | 9.6 | `render_control_deck` | File in ui |
+| `ui/guided_helper.py` | `ui` | 199 | 9.3 | `compute_guided_recommendation`, `render_guided_helper_dialog` | File in ui |
+| `ui/layout.py` | `ui` | 174 | 7.7 | `load_yaml`, `page_setup`, `render_sidebar` | File in ui |
 | `ui/styles.css` | `ui` | 305 | 7.2 | - | File in ui |
 | `ui/theme.py` | `ui` | 128 | 4.1 | `format_money_cr`, `format_pct`, `format_inr_t`, `format_usd`, `format_days` | File in ui |
 
@@ -1335,4 +1338,4 @@ We gratefully acknowledge the developers and maintainers of the open-source libr
 * **Playwright**: Browser automation and cross-platform headless testing.
 
 ---
-*Generated autonomously by `scripts/build_handbook.py` on 2026-11-23 15:29:01. Verified against 90 passing automated tests.*
+*Generated autonomously by `scripts/build_handbook.py` on 2026-11-23 15:43:49. Verified against 90 passing automated tests.*

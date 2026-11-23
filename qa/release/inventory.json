@@ -1,0 +1,398 @@
+{
+  "pages": {
+    "pages/0_Command_Centre.py": {
+      "title": "Control Room",
+      "path": "pages/0_Command_Centre.py",
+      "buttons": [
+        {
+          "label": "Base",
+          "key": "chip_base_case",
+          "disabled": false
+        },
+        {
+          "label": "Today's market",
+          "key": "chip_todays_market",
+          "disabled": false
+        },
+        {
+          "label": "Red Sea / Hormuz",
+          "key": "chip_red_sea_hormuz",
+          "disabled": false
+        },
+        {
+          "label": "Metal shock",
+          "key": "chip_metal_shock",
+          "disabled": false
+        },
+        {
+          "label": "Tariff & FX",
+          "key": "chip_tariff_fx",
+          "disabled": false
+        },
+        {
+          "label": "Demand recession",
+          "key": "chip_demand_recession",
+          "disabled": false
+        },
+        {
+          "label": "Custom",
+          "key": "chip_custom",
+          "disabled": true
+        },
+        {
+          "label": ":material/help: What happened?",
+          "key": null,
+          "disabled": false
+        },
+        {
+          "label": ":material/restart_alt: Reset",
+          "key": null,
+          "disabled": false
+        },
+        {
+          "label": "Save Current",
+          "key": null,
+          "disabled": false
+        }
+      ],
+      "sliders": [
+        {
+          "label": "Metal Prices",
+          "key": "deck_metal",
+          "min": -30.0,
+          "max": 60.0,
+          "value": 0.0
+        },
+        {
+          "label": "Freight Mult",
+          "key": "deck_freight",
+          "min": 0.5,
+          "max": 4.0,
+          "value": 1.0
+        },
+        {
+          "label": "Shipping Delay",
+          "key": "deck_delay",
+          "min": 0.0,
+          "max": 45.0,
+          "value": 0
+        },
+        {
+          "label": "USD / INR",
+          "key": "deck_fx",
+          "min": 80.0,
+          "max": 105.0,
+          "value": 84.56
+        },
+        {
+          "label": "OEM Pass-Through",
+          "key": "deck_pass_through",
+          "min": 0.0,
+          "max": 100.0,
+          "value": 50.0
+        },
+        {
+          "label": "Demand Volume",
+          "key": "deck_demand",
+          "min": -30.0,
+          "max": 30.0,
+          "value": 0.0
+        },
+        {
+          "label": "Copper Cathode",
+          "key": "fine_copper",
+          "min": -30.0,
+          "max": 60.0,
+          "value": 0.0
+        },
+        {
+          "label": "Aluminium Ingot",
+          "key": "fine_aluminium",
+          "min": -30.0,
+          "max": 60.0,
+          "value": 0.0
+        },
+        {
+          "label": "Nickel Superalloy",
+          "key": "fine_nickel",
+          "min": -30.0,
+          "max": 60.0,
+          "value": 0.0
+        },
+        {
+          "label": "Steel HR Coil",
+          "key": "fine_steel_hr",
+          "min": -30.0,
+          "max": 60.0,
+          "value": 0.0
+        },
+        {
+          "label": "Steel CR Coil",
+          "key": "fine_steel_cr",
+          "min": -30.0,
+          "max": 60.0,
+          "value": 0.0
+        },
+        {
+          "label": "Phenolic Resin",
+          "key": "fine_resin",
+          "min": -30.0,
+          "max": 60.0,
+          "value": 0.0
+        },
+        {
+          "label": "Natural Rubber",
+          "key": "fine_rubber",
+          "min": -30.0,
+          "max": 60.0,
+          "value": 0.0
+        }
+      ],
+      "selectboxes": [],
+      "radios": [],
+      "toggles": [
+        {
+          "label": "Simple view",
+          "key": "simple_view_toggle",
+          "value": false
+        }
+      ],
+      "checkboxes": [],
+      "number_inputs": [],
+      "download_buttons": [
+        {
+          "label": ":material/download: Download Decision Brief",
+          "key": null
+        }
+      ],
+      "popovers": [
+        {
+          "label": "",
+          "lineno": 269
+        },
+        {
+          "label": ":material/bookmark: Save",
+          "lineno": 139
+        },
+        {
+          "label": ":material/compare_arrows: Compare",
+          "lineno": 146
+        },
+        {
+          "label": ":material/tune: Individual Metals",
+          "lineno": 175
+        }
+      ],
+      "dialogs": [
+        {
+          "label": "What happened? Get a recommendation",
+          "function": "render_guided_helper_dialog",
+          "lineno": 122
+        }
+      ]
+    },
+    "pages/1_Forecast.py": {
+      "title": "Price & Freight Forecast",
+      "path": "pages/1_Forecast.py",
+      "buttons": [
+        {
+          "label": ":material/arrow_forward: Apply 3 Months (P50 Point) to Sliders",
+          "key": null,
+          "disabled": false
+        },
+        {
+          "label": ":material/refresh: Re-fit Forecasting Models Live",
+          "key": null,
+          "disabled": false
+        }
+      ],
+      "sliders": [],
+      "selectboxes": [
+        {
+          "label": "Select Commodity / Freight Series to Analyze",
+          "key": null,
+          "options": [
+            "Copper Cathode (USD/t)",
+            "Nickel Metal (USD/t)",
+            "Aluminium (LME) (USD/t)",
+            "Steel HR Coil (INR/t)",
+            "Steel CR Coil (INR/t)",
+            "Global 40ft Freight (USD/40ft)",
+            "Phenolic Resin (USD/t)",
+            "Natural Rubber (RSS-4) (INR/t)"
+          ],
+          "value": "0"
+        }
+      ],
+      "radios": [
+        {
+          "label": "Projection Risk Level",
+          "key": null,
+          "options": [
+            "Point Forecast (P50)",
+            "P80 Stress Case",
+            "P95 Worst Case"
+          ],
+          "value": "Point Forecast (P50)"
+        },
+        {
+          "label": "Horizon",
+          "key": null,
+          "options": [
+            "3 Months",
+            "6 Months",
+            "12 Months"
+          ],
+          "value": "3 Months"
+        }
+      ],
+      "toggles": [],
+      "checkboxes": [],
+      "number_inputs": [],
+      "download_buttons": [],
+      "popovers": [],
+      "dialogs": []
+    },
+    "pages/2_Scenario_Simulator.py": {
+      "title": "What-if Scenario Simulator",
+      "path": "pages/2_Scenario_Simulator.py",
+      "buttons": [
+        {
+          "label": "Load Preset",
+          "key": "btn_p_base_case",
+          "disabled": false
+        },
+        {
+          "label": "Load Preset",
+          "key": "btn_p_todays_market",
+          "disabled": false
+        },
+        {
+          "label": "Load Preset",
+          "key": "btn_p_red_sea_hormuz",
+          "disabled": false
+        },
+        {
+          "label": "Load Preset",
+          "key": "btn_p_metal_shock",
+          "disabled": false
+        },
+        {
+          "label": "Load Preset",
+          "key": "btn_p_tariff_fx",
+          "disabled": false
+        },
+        {
+          "label": "Load Preset",
+          "key": "btn_p_demand_recession",
+          "disabled": false
+        }
+      ],
+      "sliders": [],
+      "selectboxes": [],
+      "radios": [],
+      "toggles": [],
+      "checkboxes": [],
+      "number_inputs": [],
+      "download_buttons": [],
+      "popovers": [],
+      "dialogs": []
+    },
+    "pages/3_Profit_Chain.py": {
+      "title": "Live Recalculation Chain",
+      "path": "pages/3_Profit_Chain.py",
+      "buttons": [],
+      "sliders": [],
+      "selectboxes": [],
+      "radios": [],
+      "toggles": [],
+      "checkboxes": [],
+      "number_inputs": [],
+      "download_buttons": [
+        {
+          "label": ":material/download: Download OEM Claim Dossier (HTML)",
+          "key": null
+        }
+      ],
+      "popovers": [],
+      "dialogs": []
+    },
+    "pages/4_Containers_Inventory.py": {
+      "title": "Containers & Inventory",
+      "path": "pages/4_Containers_Inventory.py",
+      "buttons": [],
+      "sliders": [],
+      "selectboxes": [],
+      "radios": [],
+      "toggles": [],
+      "checkboxes": [],
+      "number_inputs": [],
+      "download_buttons": [],
+      "popovers": [],
+      "dialogs": []
+    },
+    "pages/5_Action_Matrix.py": {
+      "title": "Prescriptive Action Matrix",
+      "path": "pages/5_Action_Matrix.py",
+      "buttons": [],
+      "sliders": [
+        {
+          "label": "Available Cash Budget Constraint (\u20b9 Cr)",
+          "key": null,
+          "min": 0.0,
+          "max": 40.0,
+          "value": 15.0
+        }
+      ],
+      "selectboxes": [
+        {
+          "label": "Inspect Functional Ripple for Action:",
+          "key": null,
+          "options": [
+            "#1: Engineering Material Substitution (Alternate Resins/Alloys)",
+            "#2: Production Dynamic Re-Sequencing & Overtime Control",
+            "#3: Container Consolidation & Payload Maximisation",
+            "#4: Do Nothing (Unmitigated Spot Exposure Reference)",
+            "#5: Strategic Safety Stock Elevation (Critical Inputs)",
+            "#6: Commodity Hedge / Forward-Buy Metals",
+            "#7: Cape of Good Hope Rerouting & Early Slot Booking",
+            "#8: Index-Linked OEM Formula Contract Renegotiation",
+            "#9: Dual-Sourcing & Domestic Substitution (Near-Shoring)",
+            "#10: Air-Freight Bridge for Critical Stock-Out Avoidance"
+          ],
+          "value": "ACT-08"
+        }
+      ],
+      "radios": [],
+      "toggles": [],
+      "checkboxes": [],
+      "number_inputs": [],
+      "download_buttons": [],
+      "popovers": [],
+      "dialogs": []
+    },
+    "pages/6_Assumptions_Data_Trace_About.py": {
+      "title": "Assumptions & Data Trace",
+      "path": "pages/6_Assumptions_Data_Trace_About.py",
+      "buttons": [],
+      "sliders": [],
+      "selectboxes": [],
+      "radios": [],
+      "toggles": [],
+      "checkboxes": [],
+      "number_inputs": [],
+      "download_buttons": [],
+      "popovers": [],
+      "dialogs": []
+    }
+  },
+  "total_elements": 39,
+  "summary": {
+    "button": 18,
+    "slider": 14,
+    "toggle": 1,
+    "download_button": 2,
+    "selectbox": 2,
+    "radio": 2
+  }
+}
