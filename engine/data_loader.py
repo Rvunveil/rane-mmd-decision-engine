@@ -265,3 +265,14 @@ def load_all_cleaned_datasets() -> dict[str, pd.DataFrame]:
         "gscpi": df_gscpi,
         "chokepoints": df_chokepoints
     }
+
+
+def load_assumptions() -> dict:
+    """Loads config/assumptions.yaml safely."""
+    path = os.path.join(os.path.dirname(__file__), "..", "config", "assumptions.yaml")
+    if os.path.exists(path):
+        import yaml
+        with open(path, "r", encoding="utf-8") as f:
+            return yaml.safe_load(f) or {}
+    return {}
+
