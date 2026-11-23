@@ -8,7 +8,8 @@ import pandas as pd
 from engine.scenario import Scenario, get_default_presets
 from engine.chain import run_all
 from engine.forecast import get_all_forecasts, load_processed_series, SERIES_TIERS
-from ui.components import page_header, kpi_strip, section, insight, explain_box, data_badge
+from engine.buy_signal import compute_buy_signals
+from ui.components import page_header, kpi_strip, section, insight, explain_box, data_badge, status_badge
 from ui.charts import plot_forecast_chart
 from ui.theme import format_money_cr, MATERIAL_LABELS, MATERIAL_COLORS
 
@@ -46,13 +47,21 @@ unit_str = tier_info.get("unit", "USD/t")
 history_df = load_processed_series(selected_id)
 mat_fcst = fcst_df[fcst_df['unique_id'] == selected_id].sort_values('ds').reset_index(drop=True)
 
-# Data Quality Badge
+# Data Quality Badge & Buy-Timing Signal
 with col_sel2:
-    st.markdown("<div style='font-size:0.75rem; color:#64748B; font-weight:600; margin-top:0.4rem;'>DATASET INTEGRITY STATUS</div>", unsafe_allow_html=True)
+    st.markdown("<div style='font-size:0.75rem; color:#64748B; font-weight:600; margin-top:0.4rem;'>DATASET INTEGRITY & BUY TIMING</div>", unsafe_allow_html=True)
     if not mat_fcst.empty:
         q_label = mat_fcst.iloc[0].get('data_quality', 'LIVE DATA')
         st.markdown(data_badge(q_label), unsafe_allow_html=True)
         st.caption(f"Model: **{mat_fcst.iloc[0].get('model', 'AutoETS')}** | Backtest MAPE: **{mat_fcst.iloc[0].get('mape', 6.8):.1f}%**")
+    
+    # Buy Signal Chip
+    buy_signals = compute_buy_signals(active_scn, results)
+    cur_signal = buy_signals.get(selected_id)
+    if cur_signal:
+        sig_badge = f'<span class="{cur_signal.get("badge_class", "buy-signal-hold")}">{cur_signal.get("signal", "HOLD")}</span>'
+        st.markdown(f"**Timing Signal:** {sig_badge} &nbsp;|&nbsp; Save: **₹{cur_signal.get('expected_saving_cr', 0.0):.1f} Cr**", unsafe_allow_html=True)
+        st.caption(f"💡 {cur_signal.get('rationale', '')}")
 
 # Chart Rendering
 fig = plot_forecast_chart(

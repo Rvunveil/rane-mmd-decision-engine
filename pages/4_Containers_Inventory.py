@@ -7,6 +7,7 @@ import streamlit as st
 import pandas as pd
 from engine.scenario import Scenario, get_default_presets
 from engine.chain import run_all
+from engine.exposure import compute_exposure_map, plot_exposure_map
 from ui.components import page_header, kpi_strip, section, insight, explain_box, status_badge, data_badge
 from ui.charts import plot_inventory_runway
 from ui.theme import format_money_cr, format_days, format_inr_t
@@ -50,6 +51,14 @@ for row in results.inventory_summary:
 # Render HTML table for styled status pills
 df_inv_display = pd.DataFrame(inv_table_rows)
 st.write(df_inv_display.to_html(escape=False, index=False), unsafe_allow_html=True)
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+# 2. Global Inbound Trade Lane Exposure Map (N2)
+section("🌐 Global Inbound Trade Lane Exposure Map (N2)", "Maritime corridors into Chennai / Ennore & JNPT with transit days and spend at risk")
+exposure_data = compute_exposure_map(active_scn)
+fig_map = plot_exposure_map(exposure_data)
+st.plotly_chart(fig_map, use_container_width=True)
 
 st.markdown("<br>", unsafe_allow_html=True)
 

@@ -8,6 +8,7 @@ import pandas as pd
 from engine.scenario import Scenario, get_default_presets
 from engine.chain import run_all
 from engine.actions import optimize_action_bundle
+from engine.triggers import evaluate_andon_triggers
 from ui.components import page_header, kpi_strip, section, insight, explain_box, status_badge
 from ui.theme import format_money_cr, format_pct
 
@@ -41,6 +42,16 @@ for act in results.action_rankings:
     })
 
 st.dataframe(pd.DataFrame(act_rows), hide_index=True, use_container_width=True)
+
+# Andon Trigger Playbook Linkage (N7)
+with st.expander("🚨 View Active Andon Trigger Playbook Status (N7)", expanded=False):
+    andon_triggers = evaluate_andon_triggers(active_scn, results)
+    trig_cols = st.columns(len(andon_triggers))
+    for col, t in zip(trig_cols, andon_triggers):
+        with col:
+            st.markdown(f"**{t['id']}**")
+            st.markdown(status_badge(t["status"], t["status"].lower()), unsafe_allow_html=True)
+            st.caption(f"{t['name']}<br>Action: **{t['playbook_action']}**", unsafe_allow_html=True)
 
 # 2. Before / After Decision Impact
 col_ba1, col_ba2 = st.columns([1.2, 1.0])

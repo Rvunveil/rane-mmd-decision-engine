@@ -8,8 +8,10 @@ import pandas as pd
 import plotly.graph_objects as go
 from engine.scenario import Scenario, get_default_presets
 from engine.chain import run_all
+from engine.timeline import compute_cash_recovery_timeline
+from engine.claims import generate_oem_claims_pack
 from ui.components import page_header, kpi_strip, section, insight, explain_box, status_badge
-from ui.charts import plot_ebitda_waterfall
+from ui.charts import plot_ebitda_waterfall, plot_cash_timeline_trough
 from ui.theme import format_money_cr, format_pct, format_inr_t, COLOR_BRAND_PRIMARY, COLOR_STATUS_RED, COLOR_STATUS_GREEN
 
 presets = get_default_presets()
@@ -91,11 +93,11 @@ fig_waterfall = plot_ebitda_waterfall(
 )
 st.plotly_chart(fig_waterfall, use_container_width=True)
 
-# 4. Working Capital Lag Cash Gap Callout
+# 4. Working Capital Lag Cash Gap Callout & 12-Month Timeline
 col_lag1, col_lag2 = st.columns([1.5, 1.0])
 
 with col_lag1:
-    section("⏳ Working Capital Recovery Cash Gap", "Commercial friction from OEM 60–90 day price adjustment lag")
+    section("⏳ Working Capital Recovery Cash Gap & 12-Month Timeline", "Commercial friction from OEM 60–90 day price adjustment lag")
     st.markdown(
         f"""
         Although the active contract pass-through is set to **{active_scn.oem_pass_through_pct:.0f}%**, 
@@ -117,6 +119,44 @@ with col_lag2:
             language="text"
         )
         st.caption("Mitigation: Deploy ACT-02 (Index-linked contract) to compress lag from 75 to 30 days.")
+
+# 12-Month Cash Deficit Timeline Chart
+timeline_data = compute_cash_recovery_timeline(active_scn, results)
+fig_tl = plot_cash_timeline_trough(timeline_data)
+st.plotly_chart(fig_tl, use_container_width=True)
+
+# 5. OEM Price-Recovery Claim Pack Dossier (N5)
+section("📑 OEM Price-Recovery Claim Pack Generator (N5)", "Contractual cost escalation claim partitioned across Rane's 4 operating divisions")
+claims_pack = generate_oem_claims_pack(active_scn, results)
+
+c_col1, c_col2 = st.columns([1.5, 1.0])
+with c_col1:
+    claim_df = pd.DataFrame([
+        {
+            "Division": d["division_name"],
+            "OEM Key Accounts": d["oem_customers"],
+            "Benchmark Index Cited": d["primary_index"],
+            "Claim Amount": f"₹{d['claim_amount_cr']:.2f} Cr",
+            "Unrecovered Gap": f"₹{d['unrecovered_gap_cr']:.2f} Cr"
+        }
+        for d in claims_pack["divisions"]
+    ])
+    st.dataframe(claim_df, hide_index=True, use_container_width=True)
+
+with c_col2:
+    with st.container(border=True):
+        st.markdown(f"**Total Reconciled Claim:** ₹{claims_pack['total_recovery_cr']:.2f} Cr")
+        st.markdown(f"**Unrecovered Absorption:** ₹{claims_pack['total_unrecovered_cr']:.2f} Cr")
+        st.download_button(
+            "📥 Download OEM Claim Dossier (HTML)",
+            data=claims_pack["html_memo"],
+            file_name=f"Rane_OEM_Claim_Dossier_{active_scn.name.replace(' ', '_')}.html",
+            mime="text/html",
+            use_container_width=True
+        )
+
+with st.expander("👁️ Preview Formal OEM Price Escalation Notice", expanded=False):
+    st.components.v1.html(claims_pack["html_memo"], height=500, scrolling=True)
 
 insight(
     f"Gross material cost inflation under active scenario stands at <b>{format_money_cr(results.delta_material_cr)}</b>. "
