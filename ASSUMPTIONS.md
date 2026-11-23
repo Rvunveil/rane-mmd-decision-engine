@@ -81,3 +81,20 @@ Rane (Madras) operates four core manufacturing divisions. Material spend is allo
   - Resin: 40 days (East Asian petrochemical plants)
   - Rubber: 21 days (Kerala domestic market)
   - Steel HR/CR: 25–28 days (Domestic integrated mills)
+
+---
+
+## 6. V2 Upgrade Parameters & Calibrations
+
+- **Container Consolidation Benefit (ACT-07):**  
+  Calibrated benefit moving from current average payload ($89.7\%$ in raw sample data) to target payload ($98.0\%$):  
+  $$\text{Freight Reduction Fraction} = 1.0 - \frac{89.7}{98.0} = 8.469\%$$  
+  $$\text{Net Benefit} = \text{Freight Spend} \times 8.469\% - \text{₹1.2 Cr packaging redesign}$$
+- **Monte Carlo Profit-at-Risk Engine (N3):**  
+  2,000 multivariate joint disruption paths with fixed seed ($42$). Covariance matrix $D \times R \times D$ calibrated against historical annual price volatilities (Cu 14.5%, Al 12.8%, Ni 16.2%, Steels 9.5%, Resin 18.0%, Freight 28.0%, FX 4.5%, Demand 6.0%) and empirical metal/energy/freight correlations.
+- **OEM Price Recovery Partitioning (N5):**  
+  Partitioned across Rane's 4 core operating divisions: Steering (40%), Castings (27%), Friction (18%), Engine Valves (15%). Matches total contractual reimbursement to $0.001$ Cr.
+- **Dynamic Andon Triggers (N7):**  
+  7 operational triggers governing Red Sea maritime diversions (>12d RED), LME Copper (>25% RED), LME Aluminium (>20% RED), Freight multiplier (>2.2x RED), Cash gap (>₹16 Cr RED), Days of cover (<=20d RED), and FX depreciation (>₹92 RED).
+- **Cross-Functional Ripple Lenses (N8):**  
+  Simultaneous tracking of 7 departments: MMD (Procurement), Finance (Working Capital), Production (Line Starvation), HR/IR (Overtime), Quality (PPAP), Logistics (Demurrage), and Sales (OEM OTIF).
