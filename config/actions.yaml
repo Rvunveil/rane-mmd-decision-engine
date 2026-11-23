@@ -56,14 +56,14 @@ actions:
         reason: "Freight absorption passes directly to customer."
       Sales:
         status: "-"
-        reason: "Demands tough negotiations with OEM purchasing heads (Maruti, Tata, Hyundai)."
-    affected_suppliers: ["All Tier-1 OEM Customers (Maruti Suzuki, Tata Motors, M&M, Ashok Leyland)"]
+        reason: "Demands commercial negotiations with OEM purchasing councils [SAMPLE DATA]."
+    affected_suppliers: ["Tier-1 OEM Customer Accounts [SAMPLE DATA]"]
 
   - id: "ACT-03"
     short_name: "Domestic Sourcing"
     title: "Dual-Sourcing & Domestic Substitution (Near-Shoring)"
     category: "Strategic Sourcing"
-    description: "Qualify domestic secondary aluminium smelters (Hindalco/Vedanta) and local resin compounders to reduce import exposure."
+    description: "Qualify domestic secondary aluminium smelters and local resin compounders [SAMPLE DATA] to reduce import exposure."
     time_to_implement: "6 - 10 weeks"
     cash_budget_required_cr: 8.5
     formula_cost: "5.5 + 0.02 * base_material_spend" # Tooling qualification & PPAP validation
@@ -87,7 +87,7 @@ actions:
       Sales:
         status: "+"
         reason: "Higher domestic value-add improves PLI scheme compliance."
-    affected_suppliers: ["Hindalco Industries", "Vedanta Aluminium", "Supreme Petrochem"]
+    affected_suppliers: ["Domestic Smelter Option 1", "Domestic Smelter Option 2", "Domestic Resin Compounder [SAMPLE DATA]"]
 
   - id: "ACT-04"
     short_name: "Buffer Stock"
@@ -113,7 +113,7 @@ actions:
         reason: "Standard inspection protocols preserved."
       Logistics:
         status: "-"
-        reason: "Warehouse yard congestion at Chennai and Sanand plants."
+        reason: "Warehouse yard congestion at central plant hubs."
       Sales:
         status: "+"
         reason: "100% On-Time Delivery (OTIF) maintained."
@@ -177,7 +177,7 @@ actions:
       Sales:
         status: "+"
         reason: "Provides credible revised schedules to OEM dispatch planners."
-    affected_suppliers: ["Maersk Line", "Mediterranean Shipping Company (MSC)"]
+    affected_suppliers: ["Global Container Carrier A", "Global Container Carrier B [SAMPLE DATA]"]
 
   - id: "ACT-07"
     short_name: "Consolidate Boxes"
@@ -267,7 +267,7 @@ actions:
       Sales:
         status: "-"
         reason: "Requires temporary delivery re-scheduling on secondary product lines."
-    affected_suppliers: ["Plant Operations (Puducherry, Sanand, Pantnagar, Queretaro)"]
+    affected_suppliers: ["Manufacturing Plant Units 1 to 4 [SAMPLE DATA]"]
 
   - id: "ACT-10"
     short_name: "Do Nothing"

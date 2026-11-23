@@ -193,3 +193,162 @@ def get_shock_radar_signals() -> list[dict]:
     })
 
     return signals
+
+
+def make_svg_sparkline(values: list[float], stroke_color: str = "#2F5D7C", width: int = 50, height: int = 16) -> str:
+    """Generates an inline SVG polyline sparkline."""
+    if not values or len(values) < 2:
+        return ""
+    min_v, max_v = min(values), max(values)
+    rng = max_v - min_v if max_v != min_v else 1.0
+    pts = []
+    for i, v in enumerate(values):
+        x = 2 + (i / (len(values) - 1)) * (width - 4)
+        y = (height - 3) - ((v - min_v) / rng) * (height - 6)
+        pts.append(f"{x:.1f},{y:.1f}")
+    pts_str = " ".join(pts)
+    return f'<svg width="{width}" height="{height}" viewBox="0 0 {width} {height}" style="vertical-align: middle; margin: 0 4px;"><polyline fill="none" stroke="{stroke_color}" stroke-width="1.5" points="{pts_str}" /></svg>'
+
+
+def get_market_tape() -> list[dict]:
+    """
+    T1: Builds the live commodity, freight, and forex market tape directly
+    from data/processed/* series. Every number identically matches the radar
+    and processed datasets.
+    """
+    tape_items = []
+
+    def _extract_series(filename: str, date_col: str, val_col: str):
+        path = os.path.join(PROCESSED_DIR, filename)
+        if not os.path.exists(path):
+            return 0.0, 0.0, 0.0, []
+        df = pd.read_csv(path)
+        df[date_col] = pd.to_datetime(df[date_col])
+        df = df.sort_values(date_col)
+        fy25 = df[(df[date_col] >= '2024-04-01') & (df[date_col] <= '2025-03-31')][val_col]
+        fy25_avg = float(fy25.mean()) if len(fy25) > 0 else float(df[val_col].iloc[-1])
+        latest = float(df[val_col].iloc[-1])
+        history = [float(x) for x in df[val_col].tail(16).tolist() if pd.notnull(x)]
+        chg_pct = ((latest - fy25_avg) / fy25_avg) * 100.0 if fy25_avg != 0 else 0.0
+        return latest, fy25_avg, chg_pct, history
+
+    # 1. Copper
+    cu_lat, cu_base, cu_chg, cu_hist = _extract_series('copper.csv', 'ds', 'y')
+    cu_color = "#C2382B" if cu_chg > 10 else ("#1E8A4C" if cu_chg < 0 else "#C98A0B")
+    tape_items.append({
+        "id": "copper",
+        "label": "COPPER (LME)",
+        "unit": "$/t",
+        "latest": cu_lat,
+        "baseline_fy25": cu_base,
+        "change_pct": cu_chg,
+        "formatted_val": f"${cu_lat:,.0f}/t",
+        "formatted_chg": f"+{cu_chg:.1f}%" if cu_chg >= 0 else f"−{abs(cu_chg):.1f}%",
+        "is_up": cu_chg >= 0,
+        "color": cu_color,
+        "sparkline_svg": make_svg_sparkline(cu_hist, stroke_color=cu_color)
+    })
+
+    # 2. Aluminium
+    al_lat, al_base, al_chg, al_hist = _extract_series('aluminium.csv', 'ds', 'y')
+    al_color = "#C2382B" if al_chg > 10 else ("#1E8A4C" if al_chg < 0 else "#C98A0B")
+    tape_items.append({
+        "id": "aluminium",
+        "label": "ALUMINIUM (LME)",
+        "unit": "$/t",
+        "latest": al_lat,
+        "baseline_fy25": al_base,
+        "change_pct": al_chg,
+        "formatted_val": f"${al_lat:,.0f}/t",
+        "formatted_chg": f"+{al_chg:.1f}%" if al_chg >= 0 else f"−{abs(al_chg):.1f}%",
+        "is_up": al_chg >= 0,
+        "color": al_color,
+        "sparkline_svg": make_svg_sparkline(al_hist, stroke_color=al_color)
+    })
+
+    # 3. Nickel
+    ni_lat, ni_base, ni_chg, ni_hist = _extract_series('nickel.csv', 'ds', 'y')
+    ni_color = "#C2382B" if ni_chg > 10 else ("#1E8A4C" if ni_chg < 0 else "#C98A0B")
+    tape_items.append({
+        "id": "nickel",
+        "label": "NICKEL (LME)",
+        "unit": "$/t",
+        "latest": ni_lat,
+        "baseline_fy25": ni_base,
+        "change_pct": ni_chg,
+        "formatted_val": f"${ni_lat:,.0f}/t",
+        "formatted_chg": f"+{ni_chg:.1f}%" if ni_chg >= 0 else f"−{abs(ni_chg):.1f}%",
+        "is_up": ni_chg >= 0,
+        "color": ni_color,
+        "sparkline_svg": make_svg_sparkline(ni_hist, stroke_color=ni_color)
+    })
+
+    # 4. Steel HR
+    fe_lat, fe_base, fe_chg, fe_hist = _extract_series('steel_hr.csv', 'ds', 'y')
+    fe_color = "#C2382B" if fe_chg > 10 else ("#1E8A4C" if fe_chg < 0 else "#C98A0B")
+    tape_items.append({
+        "id": "steel_hr",
+        "label": "STEEL HR (DOMESTIC)",
+        "unit": "₹/t",
+        "latest": fe_lat,
+        "baseline_fy25": fe_base,
+        "change_pct": fe_chg,
+        "formatted_val": f"₹{fe_lat:,.0f}/t",
+        "formatted_chg": f"+{fe_chg:.1f}%" if fe_chg >= 0 else f"−{abs(fe_chg):.1f}%",
+        "is_up": fe_chg >= 0,
+        "color": fe_color,
+        "sparkline_svg": make_svg_sparkline(fe_hist, stroke_color=fe_color)
+    })
+
+    # 5. Freight
+    fr_lat, fr_base, fr_chg, fr_hist = _extract_series('freight_fixed.csv', 'ds', 'rate')
+    fr_color = "#C2382B" if fr_chg > 10 else ("#1E8A4C" if fr_chg < 0 else "#C98A0B")
+    tape_items.append({
+        "id": "freight",
+        "label": "CONTAINER FREIGHT",
+        "unit": "$/FEU",
+        "latest": fr_lat,
+        "baseline_fy25": fr_base,
+        "change_pct": fr_chg,
+        "formatted_val": f"${fr_lat:,.0f}/FEU",
+        "formatted_chg": f"+{fr_chg:.1f}%" if fr_chg >= 0 else f"−{abs(fr_chg):.1f}%",
+        "is_up": fr_chg >= 0,
+        "color": fr_color,
+        "sparkline_svg": make_svg_sparkline(fr_hist, stroke_color=fr_color)
+    })
+
+    # 6. USD / INR
+    fx_lat, fx_base, fx_chg, fx_hist = _extract_series('fx_daily.csv', 'date', 'rate')
+    fx_color = "#C2382B" if fx_chg > 5 else ("#1E8A4C" if fx_chg < 0 else "#C98A0B")
+    tape_items.append({
+        "id": "fx",
+        "label": "USD / INR",
+        "unit": "₹",
+        "latest": fx_lat,
+        "baseline_fy25": fx_base,
+        "change_pct": fx_chg,
+        "formatted_val": f"₹{fx_lat:.2f}",
+        "formatted_chg": f"+{fx_chg:.1f}%" if fx_chg >= 0 else f"−{abs(fx_chg):.1f}%",
+        "is_up": fx_chg >= 0,
+        "color": fx_color,
+        "sparkline_svg": make_svg_sparkline(fx_hist, stroke_color=fx_color)
+    })
+
+    # 7. Brent
+    br_lat, br_base, br_chg, br_hist = _extract_series('brent.csv', 'ds', 'price_bbl')
+    br_color = "#C2382B" if br_chg > 10 else ("#1E8A4C" if br_chg < 0 else "#C98A0B")
+    tape_items.append({
+        "id": "brent",
+        "label": "BRENT CRUDE",
+        "unit": "$/bbl",
+        "latest": br_lat,
+        "baseline_fy25": br_base,
+        "change_pct": br_chg,
+        "formatted_val": f"${br_lat:.1f}/bbl",
+        "formatted_chg": f"+{br_chg:.1f}%" if br_chg >= 0 else f"−{abs(br_chg):.1f}%",
+        "is_up": br_chg >= 0,
+        "color": br_color,
+        "sparkline_svg": make_svg_sparkline(br_hist, stroke_color=br_color)
+    })
+
+    return tape_items

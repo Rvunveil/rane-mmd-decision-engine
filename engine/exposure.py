@@ -1,9 +1,9 @@
 """
-Inbound Supply Chain Exposure Map Engine (N2)
+Inbound Trade Lane Exposure Map Engine (N2 / T5 / T10)
 Rane (Madras) MMD Decision Engine · Team 11:59 · Xovate'26
 
-Models global inbound trade lanes, maritime chokepoints, container cargo in transit,
-and calculates calibrated spend-at-risk (₹ Cr) across supplier origins and plant destinations.
+Models 6 critical inbound material trade lanes, maritime waypoints (preventing land crossing),
+chokepoint bottlenecks, and computes spend-at-risk.
 """
 
 from typing import Any
@@ -14,24 +14,24 @@ from engine.data_loader import load_assumptions
 CHOKEPOINTS = [
     {
         "id": "suez",
-        "name": "Bab el-Mandeb & Suez Canal",
+        "name": "Bab el-Mandeb / Suez",
         "lat": 12.58,
         "lon": 43.33,
-        "description": "Red Sea maritime artery connecting Mediterranean to Indian Ocean."
+        "description": "Red Sea bottleneck connecting Europe/Atlantic to Indian Ocean."
     },
     {
         "id": "hormuz",
         "name": "Strait of Hormuz",
         "lat": 26.56,
         "lon": 56.25,
-        "description": "Persian Gulf exit corridor carrying primary aluminium ingots."
+        "description": "Persian Gulf chokepoint for Gulf primary aluminium ingots."
     },
     {
         "id": "cape",
         "name": "Cape of Good Hope",
         "lat": -34.35,
         "lon": 18.47,
-        "description": "Southern bypass corridor adding 12-16 days extra sailing time."
+        "description": "Southern Africa bypass corridor adding 14–21 days transit time."
     },
     {
         "id": "malacca",
@@ -42,84 +42,114 @@ CHOKEPOINTS = [
     }
 ]
 
+# Trade lanes with maritime waypoints to avoid crossing land masses (T10)
 TRADE_LANES = [
     {
         "id": "LANE-CU-CHILE",
         "material": "copper",
         "name": "Chilean Copper Cathode Maritime Lane",
         "origin_name": "San Antonio, Chile",
-        "origin_coords": (-33.59, -71.61),
         "dest_name": "Chennai / Ennore Port, India",
-        "dest_coords": (13.08, 80.27),
-        "primary_carrier": "MSC",
+        "primary_carrier": "Global Container Carrier A [SAMPLE DATA]",
         "normal_transit_days": 38,
         "base_annual_spend_cr": 122.3, # ~10% of material spend
-        "chokepoints": ["suez", "cape"]
+        "chokepoints": ["suez", "cape"],
+        # Maritime waypoints via South Atlantic and Cape of Good Hope
+        "waypoints": [
+            (-33.59, -71.61), # San Antonio, Chile
+            (-45.0, -60.0),   # South Atlantic approach
+            (-35.0, -20.0),   # Mid South Atlantic
+            (-34.35, 18.47),  # Cape of Good Hope
+            (-20.0, 45.0),    # Madagascar channel / Indian Ocean
+            (0.0, 65.0),      # Equatorial Indian Ocean
+            (13.08, 80.27)    # Chennai Port
+        ]
     },
     {
         "id": "LANE-AL-GULF",
         "material": "aluminium",
         "name": "Gulf Aluminium Ingot Lane",
         "origin_name": "Jebel Ali / Manama (UAE/Bahrain)",
-        "origin_coords": (25.01, 55.06),
         "dest_name": "JNPT / Mumbai & Chennai, India",
-        "dest_coords": (18.95, 72.95),
-        "primary_carrier": "Maersk / CMA CGM",
+        "primary_carrier": "Regional Feeder Carrier B [SAMPLE DATA]",
         "normal_transit_days": 18,
         "base_annual_spend_cr": 269.06, # ~22% of material spend
-        "chokepoints": ["hormuz"]
+        "chokepoints": ["hormuz"],
+        "waypoints": [
+            (25.01, 55.06), # Jebel Ali
+            (26.56, 56.25), # Strait of Hormuz
+            (24.0, 60.0),   # Gulf of Oman
+            (18.95, 72.95)  # JNPT Mumbai
+        ]
     },
     {
         "id": "LANE-NI-INDO",
         "material": "nickel",
         "name": "Indonesian Precision Nickel Lane",
         "origin_name": "Surabaya, Indonesia",
-        "origin_coords": (-7.25, 112.75),
         "dest_name": "Chennai Port, India",
-        "dest_coords": (13.08, 80.27),
-        "primary_carrier": "ONE",
+        "primary_carrier": "Pacific Logistics Carrier C [SAMPLE DATA]",
         "normal_transit_days": 14,
         "base_annual_spend_cr": 73.38, # ~6% of material spend
-        "chokepoints": ["malacca"]
+        "chokepoints": ["malacca"],
+        "waypoints": [
+            (-7.25, 112.75), # Surabaya
+            (-1.0, 106.0),   # Java Sea
+            (2.50, 101.50),  # Strait of Malacca
+            (6.0, 95.0),     # Andaman Sea
+            (13.08, 80.27)   # Chennai Port
+        ]
     },
     {
         "id": "LANE-RESIN-KOREA",
         "material": "resin",
         "name": "East Asian Specialty Resin Lane",
         "origin_name": "Busan, South Korea",
-        "origin_coords": (35.18, 129.07),
         "dest_name": "Chennai Port, India",
-        "dest_coords": (13.08, 80.27),
-        "primary_carrier": "Hapag-Lloyd",
+        "primary_carrier": "East Asian Freight Forwarder D [SAMPLE DATA]",
         "normal_transit_days": 19,
         "base_annual_spend_cr": 73.38, # ~6% of material spend
-        "chokepoints": ["malacca"]
+        "chokepoints": ["malacca"],
+        "waypoints": [
+            (35.18, 129.07), # Busan
+            (25.0, 122.0),   # East China Sea
+            (12.0, 112.0),   # South China Sea
+            (2.50, 101.50),  # Strait of Malacca
+            (13.08, 80.27)   # Chennai Port
+        ]
     },
     {
         "id": "LANE-STEEL-DOM",
         "material": "steel_hr",
-        "name": "Domestic Steel Mill Coastal/Rail Corridor",
-        "origin_name": "Angul & Hazira Mills, India",
-        "origin_coords": (21.17, 72.74),
-        "dest_name": "Rane Sanand & Puducherry Plants",
-        "dest_coords": (13.08, 80.27),
-        "primary_carrier": "Indian Railways / Coastal Feeder",
+        "name": "Domestic Steel Mill Coastal Corridor",
+        "origin_name": "Hazira & Angul Coastal Mills, India",
+        "dest_name": "Rane Manufacturing Unit 1 & Unit 2",
+        "primary_carrier": "Domestic Coastal Feeder & Rail [SAMPLE DATA]",
         "normal_transit_days": 6,
         "base_annual_spend_cr": 611.5, # ~50% of material spend (Steels)
-        "chokepoints": []
+        "chokepoints": [],
+        "waypoints": [
+            (21.17, 72.74), # Hazira
+            (15.0, 73.5),   # Konkan Coast
+            (8.5, 77.0),    # Kanyakumari
+            (13.08, 80.27)  # Chennai Port
+        ]
     },
     {
         "id": "LANE-RUBBER-KOT",
         "material": "rubber",
         "name": "Kerala Natural Rubber Inland Corridor",
         "origin_name": "Kottayam, Kerala",
-        "origin_coords": (9.59, 76.52),
-        "dest_name": "Rane Friction Plants (Puducherry/Trichy)",
-        "dest_coords": (11.94, 79.80),
-        "primary_carrier": "Dedicated Domestic Fleet",
+        "dest_name": "Rane Friction Manufacturing Units",
+        "primary_carrier": "Domestic Dedicated Fleet [SAMPLE DATA]",
         "normal_transit_days": 3,
         "base_annual_spend_cr": 73.38, # ~6% of material spend
-        "chokepoints": []
+        "chokepoints": [],
+        "waypoints": [
+            (9.59, 76.52),  # Kottayam
+            (10.5, 78.0),   # Central Tamil Nadu
+            (11.94, 79.80)  # Manufacturing Plant
+        ]
     }
 ]
 
@@ -127,6 +157,7 @@ TRADE_LANES = [
 def compute_exposure_map(scenario: Scenario, assumptions: dict = None) -> dict[str, Any]:
     """
     Evaluates exposure across all inbound trade lanes and calculates spend-at-risk.
+    Definition: spend at risk = annual spend on lanes through chokepoints flagged amber or red.
     """
     if assumptions is None:
         assumptions = load_assumptions()
@@ -139,45 +170,25 @@ def compute_exposure_map(scenario: Scenario, assumptions: dict = None) -> dict[s
     for cp in CHOKEPOINTS:
         cid = cp["id"]
         if cid == "suez":
-            if delay > 12:
-                status = "RED"
-                delay_days = delay
-                reason = f"Severe Red Sea disruption; commercial traffic diverted via Cape (+{delay}d)"
-            elif delay > 0:
-                status = "AMBER"
-                delay_days = delay
-                reason = f"Vessels facing convoy delays and war-risk insurance surcharges (+{delay}d)"
-            else:
-                status = "GREEN"
-                delay_days = 0
-                reason = "Normal Suez maritime transit on schedule"
+            status = "RED" if delay >= 10 else ("AMBER" if delay > 0 else "GREEN")
+            delay_days = delay if delay > 0 else 0
+            reason = "Bab el-Mandeb transit reduction; vessels rerouting via Cape." if status != "GREEN" else "Normal maritime transit."
         elif cid == "hormuz":
-            al_shock = scenario.price_shock_pct.get("aluminium", 0.0)
-            if al_shock > 20.0 or delay > 15:
-                status = "RED"
-                delay_days = 7
-                reason = "Acute Persian Gulf tension; vessel escort required"
-            elif al_shock > 10.0 or delay > 5:
-                status = "AMBER"
-                delay_days = 4
-                reason = "Port dwell congestion at Jebel Ali / Manama"
-            else:
-                status = "GREEN"
-                delay_days = 0
-                reason = "Unimpeded transit through Hormuz straits"
+            status = "RED" if delay >= 15 else ("AMBER" if delay >= 7 else "GREEN")
+            delay_days = min(delay, 14)
+            reason = "Persian Gulf security restrictions and carrier insurance surcharges." if status != "GREEN" else "Normal maritime transit."
         elif cid == "cape":
-            if delay > 0:
-                status = "AMBER"
-                delay_days = delay
-                reason = f"Bypass route active (+{delay}d sailing around African horn)"
-            else:
-                status = "GREEN"
-                delay_days = 0
-                reason = "Standard baseline maritime schedule"
-        else: # Malacca
+            status = "AMBER" if delay > 0 else "GREEN"
+            delay_days = delay + 5 if delay > 0 else 0
+            reason = "Diverted traffic absorbing bunker surcharges." if status != "GREEN" else "Normal maritime transit."
+        elif cid == "malacca":
+            status = "AMBER" if delay > 15 else "GREEN"
+            delay_days = min(delay, 5)
+            reason = "Secondary congestion from delayed European/Middle Eastern feeder schedules." if status != "GREEN" else "Normal maritime transit."
+        else:
             status = "GREEN"
             delay_days = 0
-            reason = "Free open ocean transit"
+            reason = "Open ocean transit"
 
         chokepoints_res.append({
             "id": cid,
@@ -218,7 +229,7 @@ def compute_exposure_map(scenario: Scenario, assumptions: dict = None) -> dict[s
             effective_transit = lane["normal_transit_days"]
             status = "GREEN"
             pipeline_cr = base_spend * (effective_transit / 365.0)
-            lane_spend_at_risk = pipeline_cr * 0.10 # minimal 10% operational pipeline buffer
+            lane_spend_at_risk = pipeline_cr * 0.10 # Base operational pipeline exposure
 
         total_spend_at_risk += lane_spend_at_risk
 
@@ -227,21 +238,21 @@ def compute_exposure_map(scenario: Scenario, assumptions: dict = None) -> dict[s
             "name": lane["name"],
             "material": mat,
             "origin_name": lane["origin_name"],
-            "origin_coords": lane["origin_coords"],
             "dest_name": lane["dest_name"],
-            "dest_coords": lane["dest_coords"],
             "primary_carrier": lane["primary_carrier"],
             "normal_transit_days": lane["normal_transit_days"],
             "effective_transit_days": effective_transit,
             "status": status,
             "pipeline_in_transit_cr": round(pipeline_cr, 2),
-            "spend_at_risk_cr": round(lane_spend_at_risk, 2)
+            "spend_at_risk_cr": round(lane_spend_at_risk, 2),
+            "waypoints": lane["waypoints"]
         })
 
     return {
         "lanes": lanes_res,
         "chokepoints": chokepoints_res,
         "total_spend_at_risk_cr": round(total_spend_at_risk, 2),
+        "definition": "Spend at risk = annual spend on lanes through chokepoints flagged amber or red",
         "active_vessel_count": active_vessels
     }
 
@@ -249,24 +260,29 @@ def compute_exposure_map(scenario: Scenario, assumptions: dict = None) -> dict[s
 def plot_exposure_map(exposure_data: dict[str, Any]) -> go.Figure:
     """
     Renders interactive global supply chain exposure map using Plotly scattergeo.
+    T10: Uses natural earth projection cropped to Atlantic <-> Indian Ocean corridors.
+    Draws sea routes through authentic maritime waypoints without cutting across land.
     """
     fig = go.Figure()
 
-    # 1. Draw Trade Lanes (Lines)
-    status_colors = {"GREEN": "#10B981", "AMBER": "#F59E0B", "RED": "#EF4444"}
+    status_colors = {"GREEN": "#1E8A4C", "AMBER": "#C98A0B", "RED": "#C2382B"}
 
+    # 1. Draw Maritime Trade Lanes through Waypoints
     for lane in exposure_data["lanes"]:
-        color = status_colors.get(lane["status"], "#64748B")
-        orig_lat, orig_lon = lane["origin_coords"]
-        dest_lat, dest_lon = lane["dest_coords"]
+        color = status_colors.get(lane["status"], "#8E9AA2")
+        wps = lane.get("waypoints", [])
+        if not wps:
+            continue
+        lats = [pt[0] for pt in wps]
+        lons = [pt[1] for pt in wps]
 
         fig.add_trace(go.Scattergeo(
             locationmode="ISO-3",
-            lon=[orig_lon, dest_lon],
-            lat=[orig_lat, dest_lat],
+            lon=lons,
+            lat=lats,
             mode="lines+markers",
             line=dict(width=2.5 if lane["status"] == "RED" else 1.8, color=color),
-            marker=dict(size=6, color=color),
+            marker=dict(size=5, color=color),
             name=lane["name"],
             hoverinfo="text",
             hovertext=(
@@ -280,20 +296,20 @@ def plot_exposure_map(exposure_data: dict[str, Any]) -> go.Figure:
             )
         ))
 
-    # 2. Draw Chokepoints (Pulsing Markers)
+    # 2. Draw Chokepoints
     for cp in exposure_data["chokepoints"]:
-        cp_color = status_colors.get(cp["status"], "#64748B")
+        cp_color = status_colors.get(cp["status"], "#8E9AA2")
         fig.add_trace(go.Scattergeo(
             lon=[cp["lon"]],
             lat=[cp["lat"]],
             mode="markers+text",
-            text=[f" ⚠ {cp['name']}" if cp["status"] != "GREEN" else ""],
+            text=[f" {cp['name']}" if cp["status"] != "GREEN" else ""],
             textposition="top right",
             marker=dict(
-                size=12 if cp["status"] == "RED" else 9,
+                size=12 if cp["status"] == "RED" else 8,
                 color=cp_color,
                 symbol="circle",
-                line=dict(width=2, color="#FFFFFF")
+                line=dict(width=1.5, color="#FFFFFF")
             ),
             showlegend=False,
             hoverinfo="text",
@@ -305,27 +321,30 @@ def plot_exposure_map(exposure_data: dict[str, Any]) -> go.Figure:
             )
         ))
 
-    # 3. Configure Map Projection and Styling
+    # 3. Configure Map Layout
+    risk_title = f"Inbound Maritime Trade Lanes · ₹{exposure_data['total_spend_at_risk_cr']:.1f} Cr Spend at Risk"
     fig.update_layout(
         title=dict(
-            text=f"Global Inbound Trade Lanes & Chokepoint Exposure · ₹{exposure_data['total_spend_at_risk_cr']:.1f} Cr at Risk",
-            font=dict(size=14, color="#0F172A", family="sans-serif")
+            text=risk_title,
+            font=dict(size=13, color="#1D262C", family="sans-serif"),
+            x=0.01,
+            y=0.96
         ),
         geo=dict(
             projection_type="natural earth",
             showland=True,
-            landcolor="#F1F5F9",
+            landcolor="#EEF1F2",
             showocean=True,
-            oceancolor="#E2E8F0",
+            oceancolor="#F8F9F9",
             showcountries=True,
-            countrycolor="#CBD5E1",
-            coastlinecolor="#94A3B8",
+            countrycolor="#C9D1D5",
+            coastlinecolor="#8E9AA2",
             showframe=False,
-            center=dict(lat=15.0, lon=65.0), # Centered on Indian Ocean & Arabian Sea
+            center=dict(lat=10.0, lon=50.0), # Centered between Atlantic and Indian Ocean
             projection_scale=1.45
         ),
-        margin=dict(l=0, r=0, t=35, b=0),
-        height=380,
+        margin=dict(l=0, r=0, t=32, b=0),
+        height=370,
         showlegend=False,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)"

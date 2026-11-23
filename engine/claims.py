@@ -1,9 +1,15 @@
 """
-OEM Price-Recovery Claim Pack Generator (N5)
+OEM Price-Recovery Claim Pack Generator (N5 / T5)
 Rane (Madras) MMD Decision Engine · Team 11:59 · Xovate'26
 
-Generates auditable price escalation claim dossiers for Tier-1 OEM customer negotiations,
-partitioned across operating divisions with index-linked citations and HTML claim memo.
+Generates internal commercial price escalation reconciliations for OEM customer negotiations,
+partitioned across operating divisions using authentic dataset benchmark citations.
+
+T5 Compliance:
+- Fully neutral OEM and supplier labels tagged [SAMPLE DATA]
+- Cites only authentic series present in data/processed: LME Copper/Aluminium/Nickel,
+  Ministry of Steel HR/CR, Kottayam RSS-4, IMARC Resin, and Container Freight Index.
+- Neutral non-legal wording: "Indicative price-variation claim basis (for internal review)"
 """
 
 from typing import Any
@@ -31,35 +37,35 @@ def generate_oem_claims_pack(
     div_specs = [
         {
             "id": "steering",
-            "name": "Steering & Mechanical Linkages",
-            "oem_customers": "Maruti Suzuki, Tata Motors, M&M",
+            "name": "Steering & Mechanical Linkages Division",
+            "oem_customers": "Passenger Vehicle OEM Group A & Commercial Vehicle OEM B [SAMPLE DATA]",
             "share": 0.40,
-            "primary_index": "Ministry of Steel HRC/CRC Index + LME Al Cash",
+            "primary_index": "Ministry of Steel Domestic HRC Benchmark + LME Aluminium Cash Settlement",
             "inputs_cited": "Special Quality Steel Bar, Forging Billets, Bushings"
         },
         {
             "id": "castings",
-            "name": "Light-Metal Die Castings (India & Mexico)",
-            "oem_customers": "Tata Motors, Ashok Leyland, Global Tier-1s",
+            "name": "Light-Metal Die Castings Division",
+            "oem_customers": "Domestic Tier-1 Assembly Group C & Export Tier-1 Group D [SAMPLE DATA]",
             "share": 0.27,
-            "primary_index": "LME Aluminium Settlement + Cape Freight Surcharge",
-            "inputs_cited": "Primary Aluminium A356/ADC12 Ingot, Copper Grain"
+            "primary_index": "LME Aluminium Cash Settlement + Inbound Container Freight Index",
+            "inputs_cited": "Primary Aluminium Ingot (A356/ADC12), Copper Grain"
         },
         {
             "id": "friction",
-            "name": "Friction Materials & Brake Linings",
-            "oem_customers": "Brembo, Tata Motors, Aftermarket Export",
+            "name": "Friction Materials Division",
+            "oem_customers": "Braking System OEM Group E & Commercial Vehicle OEM F [SAMPLE DATA]",
             "share": 0.18,
-            "primary_index": "Kottayam RSS-4 Spot + ICIS Phenolic Resin Index",
-            "inputs_cited": "Phenolic Binder Resin, Kottayam Rubber, Copper Fibers"
+            "primary_index": "Kottayam RSS-4 Natural Rubber Benchmark + IMARC Phenolic Resin Index",
+            "inputs_cited": "Phenolic Binder Resin, Kottayam Natural Rubber, Copper Powders"
         },
         {
             "id": "valves",
-            "name": "Engine Valves & Precision Actuation",
-            "oem_customers": "Hyundai India, Renault-Nissan, Cummins",
+            "name": "Engine Valves & Precision Actuation Division",
+            "oem_customers": "Powertrain Engine OEM Group G & Off-Highway Customer H [SAMPLE DATA]",
             "share": 0.15,
-            "primary_index": "LME Nickel Cash + European Valve Alloy Surcharge",
-            "inputs_cited": "21-4N Austenitic Steel, Nimonic Nickel Superalloys"
+            "primary_index": "LME Nickel Cash Settlement + Ministry of Steel Domestic Benchmark",
+            "inputs_cited": "Austenitic Valve Steel (21-4N), High-Nickel Superalloys"
         }
     ]
 
@@ -77,42 +83,41 @@ def generate_oem_claims_pack(
             "inputs_cited": d["inputs_cited"]
         })
 
-    # Render HTML executive claim memo
+    # Render HTML executive claim memo with neutral internal wording
     html_memo = f"""
-    <div style="font-family: Arial, sans-serif; border: 2px solid #0F172A; padding: 24px; border-radius: 8px; background: #FFFFFF; color: #0F172A;">
-        <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #0284C7; padding-bottom: 12px; margin-bottom: 16px;">
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; border: 1px solid #C9D1D5; padding: 24px; border-radius: 6px; background: #FFFFFF; color: #1D262C;">
+        <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #2F5D7C; padding-bottom: 12px; margin-bottom: 16px;">
             <div>
-                <h2 style="margin: 0; color: #0F172A; letter-spacing: -0.02em;">RANE (MADRAS) LIMITED</h2>
-                <div style="font-size: 0.85rem; color: #64748B;">Materials Management Department (MMD) · Corporate Commercial Office</div>
-                <div style="font-size: 0.8rem; color: #94A3B8;">Registered Office: 154, Velachery Road, Chennai 600 042, India</div>
+                <h2 style="margin: 0; color: #1D262C; font-size: 1.25rem; font-weight: 600;">RANE (MADRAS) LIMITED</h2>
+                <div style="font-size: 0.85rem; color: #536471;">Materials Management Department (MMD) · Commercial Operations</div>
+                <div style="font-size: 0.8rem; color: #8E9AA2;">Head Office: Chennai, Tamil Nadu, India</div>
             </div>
             <div style="text-align: right;">
-                <span style="background: #0284C7; color: #FFF; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;">OFFICIAL PRICE ESCALATION CLAIM</span>
-                <div style="font-size: 0.85rem; margin-top: 6px; font-weight: bold;">DOSSIER REF: RML/MMD/2026/Q1-REV</div>
-                <div style="font-size: 0.8rem; color: #64748B;">Active Scenario: {scenario.name}</div>
+                <span style="background: #2F5D7C; color: #FFF; padding: 4px 10px; border-radius: 4px; font-size: 0.72rem; font-weight: 600;">INDICATIVE PRICE-VARIATION CLAIM BASIS (FOR INTERNAL REVIEW)</span>
+                <div style="font-size: 0.82rem; margin-top: 6px; font-weight: 600;">DOSSIER REF: RML/MMD/2026/INTERNAL-RECON</div>
+                <div style="font-size: 0.78rem; color: #536471;">Active Scenario: {scenario.name}</div>
             </div>
         </div>
 
-        <p style="font-size: 0.9rem; line-height: 1.5;">
-            <b>TO:</b> Heads of Strategic Procurement & Vendor Development (Tier-1 OEM Customers)<br>
-            <b>SUBJECT:</b> Contractual Raw Material & Ocean Freight Price Recovery Claim under Long-Term Supply Agreements (Clause 4.2)
+        <p style="font-size: 0.88rem; line-height: 1.5; color: #1D262C;">
+            <b>DOCUMENT TYPE:</b> Indicative Price-Variation Claim Basis (For Internal Review)<br>
+            <b>SUBJECT:</b> Internal Commercial Reconciliation: Raw Material & Inbound Freight Cost Variation Analysis [TEAM ASSUMPTION]
         </p>
 
-        <p style="font-size: 0.85rem; line-height: 1.6; color: #334155;">
-            In accordance with the index-linked price variation clauses established in our master supply agreements, 
-            Rane (Madras) Limited hereby submits this formal reconciliation claim for verified cost increases across 
-            global commodity feeds and container ocean lanes. Our pass-through absorption is currently calibrated at 
-            <b>{scenario.oem_pass_through_pct:.1f}%</b> under a contract settlement lag of <b>{scenario.pass_through_lag_days} days</b>.
+        <p style="font-size: 0.84rem; line-height: 1.6; color: #536471;">
+            Prepared for internal executive review by the Materials Management Department (MMD). Evaluates contract indexation 
+            mechanics across global commodity benchmarks and inbound container lanes. Pass-through recovery is currently 
+            calibrated at <b>{scenario.oem_pass_through_pct:.1f}%</b> under an indicative settlement lag of <b>{scenario.pass_through_lag_days} days</b>.
         </p>
 
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 16px 0;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.84rem; margin: 16px 0;">
             <thead>
-                <tr style="background: #F1F5F9; border-bottom: 2px solid #CBD5E1; text-align: left;">
+                <tr style="background: #EEF1F2; border-bottom: 2px solid #C9D1D5; text-align: left;">
                     <th style="padding: 8px;">Operating Division</th>
-                    <th style="padding: 8px;">Key Benchmark Index</th>
+                    <th style="padding: 8px;">Benchmark Index Basis</th>
                     <th style="padding: 8px; text-align: right;">Gross Cost Shock</th>
-                    <th style="padding: 8px; text-align: right;">Contract Claim (₹ Cr)</th>
-                    <th style="padding: 8px; text-align: right;">Rane Absorbed (₹ Cr)</th>
+                    <th style="padding: 8px; text-align: right;">Indicative Claim (₹ Cr)</th>
+                    <th style="padding: 8px; text-align: right;">Unrecovered (₹ Cr)</th>
                 </tr>
             </thead>
             <tbody>
@@ -120,35 +125,35 @@ def generate_oem_claims_pack(
     for d in divisions_res:
         gross_div = d["claim_amount_cr"] + d["unrecovered_gap_cr"]
         html_memo += f"""
-                <tr style="border-bottom: 1px solid #E2E8F0;">
-                    <td style="padding: 8px;"><b>{d['division_name']}</b><br><span style="font-size:0.75rem; color:#64748B;">{d['oem_customers']}</span></td>
-                    <td style="padding: 8px; font-size: 0.8rem; color: #475569;">{d['primary_index']}</td>
-                    <td style="padding: 8px; text-align: right;">₹ {gross_div:.2f} Cr</td>
-                    <td style="padding: 8px; text-align: right; font-weight: bold; color: #0284C7;">₹ {d['claim_amount_cr']:.2f} Cr</td>
-                    <td style="padding: 8px; text-align: right; color: #DC2626;">₹ {d['unrecovered_gap_cr']:.2f} Cr</td>
+                <tr style="border-bottom: 1px solid #EEF1F2;">
+                    <td style="padding: 8px;"><b>{d['division_name']}</b><br><span style="font-size:0.75rem; color:#8E9AA2;">{d['oem_customers']}</span></td>
+                    <td style="padding: 8px; font-size: 0.8rem; color: #536471;">{d['primary_index']}</td>
+                    <td style="padding: 8px; text-align: right; font-variant-numeric: tabular-nums;">₹ {gross_div:.2f} Cr</td>
+                    <td style="padding: 8px; text-align: right; font-weight: 600; color: #2F5D7C; font-variant-numeric: tabular-nums;">₹ {d['claim_amount_cr']:.2f} Cr</td>
+                    <td style="padding: 8px; text-align: right; color: #C2382B; font-variant-numeric: tabular-nums;">₹ {d['unrecovered_gap_cr']:.2f} Cr</td>
                 </tr>
         """
     html_memo += f"""
-                <tr style="background: #F8FAFC; font-weight: bold; border-top: 2px solid #0F172A;">
-                    <td style="padding: 10px;">TOTAL RECONCILED CLAIM</td>
-                    <td style="padding: 10px; font-size: 0.8rem;">Consolidated Auto-Component Operations</td>
-                    <td style="padding: 10px; text-align: right;">₹ {results.delta_material_cr + results.delta_freight_cr:.2f} Cr</td>
-                    <td style="padding: 10px; text-align: right; color: #0284C7; font-size: 1rem;">₹ {total_recovery:.2f} Cr</td>
-                    <td style="padding: 10px; text-align: right; color: #DC2626; font-size: 1rem;">₹ {total_unrecovered:.2f} Cr</td>
+                <tr style="background: #F8F9F9; font-weight: 600; border-top: 2px solid #1D262C;">
+                    <td style="padding: 10px;">TOTAL RECONCILED BASIS</td>
+                    <td style="padding: 10px; font-size: 0.8rem; color: #536471;">Consolidated Component Operations</td>
+                    <td style="padding: 10px; text-align: right; font-variant-numeric: tabular-nums;">₹ {results.delta_material_cr + results.delta_freight_cr:.2f} Cr</td>
+                    <td style="padding: 10px; text-align: right; color: #2F5D7C; font-size: 0.95rem; font-variant-numeric: tabular-nums;">₹ {total_recovery:.2f} Cr</td>
+                    <td style="padding: 10px; text-align: right; color: #C2382B; font-size: 0.95rem; font-variant-numeric: tabular-nums;">₹ {total_unrecovered:.2f} Cr</td>
                 </tr>
             </tbody>
         </table>
 
-        <div style="margin-top: 24px; display: flex; justify-content: space-between; font-size: 0.8rem; border-top: 1px solid #E2E8F0; padding-top: 12px; color: #64748B;">
+        <div style="margin-top: 24px; display: flex; justify-content: space-between; font-size: 0.8rem; border-top: 1px solid #C9D1D5; padding-top: 12px; color: #8E9AA2;">
             <div>
-                <b>Submitted by:</b><br>
+                <b>Prepared by:</b><br>
                 Materials Management Department (MMD)<br>
                 Rane (Madras) Limited
             </div>
             <div style="text-align: right;">
-                <b>Verified by:</b><br>
-                Chief Financial Officer & Company Secretary<br>
-                Rane Group Corporate Office, Chennai
+                <b>Review Status:</b><br>
+                Internal Decision Brief [TEAM ASSUMPTION]<br>
+                Commercial Review Committee
             </div>
         </div>
     </div>

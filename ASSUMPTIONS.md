@@ -23,7 +23,7 @@ The ₹1,223 Cr raw material spend across the 7 inputs is calibrated against the
 |---|---|---|---|---|---|---|---|
 | **Steel HR Coil (2.5mm)** | Domestic Coil | INR | 28.0% | **₹ 342.44 Cr** | ₹ 60,442 / t | 56,656 t | Primary feedstock for steering gears, linkages, tie rods, and chassis members. |
 | **Steel CR Coil (0.63mm)** | Domestic Coil | INR | 22.0% | **₹ 269.06 Cr** | ₹ 69,066 / t | 38,957 t | Precision cold-formed steering columns and valve stem guides. |
-| **Aluminium (LME Cash)** | Imported Ingot | USD | 22.0% | **₹ 269.06 Cr** | $2,526 / t | 12,596 t | Light-metal die casting plants in India and Queretaro, Mexico. |
+| **Aluminium (LME Cash)** | Imported Ingot | USD | 22.0% | **₹ 269.06 Cr** | $2,526 / t | 12,596 t | Light-metal die casting plants in India and overseas light casting operations [SAMPLE DATA]. |
 | **Copper Cathode** | Imported Metal | USD | 10.0% | **₹ 122.30 Cr** | $9,369 / t | 1,544 t | Electric power steering components, sensor wiring, friction heat dispersants. |
 | **Nickel Metal** | Imported Metal | USD | 6.0% | **₹ 73.38 Cr** | $16,553 / t | 524 t | Superalloy additions for heat-resistant internal combustion engine valves. |
 | **Phenolic Resin** | Imported Organic | USD | 6.0% | **₹ 73.38 Cr** | $1,437 / t | 5,992 t | Thermosetting polymer binder for automotive brake linings and friction pads. |
@@ -38,10 +38,10 @@ Rane (Madras) operates four core manufacturing divisions. Material spend is allo
 
 | Division | Revenue Share | Material Share | Base Material Spend | Dominant Inputs | Operating Plants |
 |---|---|---|---|---|---|
-| **Steering & Linkages** | 42.0% | 40.0% | ₹ 489.20 Cr | Steel HR (45%), Steel CR (35%), Aluminium (12%), Rubber (5%), Copper (3%) | Puducherry, Pantnagar, Sanand |
-| **Light-Metal Castings** | 28.0% | 27.0% | ₹ 330.21 Cr | Aluminium (72%), Copper (10%), Steel HR (10%), Steel CR (8%) | Chennai, Queretaro (Mexico) |
+| **Steering & Linkages** | 42.0% | 40.0% | ₹ 489.20 Cr | Steel HR (45%), Steel CR (35%), Aluminium (12%), Rubber (5%), Copper (3%) | Plant Unit 1, Unit 2, Unit 3 [SAMPLE DATA] |
+| **Light-Metal Castings** | 28.0% | 27.0% | ₹ 330.21 Cr | Aluminium (72%), Copper (10%), Steel HR (10%), Steel CR (8%) | Domestic & Overseas Plant Units [SAMPLE DATA] |
 | **Friction Materials & Brake Pads** | 16.0% | 18.0% | ₹ 220.14 Cr | Resin (32%), Rubber (28%), Copper (20%), Steels (20%) | Ambattur, Hyderabad |
-| **Engine Valves** | 14.0% | 15.0% | ₹ 183.45 Cr | Steel CR (40%), Nickel (35%), Steel HR (15%), Others (10%) | Viralimalai, Tumkur |
+| **Engine Valves** | 14.0% | 15.0% | ₹ 183.45 Cr | Steel CR (40%), Nickel (35%), Steel HR (15%), Others (10%) | Component Manufacturing Units [SAMPLE DATA] |
 
 ---
 

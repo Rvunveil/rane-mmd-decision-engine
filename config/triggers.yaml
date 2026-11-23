@@ -8,7 +8,7 @@ triggers:
     red_condition: "> 12"
     owner: "Logistics & MMD"
     playbook_action: "ACT-06"
-    mitigation_sop: "Reroute shipments via Cape of Good Hope; secure 45-day rolling slot bookings with MSC and Maersk to prevent port dwell time."
+    mitigation_sop: "Reroute shipments via Cape of Good Hope; secure 45-day rolling slot bookings with primary container carriers [SAMPLE DATA] to prevent port dwell time."
 
   - id: "TRG-02"
     name: "Copper Spot Price Spike (LME Cathode)"
@@ -30,7 +30,7 @@ triggers:
     red_condition: "> 20"
     owner: "MMD & Castings Plant"
     playbook_action: "ACT-03"
-    mitigation_sop: "Qualify domestic secondary aluminium smelters (Hindalco/Vedanta) to bypass Gulf import lanes."
+    mitigation_sop: "Qualify domestic secondary aluminium smelters (domestic secondary smelters [SAMPLE DATA]) to bypass Gulf import lanes."
 
   - id: "TRG-04"
     name: "Container Freight Rate Surge"
@@ -52,7 +52,7 @@ triggers:
     red_condition: "> 16.0"
     owner: "Finance & Commercial"
     playbook_action: "ACT-02"
-    mitigation_sop: "Trigger clause 4.2 in Tier-1 supply agreements: demand monthly index-settlement and reduce recovery lag from 75d to 30d."
+    mitigation_sop: "Trigger indexation provisions in supply agreements [TEAM ASSUMPTION]: demand monthly index-settlement and reduce recovery lag from 75d to 30d."
 
   - id: "TRG-06"
     name: "Plant Buffer Depletion / Stock-out Risk"
@@ -74,4 +74,4 @@ triggers:
     red_condition: "> 92.0"
     owner: "Treasury"
     playbook_action: "ACT-01"
-    mitigation_sop: "Deploy dynamic USD/INR options collars with SBI/HDFC Treasury to cap import landed-cost depreciation."
+    mitigation_sop: "Deploy dynamic USD/INR options collars with bank consortium treasury desks [SAMPLE DATA] to cap import landed-cost depreciation."

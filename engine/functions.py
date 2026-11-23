@@ -97,7 +97,7 @@ def compute_cross_functional_lenses(
         "title": "Sales & Commercial OEM",
         "status": sales_status,
         "primary_kpi": f"₹{results.oem_recovery_cr:.1f} Cr Reimbursed",
-        "impact_summary": f"Customer negotiations required with Maruti, Tata, and M&M. Delivery schedules must be re-baselined to preserve 100% OTIF and avoid demerit penalties.",
+        "impact_summary": f"Customer commercial reconciliations required across primary OEM customer accounts [SAMPLE DATA]. Delivery schedules must be re-baselined to preserve 100% OTIF and avoid demerit penalties.",
         "prescriptive_action": "ACT-02: Issue OEM Claim Pack detailing verified LME/ICEMA price movements for quarterly reimbursement."
     }
 

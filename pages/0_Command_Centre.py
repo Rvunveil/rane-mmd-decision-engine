@@ -8,7 +8,7 @@ import streamlit as st
 import pandas as pd
 from engine.scenario import Scenario, get_default_presets, compute_todays_market_scenario
 from engine.chain import run_all
-from engine.signals import get_shock_radar_signals
+from engine.signals import get_shock_radar_signals, get_market_tape
 from engine.exposure import compute_exposure_map, plot_exposure_map
 from engine.risk import run_profit_at_risk_monte_carlo
 from engine.timeline import compute_cash_recovery_timeline
@@ -41,22 +41,19 @@ andon_triggers = evaluate_andon_triggers(active_scn, results)
 func_lenses = compute_cross_functional_lenses(active_scn, results)
 
 # ==============================================================================
-# 1. LIVE COMMODITY & FREIGHT MARKET TAPE
+# 1. LIVE COMMODITY & FREIGHT MARKET TAPE (T1: COMPUTED DYNAMICALLY FROM DATA)
 # ==============================================================================
-st.markdown(
-    """
-    <div class="mmd-market-tape">
-        <div class="mmd-tape-item"><span class="mmd-tape-label">COPPER (LME):</span> <span class="mmd-tape-val">$9,650/t</span> <span class="mmd-tape-chg-up">▲ +3.2%</span></div>
-        <div class="mmd-tape-item"><span class="mmd-tape-label">ALUMINIUM (LME):</span> <span class="mmd-tape-val">$2,580/t</span> <span class="mmd-tape-chg-up">▲ +1.8%</span></div>
-        <div class="mmd-tape-item"><span class="mmd-tape-label">NICKEL (LME):</span> <span class="mmd-tape-val">$16,840/t</span> <span class="mmd-tape-chg-down">▼ -0.5%</span></div>
-        <div class="mmd-tape-item"><span class="mmd-tape-label">STEEL HR (DOMESTIC):</span> <span class="mmd-tape-val">₹58,400/t</span> <span class="mmd-tape-chg-down">▼ -0.8%</span></div>
-        <div class="mmd-tape-item"><span class="mmd-tape-label">CONTAINER FREIGHT:</span> <span class="mmd-tape-val">$4,850/40ft</span> <span class="mmd-tape-chg-up">▲ +123% (Cape Reroute)</span></div>
-        <div class="mmd-tape-item"><span class="mmd-tape-label">USD / INR:</span> <span class="mmd-tape-val">₹86.40</span> <span class="mmd-tape-chg-up">▲ +2.2%</span></div>
-        <div class="mmd-tape-item"><span class="mmd-tape-label">BRENT CRUDE:</span> <span class="mmd-tape-val">$74.20/bbl</span> <span class="mmd-tape-chg-down">▼ -1.1%</span></div>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+tape_items = get_market_tape()
+tape_html = "".join([
+    f'<div class="mmd-tape-item">'
+    f'<span class="mmd-tape-label">{item["label"]}:</span> '
+    f'<span class="mmd-tape-val">{item["formatted_val"]}</span> '
+    f'<span class="mmd-tape-chg-{"up" if item["is_up"] else "down"}">{item["formatted_chg"]}</span>'
+    f'{item["sparkline_svg"]}'
+    f'</div>'
+    for item in tape_items
+])
+st.markdown(f'<div class="mmd-market-tape">{tape_html}</div>', unsafe_allow_html=True)
 
 # ==============================================================================
 # 2. MASTER HERO BANNER
