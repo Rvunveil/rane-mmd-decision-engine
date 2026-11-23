@@ -1,6 +1,6 @@
 [
   {
-    "timestamp": 1795426166.7390678,
+    "timestamp": 1795431520.6071763,
     "step": 1,
     "title": "Master Materials Control Room \u2014 Baseline",
     "page": "pages/0_Command_Centre.py",
@@ -13,7 +13,7 @@
     "caption": "FY25 Baseline: \u20b93,421 Cr revenue, \u20b9297.7 Cr EBITDA (8.7% margin), 0 delay days."
   },
   {
-    "timestamp": 1795426166.7749755,
+    "timestamp": 1795431520.657895,
     "step": 2,
     "title": "Live Market Signals & Tickers",
     "page": "pages/0_Command_Centre.py",
@@ -26,7 +26,7 @@
     "caption": "Dynamic Market Tape: Copper +54.8%, Freight -43.6% calculated from live processed datasets."
   },
   {
-    "timestamp": 1795426166.8236814,
+    "timestamp": 1795431520.744085,
     "step": 3,
     "title": "Geopolitical Shock Injection",
     "page": "pages/0_Command_Centre.py",
@@ -39,7 +39,7 @@
     "caption": "Injecting Red Sea / Hormuz crisis: freight jumps 2.73x to $5,937/FEU, shipping delay expands to 18 days."
   },
   {
-    "timestamp": 1795426166.8674998,
+    "timestamp": 1795431520.8394825,
     "step": 4,
     "title": "Instant Financial Exposure & Andon Alerts",
     "page": "pages/0_Command_Centre.py",
@@ -52,7 +52,7 @@
     "caption": "Operating profit falls to \u20b9251.3 Cr (-\u20b946.4 Cr). Inbound exposure map highlights 6 affected trade lanes."
   },
   {
-    "timestamp": 1795426166.911069,
+    "timestamp": 1795431520.8818216,
     "step": 5,
     "title": "Module 1: Statistical Price Forecasting",
     "page": "pages/1_Price_Forecast.py",
@@ -65,98 +65,7 @@
     "caption": "AutoTheta forecasts on LME Copper show realistic forward drift ($14,549 to $15,008/t) with 80% & 95% intervals."
   },
   {
-    "timestamp": 1795426166.9553945,
-    "step": 6,
-    "title": "Module 2: Real-Time Sensitivity Engine",
-    "page": "pages/2_Scenario_Simulator.py",
-    "preset": "Red Sea / Hormuz crisis",
-    "freight_multiplier": 2.73,
-    "shipping_delay_days": 18,
-    "revenue_cr": 3352.58,
-    "ebitda_cr": 192.52,
-    "pat_cr": -54.93,
-    "caption": "Interactive sensitivity sliders simulate multi-commodity shocks with live P&L and cash flow recalculation."
-  },
-  {
-    "timestamp": 1795426166.99701,
-    "step": 7,
-    "title": "Module 3: Profit Chain & Landed Cost Waterfall",
-    "page": "pages/3_Profit_Chain.py",
-    "preset": "Red Sea / Hormuz crisis",
-    "freight_multiplier": 2.73,
-    "shipping_delay_days": 18,
-    "revenue_cr": 3352.58,
-    "ebitda_cr": 192.52,
-    "pat_cr": -54.93,
-    "caption": "Full EBIT bridge breaks down metal costs, freight surges, and 50% OEM index-linked recovery."
-  },
-  {
-    "timestamp": 1795426167.0592945,
-    "step": 8,
-    "title": "Module 4: Container Optimization & Inventory Runway",
-    "page": "pages/4_Containers_Inventory.py",
-    "preset": "Red Sea / Hormuz crisis",
-    "freight_multiplier": 2.73,
-    "shipping_delay_days": 18,
-    "revenue_cr": 3352.58,
-    "ebitda_cr": 192.52,
-    "pat_cr": -54.93,
-    "caption": "Dynamic runway warns when Brake Lining drops to 22 days of cover; container payload efficiency tracks at 89.7%."
-  },
-  {
-    "timestamp": 1795426167.1037307,
-    "step": 9,
-    "title": "Module 5: Prescriptive PuLP Action Optimization",
-    "page": "pages/5_Action_Matrix.py",
-    "preset": "Red Sea / Hormuz crisis",
-    "freight_multiplier": 2.73,
-    "shipping_delay_days": 18,
-    "revenue_cr": 3352.58,
-    "ebitda_cr": 192.52,
-    "pat_cr": -54.93,
-    "caption": "Mathematical 0-1 integer programming selects optimal mitigation bundle (Cape Reroute + Consolidation) within budget."
-  },
-  {
-    "timestamp": 1795426167.1496367,
-    "step": 10,
-    "title": "Control Deck Guided Helper",
-    "page": "pages/0_Command_Centre.py",
-    "preset": "Red Sea / Hormuz crisis",
-    "freight_multiplier": 2.73,
-    "shipping_delay_days": 18,
-    "revenue_cr": 3352.58,
-    "ebitda_cr": 192.52,
-    "pat_cr": -54.93,
-    "caption": "'What happened? Get a recommendation' wizard diagnoses supply disruption and applies prioritized playbooks."
-  },
-  {
-    "timestamp": 1795426167.1926925,
-    "step": 11,
-    "title": "Working Capital Cash Deficit Timeline",
-    "page": "pages/0_Command_Centre.py",
-    "preset": "Red Sea / Hormuz crisis",
-    "freight_multiplier": 2.73,
-    "shipping_delay_days": 18,
-    "revenue_cr": 3352.58,
-    "ebitda_cr": 192.52,
-    "pat_cr": -54.93,
-    "caption": "12-month cash profile identifies peak funding trough at month 3 caused by 75-day OEM reimbursement lag."
-  },
-  {
-    "timestamp": 1795426167.237115,
-    "step": 12,
-    "title": "Audit-Ready Executive Brief",
-    "page": "pages/0_Command_Centre.py",
-    "preset": "Red Sea / Hormuz crisis",
-    "freight_multiplier": 2.73,
-    "shipping_delay_days": 18,
-    "revenue_cr": 3352.58,
-    "ebitda_cr": 192.52,
-    "pat_cr": -54.93,
-    "caption": "Complete decision architecture: Truth Pass + Control Deck + PuLP Optimization. Team 11:59 \u00b7 XIME Chennai."
-  },
-  {
-    "timestamp": 1795426198.0840418,
+    "timestamp": 1795431534.9416964,
     "step": 1,
     "title": "Master Materials Control Room \u2014 Baseline",
     "page": "pages/0_Command_Centre.py",
@@ -169,85 +78,7 @@
     "caption": "FY25 Baseline: \u20b93,421 Cr revenue, \u20b9297.7 Cr EBITDA (8.7% margin), 0 delay days."
   },
   {
-    "timestamp": 1795426198.1391494,
-    "step": 3,
-    "title": "Geopolitical Shock Injection",
-    "page": "pages/0_Command_Centre.py",
-    "preset": "Red Sea / Hormuz crisis",
-    "freight_multiplier": 2.73,
-    "shipping_delay_days": 18,
-    "revenue_cr": 3352.58,
-    "ebitda_cr": 192.52,
-    "pat_cr": -54.93,
-    "caption": "Injecting Red Sea / Hormuz crisis: freight jumps 2.73x to $5,937/FEU, shipping delay expands to 18 days."
-  },
-  {
-    "timestamp": 1795426381.4823604,
-    "step": 1,
-    "title": "Master Materials Control Room \u2014 Baseline",
-    "page": "pages/0_Command_Centre.py",
-    "preset": "Base case",
-    "freight_multiplier": 1.0,
-    "shipping_delay_days": 0,
-    "revenue_cr": 3421.0,
-    "ebitda_cr": 297.7,
-    "pat_cr": 37.6,
-    "caption": "FY25 Baseline: \u20b93,421 Cr revenue, \u20b9297.7 Cr EBITDA (8.7% margin), 0 delay days."
-  },
-  {
-    "timestamp": 1795426381.5614126,
-    "step": 3,
-    "title": "Geopolitical Shock Injection",
-    "page": "pages/0_Command_Centre.py",
-    "preset": "Red Sea / Hormuz crisis",
-    "freight_multiplier": 2.73,
-    "shipping_delay_days": 18,
-    "revenue_cr": 3352.58,
-    "ebitda_cr": 192.52,
-    "pat_cr": -54.93,
-    "caption": "Injecting Red Sea / Hormuz crisis: freight jumps 2.73x to $5,937/FEU, shipping delay expands to 18 days."
-  },
-  {
-    "timestamp": 1795426447.6533673,
-    "step": 1,
-    "title": "Master Materials Control Room \u2014 Baseline",
-    "page": "pages/0_Command_Centre.py",
-    "preset": "Base case",
-    "freight_multiplier": 1.0,
-    "shipping_delay_days": 0,
-    "revenue_cr": 3421.0,
-    "ebitda_cr": 297.7,
-    "pat_cr": 37.6,
-    "caption": "FY25 Baseline: \u20b93,421 Cr revenue, \u20b9297.7 Cr EBITDA (8.7% margin), 0 delay days."
-  },
-  {
-    "timestamp": 1795426447.695137,
-    "step": 3,
-    "title": "Geopolitical Shock Injection",
-    "page": "pages/0_Command_Centre.py",
-    "preset": "Red Sea / Hormuz crisis",
-    "freight_multiplier": 2.73,
-    "shipping_delay_days": 18,
-    "revenue_cr": 3352.58,
-    "ebitda_cr": 192.52,
-    "pat_cr": -54.93,
-    "caption": "Injecting Red Sea / Hormuz crisis: freight jumps 2.73x to $5,937/FEU, shipping delay expands to 18 days."
-  },
-  {
-    "timestamp": 1795426744.6792452,
-    "step": 1,
-    "title": "Master Materials Control Room \u2014 Baseline",
-    "page": "pages/0_Command_Centre.py",
-    "preset": "Base case",
-    "freight_multiplier": 1.0,
-    "shipping_delay_days": 0,
-    "revenue_cr": 3421.0,
-    "ebitda_cr": 297.7,
-    "pat_cr": 37.6,
-    "caption": "FY25 Baseline: \u20b93,421 Cr revenue, \u20b9297.7 Cr EBITDA (8.7% margin), 0 delay days."
-  },
-  {
-    "timestamp": 1795426744.7268457,
+    "timestamp": 1795431535.061933,
     "step": 3,
     "title": "Geopolitical Shock Injection",
     "page": "pages/0_Command_Centre.py",

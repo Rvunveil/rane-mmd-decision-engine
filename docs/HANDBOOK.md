@@ -248,7 +248,7 @@ The MMD Decision Engine's automated Claim Pack generator compiles this data into
 ## 5. What the Tool Does Well
 
 ### 5.1 Relentless Automated Verification
-The repository maintains an exhaustive suite of **90 automated tests** executing in **52.3 seconds** across 12 test files:
+The repository maintains an exhaustive suite of **90 automated tests** executing in **53.4 seconds** across 12 test files:
 * **Unit and Mathematical Acceptance**: Validates formula invariants, tax asymmetry, and calibration against hand-calculated oracle values.
 * **Stress and Boundary Testing**: Fuzzes inputs with extreme shocks (-100% to +500%), zero volume, infinite freight, and negative margins.
 * **Streamlit AppTest Harness**: Verifies that all 7 multipage applications compile, render widgets, and react to state updates without runtime exceptions.
@@ -256,8 +256,8 @@ The repository maintains an exhaustive suite of **90 automated tests** executing
 
 ### 5.2 Sub-Second Deterministic Calculation
 All analytical calculations are implemented in pure vectorized Python and NumPy:
-* **`engine.chain.run_all`**: Recalculates the entire multi-echelon P&L, exposure maps, triggers, and inventory metrics in **46.89 milliseconds**.
-* **2,000-Path Correlated Monte Carlo**: Generates Cholesky-decomposed joint log-normal distributions and computes P10/P50/P90 percentiles in **60.81 milliseconds**.
+* **`engine.chain.run_all`**: Recalculates the entire multi-echelon P&L, exposure maps, triggers, and inventory metrics in **67.67 milliseconds**.
+* **2,000-Path Correlated Monte Carlo**: Generates Cholesky-decomposed joint log-normal distributions and computes P10/P50/P90 percentiles in **156.77 milliseconds**.
 * **Zero UI Latency**: Sliders on the Control Deck update instantly without waiting on network API requests or remote database queries.
 
 ### 5.3 Complete Offline Independence
@@ -910,6 +910,7 @@ The table below catalogs every file in the repository (excluding `.git`, `_refs`
 | `DEMO_SCRIPT.md` | `root` | 78 | 13.3 | - | File in root |
 | `DESIGN_PLAN.md` | `root` | 83 | 5.9 | - | File in root |
 | `README.md` | `root` | 173 | 12.7 | - | File in root |
+| `RELEASE_TEST_REPORT.md` | `root` | 244 | 19.0 | - | File in root |
 | `STRESS_TEST_REPORT.md` | `root` | 274 | 27.5 | - | File in root |
 | `V2_REPORT.md` | `root` | 120 | 11.4 | - | File in root |
 | `V3_REPORT.md` | `root` | 159 | 13.5 | - | File in root |
@@ -969,9 +970,9 @@ The table below catalogs every file in the repository (excluding `.git`, `_refs`
 | `demo/README.md` | `demo` | 48 | 1.7 | - | File in demo |
 | `demo/__init__.py` | `demo` | 8 | 0.2 | - | File in demo |
 | `demo/overlay.py` | `demo` | 122 | 3.9 | `render_demo_overlay` | File in demo |
-| `demo/player.py` | `demo` | 220 | 6.5 | `load_demo_config`, `load_storyboard`, `_record_timeline`, `start_demo`, `stop_demo`, `_apply_step`, `run_demo_player` | File in demo |
+| `demo/player.py` | `demo` | 235 | 7.1 | `load_demo_config`, `load_storyboard`, `_record_timeline`, `is_demo_running`, `start_demo`, `stop_demo`, `_apply_step`, `run_demo_player` | File in demo |
 | `demo/storyboard.yaml` | `demo` | 90 | 3.3 | - | File in demo |
-| `demo_out/demo_timeline.json` | `demo_out` | 0 | 0.4 | - | File in demo_out |
+| `demo_out/demo_timeline.json` | `demo_out` | 0 | 3.1 | - | File in demo_out |
 | `engine/__init__.py` | `engine` | 1 | 0.0 | - | File in engine |
 | `engine/actions.py` | `engine` | 153 | 5.6 | `load_actions_config`, `evaluate_actions`, `optimize_action_bundle` | File in engine |
 | `engine/buy_signal.py` | `engine` | 80 | 3.4 | `compute_buy_signals` | File in engine |
@@ -983,18 +984,18 @@ The table below catalogs every file in the repository (excluding `.git`, `_refs`
 | `engine/functions.py` | `engine` | 104 | 5.6 | `compute_cross_functional_lenses` | File in engine |
 | `engine/inventory.py` | `engine` | 170 | 6.9 | `evaluate_inventory`, `evaluate_containers` | File in engine |
 | `engine/results.py` | `engine` | 53 | 1.6 | `Results` | File in engine |
-| `engine/risk.py` | `engine` | 230 | 9.1 | `compute_historical_volatilities`, `run_profit_at_risk_monte_carlo` | File in engine |
+| `engine/risk.py` | `engine` | 234 | 9.3 | `compute_historical_volatilities`, `run_profit_at_risk_monte_carlo` | File in engine |
 | `engine/scenario.py` | `engine` | 116 | 4.3 | `Scenario`, `get_default_presets`, `compute_todays_market_scenario` | File in engine |
 | `engine/signals.py` | `engine` | 354 | 15.0 | `get_shock_radar_signals`, `make_svg_sparkline`, `get_market_tape` | File in engine |
 | `engine/state.py` | `engine` | 260 | 10.3 | `_get_state_store`, `load_glossary`, `init_canonical_state`, `sync_widgets_from_scn`, `get_current_scenario`, `apply_scenario_values`, `apply_preset_by_name`, `reset_to_base` | File in engine |
 | `engine/timeline.py` | `engine` | 94 | 3.4 | `compute_cash_recovery_timeline` | File in engine |
 | `engine/triggers.py` | `engine` | 107 | 4.0 | `load_triggers_config`, `evaluate_andon_triggers` | File in engine |
-| `pages/0_Command_Centre.py` | `pages` | 383 | 20.9 | - | File in pages |
+| `pages/0_Command_Centre.py` | `pages` | 390 | 21.3 | `_fmt_brief_nb` | File in pages |
 | `pages/1_Forecast.py` | `pages` | 203 | 9.7 | - | File in pages |
 | `pages/2_Scenario_Simulator.py` | `pages` | 158 | 8.0 | `compute_tornado_data` | File in pages |
 | `pages/3_Profit_Chain.py` | `pages` | 171 | 8.2 | - | File in pages |
 | `pages/4_Containers_Inventory.py` | `pages` | 115 | 5.6 | - | File in pages |
-| `pages/5_Action_Matrix.py` | `pages` | 171 | 8.4 | - | File in pages |
+| `pages/5_Action_Matrix.py` | `pages` | 178 | 8.5 | `_format_action_option` | File in pages |
 | `pages/6_Assumptions_Data_Trace_About.py` | `pages` | 211 | 14.8 | - | File in pages |
 | `qa/logs/pytest_final.txt` | `qa` | 1907 | 129.3 | - | File in qa |
 | `qa/logs/pytest_run1.txt` | `qa` | 1907 | 129.3 | - | File in qa |
@@ -1013,8 +1014,18 @@ The table below catalogs every file in the repository (excluding `.git`, `_refs`
 | `tests/test_app_smoke.py` | `tests` | 68 | 2.6 | `test_app_smoke_base_case`, `test_command_centre_smoke`, `test_forecast_page_smoke`, `test_scenario_simulator_smoke`, `test_profit_chain_smoke`, `test_containers_inventory_smoke`, `test_action_matrix_smoke`, `test_assumptions_page_smoke` | File in tests |
 | `tests/test_data_loader.py` | `tests` | 103 | 3.5 | `test_container_freight_redating_anchors`, `test_forex_dedup_and_numeric`, `test_aluminium_reshape`, `test_steel_not_fx_converted`, `test_resin_and_rubber_conversions` | File in tests |
 | `tests/test_handbook.py` | `tests` | 167 | 7.6 | `handbook_text`, `test_handbook_exists_and_toc_resolves`, `test_all_repo_files_in_inventory`, `test_all_engine_functions_and_pages_mentioned`, `test_deny_list_absent`, `test_baseline_and_shock_numbers_match_engine` | File in tests |
+| `tests/e2e/test_browser_suite.py` | `tests` | 192 | 7.6 | `_check_page_health`, `test_e2e_p0_crash_paths_twenty_times`, `test_e2e_interactive_widgets_and_sliders`, `test_e2e_full_page_screenshots_and_viewports`, `test_e2e_browser_refresh_persistence`, `test_e2e_demo_run_video_recording` | File in tests |
 | `tests/release/inventory.py` | `tests` | 228 | 8.3 | `extract_ast_elements`, `discover_inventory`, `save_inventory`, `get_inventory` | File in tests |
 | `tests/release/test_p0_widgets.py` | `tests` | 165 | 7.9 | `get_all_widget_keys`, `test_P0_1_no_direct_widget_key_assignments_outside_sync`, `test_P0_2_no_if_button_calling_scenario_mutation`, `test_P0_3_control_room_preset_clicks_and_reset_in_apptest`, `test_P0_4_demo_lifecycle_in_apptest` | File in tests |
+| `tests/release/test_part_a_pages_and_states.py` | `tests` | 218 | 7.0 | `_check_text_leaks`, `test_part_a_base_case`, `test_part_a_presets`, `test_part_a_custom_extremes`, `test_part_a_after_reset`, `test_part_a_saved_scenarios_and_toggles` | File in tests |
+| `tests/release/test_part_b_widgets_and_values.py` | `tests` | 174 | 6.6 | `test_part_b_deck_sliders_sweep`, `test_part_b_buttons_single_and_double_click`, `test_part_b_simple_view_toggle`, `test_part_b_action_matrix_selectbox`, `test_part_b_download_buttons_content` | File in tests |
+| `tests/release/test_part_c_cross_control.py` | `tests` | 160 | 6.0 | `test_part_c_preset_vs_helper_parity`, `test_part_c_lever_deck_sidebar_parity`, `test_part_c_state_persistence_across_pages`, `test_part_c_scenario_save_load_delete_lifecycle`, `test_part_c_compare_table_fidelity` | File in tests |
+| `tests/release/test_part_d_sequences.py` | `tests` | 267 | 9.2 | `test_seq_1_preset_slider_preset_reset`, `test_seq_2_page_switch_mid_change`, `test_seq_3_guided_helper_sidebar_deck_chip`, `test_seq_4_forecast_to_simulator_to_profit_chain`, `test_seq_5_demo_start_page_switch_stop_slider`, `test_seq_6_demo_start_reset_during_demo`, `test_seq_7_save_load_during_demo`, `test_seq_8_simple_view_toggle_preset_cycle`, `test_seq_9_twenty_rapid_alternating_preset_clicks` | File in tests |
+| `tests/release/test_part_e_monkey.py` | `tests` | 145 | 5.7 | `_assert_invariants`, `test_part_e_monkey_random_walk` | File in tests |
+| `tests/release/test_part_f_engine_invariants.py` | `tests` | 134 | 5.0 | `test_part_f_oracle_parity`, `test_part_f_zero_volatility_mc_collapse`, `test_part_f_breakeven_plug_back`, `test_part_f_fuzz_1000_scenarios` | File in tests |
+| `tests/release/test_part_g_demo_mode.py` | `tests` | 103 | 3.3 | `test_part_g_full_storyboard_accelerated_run`, `test_part_g_feature_flag_off`, `test_part_g_simulated_demo_removal`, `test_part_g_step_controls_zero_exceptions` | File in tests |
+| `tests/release/test_part_h_resilience.py` | `tests` | 79 | 3.0 | `test_part_h_core_engine_runs_without_data_directory`, `test_part_h_signals_resilience_to_missing_files`, `test_part_h_corrupted_csv_handling`, `test_part_h_fallback_cache_integrity` | File in tests |
+| `tests/release/test_part_i_performance.py` | `tests` | 130 | 4.4 | `test_part_i_run_all_latency`, `test_part_i_control_room_rerun_speed`, `test_part_i_monte_carlo_performance`, `test_part_i_demo_step_transition_speed`, `test_part_i_two_hundred_consecutive_actions` | File in tests |
 | `tests/stress/__init__.py` | `tests` | 1 | 0.1 | - | File in tests |
 | `tests/stress/test_actions.py` | `tests` | 79 | 3.6 | `test_M21_action_matrix_hand_calc`, `test_M22_action_reranking_under_crisis`, `test_M23_ripple_matrix_and_suppliers` | File in tests |
 | `tests/stress/test_control_deck.py` | `tests` | 101 | 3.7 | `test_CD01_canonical_state_lifecycle`, `test_CD02_apply_preset_synchronization`, `test_CD03_glossary_content`, `test_CD04_command_centre_control_deck_apptest`, `test_CD05_simple_view_toggle_behavior` | File in tests |
@@ -1031,12 +1042,12 @@ The table below catalogs every file in the repository (excluding `.git`, `_refs`
 | `tests/stress/test_ui_apptest.py` | `tests` | 141 | 5.8 | `test_E02_all_pages_load_under_base_case`, `test_E03_pages_load_under_presets`, `test_E05_branding_text_present`, `test_E07_preset_slider_values_documented`, `test_E10_no_nan_or_unrounded_floats_in_ui`, `test_E11_expander_formula_boxes_present`, `test_M30_kpi_strip_consistency`, `test_H09_saved_scenarios_management`, `test_B01_regression_text_leak_scanner` | File in tests |
 | `ui/__init__.py` | `ui` | 1 | 0.0 | - | File in ui |
 | `ui/charts.py` | `ui` | 551 | 18.0 | `plot_forecast_chart`, `plot_ebitda_waterfall`, `plot_tornado_sensitivity`, `plot_inventory_runway`, `plot_freight_redating_trace`, `plot_profit_at_risk_distribution`, `plot_cash_timeline_trough` | File in ui |
-| `ui/components.py` | `ui` | 150 | 5.9 | `page_header`, `kpi_card`, `kpi_strip`, `status_badge`, `data_badge`, `insight`, `section`, `explain_box` | File in ui |
+| `ui/components.py` | `ui` | 161 | 6.3 | `page_header`, `kpi_card`, `kpi_strip`, `status_badge`, `data_badge`, `insight`, `section`, `explain_box` | File in ui |
 | `ui/control_deck.py` | `ui` | 208 | 9.6 | `render_control_deck` | File in ui |
-| `ui/guided_helper.py` | `ui` | 199 | 9.3 | `compute_guided_recommendation`, `render_guided_helper_dialog` | File in ui |
+| `ui/guided_helper.py` | `ui` | 206 | 9.6 | `compute_guided_recommendation`, `render_guided_helper_dialog` | File in ui |
 | `ui/layout.py` | `ui` | 174 | 7.7 | `load_yaml`, `page_setup`, `render_sidebar` | File in ui |
 | `ui/styles.css` | `ui` | 305 | 7.2 | - | File in ui |
-| `ui/theme.py` | `ui` | 128 | 4.1 | `format_money_cr`, `format_pct`, `format_inr_t`, `format_usd`, `format_days` | File in ui |
+| `ui/theme.py` | `ui` | 131 | 4.2 | `format_money_cr`, `format_pct`, `format_inr_t`, `format_usd`, `format_days` | File in ui |
 
 ---
 
@@ -1338,4 +1349,4 @@ We gratefully acknowledge the developers and maintainers of the open-source libr
 * **Playwright**: Browser automation and cross-platform headless testing.
 
 ---
-*Generated autonomously by `scripts/build_handbook.py` on 2026-11-23 15:43:49. Verified against 90 passing automated tests.*
+*Generated autonomously by `scripts/build_handbook.py` on 2026-11-23 16:33:01. Verified against 90 passing automated tests.*
