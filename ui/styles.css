@@ -74,6 +74,7 @@
     font-weight: 700;
     color: #0F172A;
     line-height: 1.2;
+    font-variant-numeric: tabular-nums;
 }
 .mmd-kpi-delta {
     font-size: 0.75rem;
@@ -226,4 +227,97 @@
 footer,
 header[data-testid="stHeader"] > div:first-child {
     display: none !important;
+}
+
+/* Market Ticker Tape */
+.mmd-market-tape {
+    background-color: #0F172A;
+    color: #E2E8F0;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-family: var(--mmd-font-mono, monospace);
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    white-space: nowrap;
+    margin-bottom: 0.85rem;
+    border: 1px solid #1E293B;
+}
+.mmd-tape-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.mmd-tape-label {
+    color: #94A3B8;
+    font-weight: 600;
+}
+.mmd-tape-val {
+    color: #FFFFFF;
+    font-weight: 700;
+}
+.mmd-tape-chg-up {
+    color: #EF4444; /* Price up = red for procurement */
+    font-size: 0.75rem;
+}
+.mmd-tape-chg-down {
+    color: #10B981; /* Price down = green for procurement */
+    font-size: 0.75rem;
+}
+
+/* Andon Board Cards */
+.mmd-andon-card {
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    border-left: 4px solid;
+    font-size: 0.85rem;
+}
+.mmd-andon-red {
+    background-color: #FEF2F2;
+    border-color: #DC2626;
+    color: #991B1B;
+}
+.mmd-andon-amber {
+    background-color: #FFFBEB;
+    border-color: #D97706;
+    color: #92400E;
+}
+.mmd-andon-green {
+    background-color: #ECFDF5;
+    border-color: #059669;
+    color: #065F46;
+}
+
+/* Buy Signal Badges */
+.buy-signal-buy-now {
+    background-color: #DC2626;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+    display: inline-block;
+}
+.buy-signal-stagger {
+    background-color: #D97706;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+    display: inline-block;
+}
+.buy-signal-hold {
+    background-color: #059669;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+    display: inline-block;
 }
