@@ -186,7 +186,9 @@ if not is_simple:
                     st.markdown(f"**#{act['rank']} {act['title']}**")
                     st.caption(f"Category: {act['category']} · Timeframe: {act['time_to_implement']} · Budget: ₹{act['cash_budget_cr']:.1f} Cr")
                 with a_col2:
-                    st.markdown(f"<div style='text-align:right; font-weight:700; color:#1E8A4C; font-size:1.05rem; font-variant-numeric:tabular-nums;'>+₹{act['net_benefit_cr']:.1f} Cr</div>", unsafe_allow_html=True)
+                    net_b = act['net_benefit_cr']
+                    net_b_str = f"+₹{net_b:.1f} Cr" if net_b > 0.05 else (f"−₹{abs(net_b):.1f} Cr" if net_b < -0.05 else "₹0.0 Cr")
+                    st.markdown(f"<div style='text-align:right; font-weight:700; color:#1E8A4C; font-size:1.05rem; font-variant-numeric:tabular-nums;'>{net_b_str}</div>", unsafe_allow_html=True)
                     st.caption(f"Cost: ₹{act['cost_cr']:.1f} Cr")
 
         # Commodity Buy-Timing Signals Strip (Section 6: Full Material Names)
@@ -241,7 +243,9 @@ else:
     with s_col2:
         st.markdown("#### Primary Recommended Actions")
         for act in results.action_rankings[:3]:
-            st.markdown(f"• **{act['title']}**: +₹{act['net_benefit_cr']:.1f} Cr net benefit ({act['time_to_implement']})")
+            net_b = act['net_benefit_cr']
+            net_b_str = f"+₹{net_b:.1f} Cr" if net_b > 0.05 else (f"−₹{abs(net_b):.1f} Cr" if net_b < -0.05 else "₹0.0 Cr")
+            st.markdown(f"• **{act['title']}**: {net_b_str} net benefit ({act['time_to_implement']})")
 
 st.markdown("<div style='margin-top: 10px;'></div>", unsafe_allow_html=True)
 
@@ -306,6 +310,9 @@ with d_col1:
     st.markdown("#### :material/description: Executive Decision Brief for Managing Director")
     st.markdown("<span style='font-size:0.85rem; color:#536471;'>Generate an audit-ready, 1-page HTML memo summarizing scenario financial exposure, cash trough, and action approvals.</span>", unsafe_allow_html=True)
 
+def _fmt_brief_nb(nb):
+    return f"+₹{nb:.1f} Cr" if nb > 0.05 else (f"−₹{abs(nb):.1f} Cr" if nb < -0.05 else "₹0.0 Cr")
+
 with d_col2:
     brief_html = f"""
     <!DOCTYPE html>
@@ -347,9 +354,9 @@ with d_col2:
         <h3>2. Top Prescriptive Mitigation Actions</h3>
         <table>
             <tr><th>Rank</th><th>Action Title</th><th>Category</th><th>Time to Implement</th><th>Budget</th><th>Net ₹ Benefit</th></tr>
-            <tr><td>#1</td><td>{results.action_rankings[0]['title']}</td><td>{results.action_rankings[0]['category']}</td><td>{results.action_rankings[0]['time_to_implement']}</td><td>₹{results.action_rankings[0]['cash_budget_cr']:.1f} Cr</td><td><b>+₹{results.action_rankings[0]['net_benefit_cr']:.1f} Cr</b></td></tr>
-            <tr><td>#2</td><td>{results.action_rankings[1]['title']}</td><td>{results.action_rankings[1]['category']}</td><td>{results.action_rankings[1]['time_to_implement']}</td><td>₹{results.action_rankings[1]['cash_budget_cr']:.1f} Cr</td><td><b>+₹{results.action_rankings[1]['net_benefit_cr']:.1f} Cr</b></td></tr>
-            <tr><td>#3</td><td>{results.action_rankings[2]['title']}</td><td>{results.action_rankings[2]['category']}</td><td>{results.action_rankings[2]['time_to_implement']}</td><td>₹{results.action_rankings[2]['cash_budget_cr']:.1f} Cr</td><td><b>+₹{results.action_rankings[2]['net_benefit_cr']:.1f} Cr</b></td></tr>
+            <tr><td>#1</td><td>{results.action_rankings[0]['title']}</td><td>{results.action_rankings[0]['category']}</td><td>{results.action_rankings[0]['time_to_implement']}</td><td>₹{results.action_rankings[0]['cash_budget_cr']:.1f} Cr</td><td><b>{_fmt_brief_nb(results.action_rankings[0]['net_benefit_cr'])}</b></td></tr>
+            <tr><td>#2</td><td>{results.action_rankings[1]['title']}</td><td>{results.action_rankings[1]['category']}</td><td>{results.action_rankings[1]['time_to_implement']}</td><td>₹{results.action_rankings[1]['cash_budget_cr']:.1f} Cr</td><td><b>{_fmt_brief_nb(results.action_rankings[1]['net_benefit_cr'])}</b></td></tr>
+            <tr><td>#3</td><td>{results.action_rankings[2]['title']}</td><td>{results.action_rankings[2]['category']}</td><td>{results.action_rankings[2]['time_to_implement']}</td><td>₹{results.action_rankings[2]['cash_budget_cr']:.1f} Cr</td><td><b>{_fmt_brief_nb(results.action_rankings[2]['net_benefit_cr'])}</b></td></tr>
         </table>
 
         <div class="action-rec">

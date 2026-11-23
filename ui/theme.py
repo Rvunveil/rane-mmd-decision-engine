@@ -88,6 +88,9 @@ def format_money_cr(val: float, prefix: str = "₹ ", suffix: str = " Cr", show_
         val = 0.0
 
     num_str = f"{abs(val):,.2f}" if abs(val) < 1000 else f"{abs(val):,.1f}"
+    if num_str in ["0.00", "0.0", "-0.00", "-0.0"]:
+        num_str = "0.00"
+        val = 0.0
     
     if show_sign:
         if val > 0.005:

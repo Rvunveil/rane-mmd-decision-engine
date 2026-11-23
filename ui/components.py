@@ -70,7 +70,12 @@ def kpi_strip(results, base_results):
 
     # 4. Material Δ
     mat_delta = results.delta_material_cr
-    mat_delta_str = f"Net pass-thru: +₹{results.oem_recovery_cr:.1f} Cr"
+    if abs(results.oem_recovery_cr) < 0.05:
+        mat_delta_str = "Net pass-thru: ₹0.0 Cr"
+    elif results.oem_recovery_cr > 0:
+        mat_delta_str = f"Net pass-thru: +₹{results.oem_recovery_cr:.1f} Cr"
+    else:
+        mat_delta_str = f"Net pass-thru: −₹{abs(results.oem_recovery_cr):.1f} Cr"
     with col4:
         kpi_card("Material Shock Δ", format_money_cr(mat_delta), mat_delta_str, "bad" if mat_delta > 0 else "good")
 
@@ -84,8 +89,14 @@ def kpi_strip(results, base_results):
     top_act = results.top_action_title
     short_act = getattr(results, "top_action_short_name", "") or (top_act if len(top_act) <= 20 else top_act[:18])
     net_val = results.top_action_net_benefit_cr
+    if abs(net_val) < 0.05:
+        net_str = "Net: ₹0.0 Cr"
+    elif net_val > 0:
+        net_str = f"Net: +₹{net_val:.1f} Cr"
+    else:
+        net_str = f"Net: −₹{abs(net_val):.1f} Cr"
     with col6:
-        kpi_card("Top Ranked Action", short_act, f"Net: +₹{net_val:.1f} Cr", "good", tooltip=top_act)
+        kpi_card("Top Ranked Action", short_act, net_str, "good", tooltip=top_act)
 
 
 def status_badge(text: str, status: str = "green") -> str:
