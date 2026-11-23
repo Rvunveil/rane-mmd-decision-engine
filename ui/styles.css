@@ -1,99 +1,133 @@
 /* ==========================================================================
-   Rane (Madras) MMD Decision Engine · Stylesheet
-   Team 11.59 · Xovate'26 Hackathon
+   Rane (Madras) MMD Decision Engine · Industrial Terminal Stylesheet (Section 5)
+   Team 11:59 · Xovate'26 Hackathon
+   Palette: Mill-Scale Industrial Graphite & Steel Blue
    ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+    --mmd-ink: #1D262C;
+    --mmd-slate: #536471;
+    --mmd-muted: #8E9AA2;
+    --mmd-canvas: #EEF1F2;
+    --mmd-panel: #F8F9F9;
+    --mmd-border: #C9D1D5;
+    --mmd-steel-blue: #2F5D7C;
+    --mmd-navy: #142938;
+    --mmd-amber: #D97706;
+    --mmd-red: #C2382B;
+    --mmd-green: #1E7E34;
+    --mmd-font-sans: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --mmd-font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+}
+
+html, body, [class*="css"], .stApp {
+    font-family: var(--mmd-font-sans) !important;
+    color: var(--mmd-ink) !important;
+    background-color: var(--mmd-canvas) !important;
+}
+
+/* Numeric alignment & typography */
+.tabular-nums, .mmd-kpi-value, .mmd-tape-val, [data-testid="stMetricValue"] {
+    font-variant-numeric: tabular-nums !important;
+}
 
 /* Main layout containers */
 .main .block-container {
-    padding-top: 1.5rem;
-    padding-bottom: 2.5rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    max-width: 1400px;
+    padding-top: 1.25rem !important;
+    padding-bottom: 2.5rem !important;
+    padding-left: 1.75rem !important;
+    padding-right: 1.75rem !important;
+    max-width: 1440px !important;
 }
 
 /* Page Header */
 .mmd-header-container {
-    border-bottom: 1px solid #E2E8F0;
-    padding-bottom: 0.75rem;
-    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--mmd-border);
+    padding-bottom: 0.65rem;
+    margin-bottom: 1.15rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
 }
 .mmd-header-title {
-    font-size: 1.6rem;
+    font-size: 1.45rem;
     font-weight: 700;
-    color: #0F172A;
-    letter-spacing: -0.02em;
+    color: var(--mmd-ink);
+    letter-spacing: -0.015em;
     margin: 0;
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 .mmd-header-sub {
-    font-size: 0.875rem;
-    color: #64748B;
-    margin-top: 0.25rem;
+    font-size: 0.82rem;
+    color: var(--mmd-slate);
+    margin-top: 0.2rem;
     margin-bottom: 0;
 }
 .mmd-module-badge {
-    background-color: #EEF2FF;
-    color: #3730A3;
-    font-size: 0.75rem;
+    background-color: var(--mmd-steel-blue);
+    color: #FFFFFF;
+    font-size: 0.72rem;
     font-weight: 600;
-    padding: 2px 8px;
+    padding: 2px 7px;
     border-radius: 4px;
-    border: 1px solid #C7D2FE;
     text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
 
 /* KPI Strip & Cards */
 .mmd-kpi-strip {
     display: flex;
-    gap: 0.75rem;
-    margin-bottom: 1.25rem;
+    gap: 0.65rem;
+    margin-bottom: 1.15rem;
     flex-wrap: wrap;
 }
 .mmd-kpi-card {
-    background-color: #F8FAFC;
-    border: 1px solid #E2E8F0;
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
+    background-color: var(--mmd-panel);
+    border: 1px solid var(--mmd-border);
+    border-radius: 6px;
+    padding: 0.65rem 0.9rem;
     flex: 1;
-    min-width: 150px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    min-width: 145px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
 }
 .mmd-kpi-label {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 600;
     text-transform: uppercase;
-    color: #64748B;
+    color: var(--mmd-slate);
     letter-spacing: 0.04em;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.2rem;
 }
 .mmd-kpi-value {
-    font-size: 1.45rem;
+    font-size: 1.35rem;
     font-weight: 700;
-    color: #0F172A;
+    color: var(--mmd-ink);
     line-height: 1.2;
+    font-variant-numeric: tabular-nums;
 }
 .mmd-kpi-delta {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 600;
-    margin-top: 0.25rem;
+    margin-top: 0.2rem;
+    font-variant-numeric: tabular-nums;
 }
-.mmd-delta-up-bad { color: #DC2626; }
-.mmd-delta-down-good { color: #16A34A; }
-.mmd-delta-neutral { color: #64748B; }
+.mmd-delta-up-bad { color: var(--mmd-red); }
+.mmd-delta-down-good { color: var(--mmd-green); }
+.mmd-delta-neutral { color: var(--mmd-slate); }
 
 /* Status Badges */
 .badge-live {
-    background-color: #ECFDF5;
-    color: #065F46;
-    border: 1px solid #A7F3D0;
+    background-color: #E8F5E9;
+    color: #1E7E34;
+    border: 1px solid #C8E6C9;
     padding: 2px 6px;
     border-radius: 4px;
     font-size: 0.7rem;
     font-weight: 700;
-    letter-spacing: 0.03em;
 }
 .badge-assumption {
     background-color: #FEF3C7;
@@ -103,7 +137,6 @@
     border-radius: 4px;
     font-size: 0.7rem;
     font-weight: 700;
-    letter-spacing: 0.03em;
 }
 .badge-sample {
     background-color: #F1F5F9;
@@ -113,109 +146,160 @@
     border-radius: 4px;
     font-size: 0.7rem;
     font-weight: 700;
-    letter-spacing: 0.03em;
-}
-.badge-short {
-    background-color: #FEE2E2;
-    color: #991B1B;
-    border: 1px solid #FECACA;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.03em;
 }
 
 /* Insight Box */
 .mmd-insight-box {
-    background-color: #F0FDF4;
-    border-left: 4px solid #16A34A;
-    border-radius: 0 6px 6px 0;
-    padding: 0.75rem 1rem;
-    margin: 1rem 0;
-    color: #166534;
-    font-size: 0.875rem;
+    background-color: #F4F7F6;
+    border-left: 4px solid var(--mmd-green);
+    border-radius: 0 4px 4px 0;
+    padding: 0.65rem 0.95rem;
+    margin: 0.85rem 0;
+    color: #134E24;
+    font-size: 0.84rem;
     font-weight: 500;
     line-height: 1.4;
 }
 
 .mmd-warning-box {
-    background-color: #FEF2F2;
-    border-left: 4px solid #DC2626;
-    border-radius: 0 6px 6px 0;
-    padding: 0.75rem 1rem;
-    margin: 1rem 0;
-    color: #991B1B;
-    font-size: 0.875rem;
+    background-color: #FDF2F2;
+    border-left: 4px solid var(--mmd-red);
+    border-radius: 0 4px 4px 0;
+    padding: 0.65rem 0.95rem;
+    margin: 0.85rem 0;
+    color: #8C1D18;
+    font-size: 0.84rem;
     font-weight: 500;
     line-height: 1.4;
 }
 
 /* Formula & Explain Box */
 .mmd-explain-box {
-    background-color: #F8FAFC;
-    border: 1px solid #E2E8F0;
-    border-radius: 6px;
-    padding: 0.75rem 1rem;
-    margin-top: 1rem;
-    font-size: 0.8rem;
-    color: #475569;
+    background-color: var(--mmd-panel);
+    border: 1px solid var(--mmd-border);
+    border-radius: 4px;
+    padding: 0.65rem 0.9rem;
+    margin-top: 0.85rem;
+    font-size: 0.78rem;
+    color: var(--mmd-slate);
 }
 .mmd-explain-title {
     font-weight: 700;
-    color: #1E293B;
-    margin-bottom: 0.35rem;
-}
-
-/* Hero Banner on Command Centre */
-.mmd-hero-banner {
-    background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%);
-    color: #FFFFFF;
-    border-radius: 10px;
-    padding: 1.5rem 2rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-.mmd-hero-tag {
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #38BDF8;
-    margin-bottom: 0.35rem;
-}
-.mmd-hero-heading {
-    font-size: 1.85rem;
-    font-weight: 800;
-    margin: 0;
-    color: #FFFFFF;
-    letter-spacing: -0.02em;
-}
-.mmd-hero-tagline {
-    font-size: 1rem;
-    color: #CBD5E1;
-    margin-top: 0.35rem;
-    margin-bottom: 0.75rem;
-    font-style: italic;
-}
-.mmd-hero-meta {
-    font-size: 0.8rem;
-    color: #94A3B8;
-    display: flex;
-    gap: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
-    padding-top: 0.75rem;
-    margin-top: 0.75rem;
+    color: var(--mmd-ink);
+    margin-bottom: 0.25rem;
 }
 
 /* Section styling */
 .mmd-section-title {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     font-weight: 700;
-    color: #1E293B;
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
+    color: var(--mmd-ink);
+    margin-top: 0.85rem;
+    margin-bottom: 0.45rem;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.45rem;
+}
+
+/* Clean industrial shell: hide Streamlit defaults */
+[data-testid="stDeployButton"],
+#MainMenu,
+footer {
+    display: none !important;
+}
+
+/* Market Ticker Tape */
+.mmd-market-tape {
+    background-color: var(--mmd-ink);
+    color: #E2E8F0;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.78rem;
+    font-family: var(--mmd-font-mono, monospace);
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    white-space: nowrap;
+    margin-bottom: 0.75rem;
+    border: 1px solid #334155;
+}
+.mmd-tape-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+.mmd-tape-label {
+    color: var(--mmd-muted);
+    font-weight: 600;
+}
+.mmd-tape-val {
+    color: #FFFFFF;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+.mmd-tape-chg-up {
+    color: #F87171; /* Price up = procurement risk */
+    font-size: 0.72rem;
+    font-variant-numeric: tabular-nums;
+}
+.mmd-tape-chg-down {
+    color: #4ADE80; /* Price down = procurement savings */
+    font-size: 0.72rem;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Andon Board Cards */
+.mmd-andon-card {
+    border-radius: 4px;
+    padding: 8px 10px;
+    margin-bottom: 6px;
+    border-left: 4px solid;
+    font-size: 0.82rem;
+}
+.mmd-andon-red {
+    background-color: #FDF2F2;
+    border-color: var(--mmd-red);
+    color: #8C1D18;
+}
+.mmd-andon-amber {
+    background-color: #FFFBEB;
+    border-color: var(--mmd-amber);
+    color: #92400E;
+}
+.mmd-andon-green {
+    background-color: #E8F5E9;
+    border-color: var(--mmd-green);
+    color: #1E7E34;
+}
+
+/* Buy Signal Badges */
+.buy-signal-buy-now {
+    background-color: var(--mmd-red);
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 0.72rem;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.04em;
+    display: inline-block;
+}
+.buy-signal-stagger {
+    background-color: var(--mmd-amber);
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 0.72rem;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.04em;
+    display: inline-block;
+}
+.buy-signal-hold {
+    background-color: var(--mmd-green);
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 0.72rem;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.04em;
+    display: inline-block;
 }

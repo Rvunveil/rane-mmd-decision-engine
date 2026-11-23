@@ -1,6 +1,6 @@
 """
 Independent Calculation Oracle for Rane (Madras) MMD Decision Engine
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 
 NON-NEGOTIABLE RULE:
 This module contains ZERO imports from engine/*.

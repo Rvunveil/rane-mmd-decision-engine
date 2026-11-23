@@ -38,6 +38,7 @@ class Results:
     worst_days_of_cover: float = 0.0
     worst_material_name: str = ""
     worst_runway_margin_days: float = 0.0
+    worst_margin_material_name: str = ""
     
     # Container Logistics Breakdown
     containers: list[dict[str, Any]] = field(default_factory=list)
@@ -48,4 +49,5 @@ class Results:
     action_rankings: list[dict[str, Any]] = field(default_factory=list)
     top_action_id: str = ""
     top_action_title: str = ""
+    top_action_short_name: str = ""
     top_action_net_benefit_cr: float = 0.0

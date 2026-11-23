@@ -1,6 +1,6 @@
 """
 Recalculation Chain & P&L Engine for Rane (Madras) MMD Decision Engine
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 Implements Section 7 financial, landed cost, and division formulas.
 """
 
@@ -210,7 +210,7 @@ def run_all(scenario: Scenario, assumptions: dict = None) -> Results:
         }
 
     # 8. Inventory Runway & Inbound Containers
-    inv_summary, worst_days, worst_mat, worst_margin = evaluate_inventory(scenario, assumptions, tonnes_map)
+    inv_summary, worst_days, worst_days_mat, worst_margin, worst_margin_mat = evaluate_inventory(scenario, assumptions, tonnes_map)
     containers, avg_payload, avg_freight_t = evaluate_containers(scenario, assumptions)
 
     # 9. Prescriptive Action Matrix
@@ -236,13 +236,15 @@ def run_all(scenario: Scenario, assumptions: dict = None) -> Results:
         division_costs=division_costs,
         inventory_summary=inv_summary,
         worst_days_of_cover=worst_days,
-        worst_material_name=worst_mat,
+        worst_material_name=worst_days_mat,
         worst_runway_margin_days=worst_margin,
+        worst_margin_material_name=worst_margin_mat,
         containers=containers,
         avg_container_payload_pct=avg_payload,
         avg_freight_per_tonne_inr=avg_freight_t,
         action_rankings=actions,
         top_action_id=top_act.get("id", ""),
         top_action_title=top_act.get("title", ""),
+        top_action_short_name=top_act.get("short_name", top_act.get("title", "")[:24]),
         top_action_net_benefit_cr=top_act.get("net_benefit_cr", 0.0)
     )

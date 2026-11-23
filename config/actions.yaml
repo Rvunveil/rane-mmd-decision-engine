@@ -1,5 +1,6 @@
 actions:
   - id: "ACT-01"
+    short_name: "Forward Hedge"
     title: "Commodity Hedge / Forward-Buy Metals"
     category: "Financial / Procurement"
     description: "Lock in forward contracts for 60% of next quarter's copper and aluminium requirements to cap upside spot surges."
@@ -29,6 +30,7 @@ actions:
     affected_suppliers: ["CODELCO / Enami (Chile)", "EGA / Alba (Middle East)"]
 
   - id: "ACT-02"
+    short_name: "Index Contracts"
     title: "Index-Linked OEM Formula Contract Renegotiation"
     category: "Commercial / Sales"
     description: "Renegotiate OEM pricing to link contract pass-through directly to ICEMA/LME monthly indices and reduce recovery lag from 75 to 30 days."
@@ -54,13 +56,14 @@ actions:
         reason: "Freight absorption passes directly to customer."
       Sales:
         status: "-"
-        reason: "Demands tough negotiations with OEM purchasing heads (Maruti, Tata, Hyundai)."
-    affected_suppliers: ["All Tier-1 OEM Customers (Maruti Suzuki, Tata Motors, M&M, Ashok Leyland)"]
+        reason: "Demands commercial negotiations with OEM purchasing councils [SAMPLE DATA]."
+    affected_suppliers: ["Tier-1 OEM Customer Accounts [SAMPLE DATA]"]
 
   - id: "ACT-03"
+    short_name: "Domestic Sourcing"
     title: "Dual-Sourcing & Domestic Substitution (Near-Shoring)"
     category: "Strategic Sourcing"
-    description: "Qualify domestic secondary aluminium smelters (Hindalco/Vedanta) and local resin compounders to reduce import exposure."
+    description: "Qualify domestic secondary aluminium smelters and local resin compounders [SAMPLE DATA] to reduce import exposure."
     time_to_implement: "6 - 10 weeks"
     cash_budget_required_cr: 8.5
     formula_cost: "5.5 + 0.02 * base_material_spend" # Tooling qualification & PPAP validation
@@ -84,10 +87,11 @@ actions:
       Sales:
         status: "+"
         reason: "Higher domestic value-add improves PLI scheme compliance."
-    affected_suppliers: ["Hindalco Industries", "Vedanta Aluminium", "Supreme Petrochem"]
+    affected_suppliers: ["Domestic Smelter Option 1", "Domestic Smelter Option 2", "Domestic Resin Compounder [SAMPLE DATA]"]
 
   - id: "ACT-04"
-    title: "Strategic Safety Stock Elevation (Buffer Buffer)"
+    short_name: "Buffer Stock"
+    title: "Strategic Safety Stock Elevation (Critical Inputs)"
     category: "Inventory Policy"
     description: "Temporarily boost safety stock coverage on imported copper and resin from 15 to 30 days during acute geopolitical tension."
     time_to_implement: "1 - 3 weeks"
@@ -109,13 +113,14 @@ actions:
         reason: "Standard inspection protocols preserved."
       Logistics:
         status: "-"
-        reason: "Warehouse yard congestion at Chennai and Sanand plants."
+        reason: "Warehouse yard congestion at central plant hubs."
       Sales:
         status: "+"
         reason: "100% On-Time Delivery (OTIF) maintained."
     affected_suppliers: ["Chilean Copper Importers", "East Asian Resin Suppliers"]
 
   - id: "ACT-05"
+    short_name: "Air-Freight Bridge"
     title: "Air-Freight Bridge for Critical Stock-Out Avoidance"
     category: "Emergency Logistics"
     description: "Fly 15 tonnes of high-precision valve nickel alloy from Europe via air cargo to prevent line-shutdown penalties."
@@ -145,6 +150,7 @@ actions:
     affected_suppliers: ["Aubert & Duval (France)", "VDM Metals (Germany)"]
 
   - id: "ACT-06"
+    short_name: "Cape Reroute"
     title: "Cape of Good Hope Rerouting & Early Slot Booking"
     category: "Ocean Logistics"
     description: "Bypass Red Sea/Suez chokepoints by contracting direct Cape of Good Hope routes with 45-day guaranteed vessel space allocations."
@@ -171,9 +177,10 @@ actions:
       Sales:
         status: "+"
         reason: "Provides credible revised schedules to OEM dispatch planners."
-    affected_suppliers: ["Maersk Line", "Mediterranean Shipping Company (MSC)"]
+    affected_suppliers: ["Global Container Carrier A", "Global Container Carrier B [SAMPLE DATA]"]
 
   - id: "ACT-07"
+    short_name: "Consolidate Boxes"
     title: "Container Consolidation & Payload Maximisation"
     category: "Logistics Optimization"
     description: "Re-engineer container packing patterns and combine LCL shipments into dense 25.5t FCL containers to achieve 98% payload utilisation."
@@ -203,6 +210,7 @@ actions:
     affected_suppliers: ["Global Freight Forwarders (Kuehne+Nagel, DHL Global Forwarding)"]
 
   - id: "ACT-08"
+    short_name: "Material Switch"
     title: "Engineering Material Substitution (Alternate Resins/Alloys)"
     category: "R&D / Value Engineering"
     description: "Deploy Rane R&D validated low-nickel stainless steel and composite phenolic friction grades with Tier-1 OEM sign-off."
@@ -232,6 +240,7 @@ actions:
     affected_suppliers: ["Internal Rane TRW / Rane Brake Lining R&D", "Specialty Resin Compounders"]
 
   - id: "ACT-09"
+    short_name: "Re-sequence Lines"
     title: "Production Dynamic Re-Sequencing & Overtime Control"
     category: "Operations Management"
     description: "Dynamically re-sequence plant schedules to prioritize models with high inventory cover, eliminating erratic overtime shifts."
@@ -258,9 +267,10 @@ actions:
       Sales:
         status: "-"
         reason: "Requires temporary delivery re-scheduling on secondary product lines."
-    affected_suppliers: ["Plant Operations (Puducherry, Sanand, Pantnagar, Queretaro)"]
+    affected_suppliers: ["Manufacturing Plant Units 1 to 4 [SAMPLE DATA]"]
 
   - id: "ACT-10"
+    short_name: "Do Nothing"
     title: "Do Nothing (Unmitigated Spot Exposure Reference)"
     category: "Baseline Reference"
     description: "Absorb full market spot prices, pay spot freight surcharges, and accept delayed customer shipments."

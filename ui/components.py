@@ -1,6 +1,6 @@
 """
 Shared UI Components for Rane (Madras) MMD Decision Engine
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 """
 
 import streamlit as st
@@ -20,7 +20,7 @@ def page_header(title: str, subtitle: str, module_no: str = None):
     )
 
 
-def kpi_card(label: str, value: str, delta_str: str = "", delta_type: str = "neutral"):
+def kpi_card(label: str, value: str, delta_str: str = "", delta_type: str = "neutral", tooltip: str = ""):
     """Render a single KPI card."""
     delta_class = "mmd-delta-neutral"
     if delta_type == "good":
@@ -29,10 +29,11 @@ def kpi_card(label: str, value: str, delta_str: str = "", delta_type: str = "neu
         delta_class = "mmd-delta-up-bad"
 
     delta_html = f'<div class="mmd-kpi-delta {delta_class}">{delta_str}</div>' if delta_str else ''
+    title_attr = f'title="{tooltip}"' if tooltip else ''
 
     st.markdown(
         f"""
-        <div class="mmd-kpi-card">
+        <div class="mmd-kpi-card" {title_attr}>
             <div class="mmd-kpi-label">{label}</div>
             <div class="mmd-kpi-value">{value}</div>
             {delta_html}
@@ -69,7 +70,12 @@ def kpi_strip(results, base_results):
 
     # 4. Material Δ
     mat_delta = results.delta_material_cr
-    mat_delta_str = f"Net pass-thru: +₹{results.oem_recovery_cr:.1f} Cr"
+    if abs(results.oem_recovery_cr) < 0.05:
+        mat_delta_str = "Net pass-thru: ₹0.0 Cr"
+    elif results.oem_recovery_cr > 0:
+        mat_delta_str = f"Net pass-thru: +₹{results.oem_recovery_cr:.1f} Cr"
+    else:
+        mat_delta_str = f"Net pass-thru: −₹{abs(results.oem_recovery_cr):.1f} Cr"
     with col4:
         kpi_card("Material Shock Δ", format_money_cr(mat_delta), mat_delta_str, "bad" if mat_delta > 0 else "good")
 
@@ -81,10 +87,16 @@ def kpi_strip(results, base_results):
 
     # 6. Top Action
     top_act = results.top_action_title
+    short_act = getattr(results, "top_action_short_name", "") or (top_act if len(top_act) <= 20 else top_act[:18])
     net_val = results.top_action_net_benefit_cr
-    display_act = top_act if len(top_act) <= 20 else top_act[:18] + "…"
+    if abs(net_val) < 0.05:
+        net_str = "Net: ₹0.0 Cr"
+    elif net_val > 0:
+        net_str = f"Net: +₹{net_val:.1f} Cr"
+    else:
+        net_str = f"Net: −₹{abs(net_val):.1f} Cr"
     with col6:
-        kpi_card("Top Ranked Action", display_act, f"Net: +₹{net_val:.1f} Cr", "good")
+        kpi_card("Top Ranked Action", short_act, net_str, "good", tooltip=top_act)
 
 
 def status_badge(text: str, status: str = "green") -> str:

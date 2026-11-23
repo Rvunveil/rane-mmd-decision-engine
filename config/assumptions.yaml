@@ -1,4 +1,4 @@
-# Team 11.59 Model Assumptions
+# Team 11:59 Model Assumptions
 # Every assumption is clearly labelled, editable in UI, and logged in ASSUMPTIONS.md
 
 financial_params:
@@ -173,7 +173,7 @@ container_logistics:
       cargo_tonnes: 24.2
       eta_days: 38
       status: "In Transit"
-      carrier: "MSC"
+      carrier: "Global Carrier 1 [SAMPLE DATA]"
     - id: "SHP-2026-084"
       material: "nickel"
       origin: "Surabaya, Indonesia"
@@ -189,7 +189,7 @@ container_logistics:
       cargo_tonnes: 25.0
       eta_days: 28
       status: "Delayed / Bottleneck"
-      carrier: "Maersk"
+      carrier: "Global Carrier 2 [SAMPLE DATA]"
     - id: "SHP-2026-092"
       material: "resin"
       origin: "Busan, South Korea"
@@ -197,7 +197,7 @@ container_logistics:
       cargo_tonnes: 20.5
       eta_days: 19
       status: "On Schedule"
-      carrier: "Hapag-Lloyd"
+      carrier: "Global Carrier 3 [SAMPLE DATA]"
     - id: "SHP-2026-095"
       material: "aluminium"
       origin: "Manama, Bahrain"
@@ -205,7 +205,7 @@ container_logistics:
       cargo_tonnes: 24.8
       eta_days: 31
       status: "Delayed / Bottleneck"
-      carrier: "CMA CGM"
+      carrier: "Global Carrier 4 [SAMPLE DATA]"
     - id: "SHP-2026-099"
       material: "copper"
       origin: "Valparaiso, Chile"
@@ -213,4 +213,4 @@ container_logistics:
       cargo_tonnes: 23.5
       eta_days: 42
       status: "In Transit"
-      carrier: "MSC"
+      carrier: "Global Carrier 1 [SAMPLE DATA]"

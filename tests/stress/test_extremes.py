@@ -1,6 +1,6 @@
 """
 Level 3 Tests (H01-H04, H11, H12): Extreme Boundary Stress & Assumptions Modification.
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 """
 
 import pytest

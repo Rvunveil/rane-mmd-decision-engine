@@ -1,6 +1,6 @@
-# ASSUMPTIONS.md · Rane (Madras) MMD Decision Engine
+# ASSUMPTIONS.md · Rane (Madras) MMD Decision Engine (V3)
 **Event:** Xovate'26 Management Hackathon  
-**Team 11.59:** Vikram T · Sayoni Dan · Trisha Pal · XIME Chennai  
+**Team 11:59:** Vikram T · Sayoni Dan · Trisha Pal · XIME Chennai  
 **Governing Standard:** Section 4 & 7 of the Hackathon Mandate  
 
 ---
@@ -9,7 +9,7 @@
 
 The official hackathon problem statement provides macroeconomic datasets (LME metals, Ministry of Steel, RBI Forex, NY Fed GSCPI, maritime chokepoints) alongside Rane's official baseline financials (Revenue ₹3,421 Cr, EBITDA ₹297.7 Cr, PAT ₹37.6 Cr, Material Spend ₹1,223 Cr, Freight Spend ₹25 Cr). 
 
-However, plant-level bill of materials (BOM), division allocations, inventory holdings, and corporate tax schedules are not provided in the raw files. In accordance with Section 0 and Section 4 of the prompt, Team 11.59 has established **defensible, transparent assumptions**, labelled them in the UI with `[TEAM ASSUMPTION]` badges, and verified them through automated unit and acceptance tests.
+However, plant-level bill of materials (BOM), division allocations, inventory holdings, and corporate tax schedules are not provided in the raw files. In accordance with Section 0 and Section 4 of the prompt, Team 11:59 has established **defensible, transparent assumptions**, labelled them in the UI with `[TEAM ASSUMPTION]` badges, and verified them through automated unit and acceptance tests.
 
 Every assumption is editable in the UI and can be audited live by judges.
 
@@ -23,7 +23,7 @@ The ₹1,223 Cr raw material spend across the 7 inputs is calibrated against the
 |---|---|---|---|---|---|---|---|
 | **Steel HR Coil (2.5mm)** | Domestic Coil | INR | 28.0% | **₹ 342.44 Cr** | ₹ 60,442 / t | 56,656 t | Primary feedstock for steering gears, linkages, tie rods, and chassis members. |
 | **Steel CR Coil (0.63mm)** | Domestic Coil | INR | 22.0% | **₹ 269.06 Cr** | ₹ 69,066 / t | 38,957 t | Precision cold-formed steering columns and valve stem guides. |
-| **Aluminium (LME Cash)** | Imported Ingot | USD | 22.0% | **₹ 269.06 Cr** | $2,526 / t | 12,596 t | Light-metal die casting plants in India and Queretaro, Mexico. |
+| **Aluminium (LME Cash)** | Imported Ingot | USD | 22.0% | **₹ 269.06 Cr** | $2,526 / t | 12,596 t | Light-metal die casting plants in India and overseas light casting operations [SAMPLE DATA]. |
 | **Copper Cathode** | Imported Metal | USD | 10.0% | **₹ 122.30 Cr** | $9,369 / t | 1,544 t | Electric power steering components, sensor wiring, friction heat dispersants. |
 | **Nickel Metal** | Imported Metal | USD | 6.0% | **₹ 73.38 Cr** | $16,553 / t | 524 t | Superalloy additions for heat-resistant internal combustion engine valves. |
 | **Phenolic Resin** | Imported Organic | USD | 6.0% | **₹ 73.38 Cr** | $1,437 / t | 5,992 t | Thermosetting polymer binder for automotive brake linings and friction pads. |
@@ -38,10 +38,10 @@ Rane (Madras) operates four core manufacturing divisions. Material spend is allo
 
 | Division | Revenue Share | Material Share | Base Material Spend | Dominant Inputs | Operating Plants |
 |---|---|---|---|---|---|
-| **Steering & Linkages** | 42.0% | 40.0% | ₹ 489.20 Cr | Steel HR (45%), Steel CR (35%), Aluminium (12%), Rubber (5%), Copper (3%) | Puducherry, Pantnagar, Sanand |
-| **Light-Metal Castings** | 28.0% | 27.0% | ₹ 330.21 Cr | Aluminium (72%), Copper (10%), Steel HR (10%), Steel CR (8%) | Chennai, Queretaro (Mexico) |
+| **Steering & Linkages** | 42.0% | 40.0% | ₹ 489.20 Cr | Steel HR (45%), Steel CR (35%), Aluminium (12%), Rubber (5%), Copper (3%) | Plant Unit 1, Unit 2, Unit 3 [SAMPLE DATA] |
+| **Light-Metal Castings** | 28.0% | 27.0% | ₹ 330.21 Cr | Aluminium (72%), Copper (10%), Steel HR (10%), Steel CR (8%) | Domestic & Overseas Plant Units [SAMPLE DATA] |
 | **Friction Materials & Brake Pads** | 16.0% | 18.0% | ₹ 220.14 Cr | Resin (32%), Rubber (28%), Copper (20%), Steels (20%) | Ambattur, Hyderabad |
-| **Engine Valves** | 14.0% | 15.0% | ₹ 183.45 Cr | Steel CR (40%), Nickel (35%), Steel HR (15%), Others (10%) | Viralimalai, Tumkur |
+| **Engine Valves** | 14.0% | 15.0% | ₹ 183.45 Cr | Steel CR (40%), Nickel (35%), Steel HR (15%), Others (10%) | Component Manufacturing Units [SAMPLE DATA] |
 
 ---
 
@@ -81,3 +81,19 @@ Rane (Madras) operates four core manufacturing divisions. Material spend is allo
   - Resin: 40 days (East Asian petrochemical plants)
   - Rubber: 21 days (Kerala domestic market)
   - Steel HR/CR: 25–28 days (Domestic integrated mills)
+
+---
+
+## 6. V3 Truth Pass Parameters & Calibrations (T1–T5)
+
+- **Symmetric Pass-Through Monte Carlo (T4):**  
+  In accordance with Rule T4, pass-through recovery operates symmetrically across positive and negative shocks:  
+  $$\text{Recovery} = \text{PassThrough}\% \times (\Delta \text{Material} + \Delta \text{Freight})$$  
+  $$\Delta \text{EBITDA} = -\Delta \text{Material} - \Delta \text{Freight} + \text{Recovery}$$  
+  - Under zero volatility scale (`volatility_scale=0.0`), the simulation collapses identically to deterministic arithmetic: $P10 = P50 = P90 = \text{₹}297.70$ Cr.
+  - Base case median EBITDA is ₹293.74 Cr (within $\pm 5$ Cr of baseline).
+  - Material volatilities are computed dynamically from cleaned historical returns.
+- **Strict Neutral Labelling (T5):**  
+  In compliance with hackathon rules, all references to real commercial entities not in the dataset have been replaced with neutral descriptive labels (e.g., "OEM customer group A", "Carrier 1", "Domestic smelter option") and explicitly flagged with `[SAMPLE DATA]` or `[TEAM ASSUMPTION]`.
+- **Reproducible Backtest Metrics (T2 & T3):**  
+  Cross-validation metrics and 12-month forward forecasts are dynamically generated via `scripts/run_backtests.py` and `scripts/precompute_forecasts.py` using genuine statsforecast algorithms (AutoTheta, AutoETS, AutoARIMA) with zero manual edits.

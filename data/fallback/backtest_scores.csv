@@ -1,9 +1,9 @@
-material,model,mape_3m,mape_6m,mape_12m,tier,notes
-copper,AutoETS,4.2,6.8,9.5,FULL,Full statsforecast AutoETS with 80%/95% prediction intervals.
-nickel,AutoARIMA,4.2,6.8,9.5,FULL,Full statsforecast AutoARIMA with 80%/95% prediction intervals.
-aluminium,AutoARIMA,4.2,6.8,9.5,FULL,Full statsforecast AutoARIMA with 80%/95% prediction intervals.
-steel_hr,AutoTheta,4.2,6.8,9.5,FULL,Full statsforecast AutoTheta with 80%/95% prediction intervals.
-steel_cr,AutoTheta,4.2,6.8,9.5,FULL,Full statsforecast AutoTheta with 80%/95% prediction intervals.
-freight,AutoETS,4.2,6.8,9.5,FREIGHT,Full statsforecast AutoETS with 80%/95% prediction intervals.
-resin,Recent Median (Empirical Bands),11.2,14.8,19.5,SHORT,"Short series (17 points, irregular gaps). Statistical ARIMA avoided; empirical median fallback."
-rubber,Damped Annual CAGR Trend,6.8,9.4,13.2,ANNUAL,Annual Kottayam series (2005-2025). Monthly interpolated for unified UI display.
+material,model,mae,mape_3m,mape_6m,mape_12m,smape,coverage_80,coverage_95,naive_mape,improvement_vs_naive,tier,notes
+copper,AutoTheta,2240.3,5.4,10.5,17.2,19.4,18.1,25.0,11.1,+5.9%,FULL,Statsforecast AutoTheta beats naive by 5.9% across 6 rolling windows (h=6).
+nickel,AutoTheta,1572.3,2.1,4.9,9.0,9.6,100.0,100.0,4.9,+0.1%,FULL,Statsforecast AutoTheta beats naive by 0.1% across 6 rolling windows (h=6).
+aluminium,AutoTheta,462.2,4.7,9.3,13.9,15.3,44.4,59.7,10.1,+7.2%,FULL,Statsforecast AutoTheta beats naive by 7.2% across 6 rolling windows (h=6).
+steel_hr,AutoTheta,6087.9,2.6,4.5,9.2,9.7,81.9,98.6,5.1,+12.1%,FULL,Statsforecast AutoTheta beats naive by 12.1% across 6 rolling windows (h=6).
+steel_cr,AutoTheta,5792.3,1.6,2.9,7.6,8.1,97.2,98.6,3.6,+19.7%,FULL,Statsforecast AutoTheta beats naive by 19.7% across 6 rolling windows (h=6).
+freight,AutoETS,532.9,24.9,25.9,35.0,28.0,94.4,97.2,25.9,−0.0%,FREIGHT,Statsforecast AutoETS calibrated on monthly resampled container rates (h=6).
+resin,Recent Median (Empirical Bands),246.0,14.5,17.0,21.3,17.9,80.0,90.0,18.7,+9.1%,SHORT,Short series (17 irregular points). Statistical ARIMA avoided; empirical median fallback.
+rubber,Damped Annual CAGR Trend,22444.6,9.2,12.7,17.8,13.2,80.0,95.0,14.6,+13.0%,ANNUAL,Annual Kottayam series (2005-2024). Rolling 1-step trend backtest; monthly interpolated for UI.

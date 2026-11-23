@@ -1,6 +1,6 @@
 """
 Official Section 8 Acceptance Tests for Rane (Madras) MMD Decision Engine
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 All tests written BEFORE engine code ("implement until green").
 """
 

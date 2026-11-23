@@ -1,8 +1,8 @@
 [theme]
-primaryColor = "#1E3A8A"
-backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#F8FAFC"
-textColor = "#0F172A"
+primaryColor = "#2F5D7C"
+backgroundColor = "#EEF1F2"
+secondaryBackgroundColor = "#F8F9F9"
+textColor = "#1D262C"
 font = "sans serif"
 
 [server]
@@ -13,3 +13,6 @@ enableXsrfProtection = false
 
 [browser]
 gatherUsageStats = false
+
+[client]
+toolbarMode = "minimal"

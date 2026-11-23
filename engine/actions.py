@@ -1,6 +1,6 @@
 """
 Prescriptive Action Matrix & PuLP Optimization Engine
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 Evaluates costs, benefits, live re-ranking, and cross-functional ripple effects.
 """
 
@@ -73,7 +73,9 @@ def evaluate_actions(
 
         elif aid == "ACT-07": # Container Consolidation
             cost = 1.2
-            benefit = 0.18 * baseline_freight_cr * freight_mult # 4.5 Cr at base
+            # B10 calibrated: payload efficiency 89.7% -> 98.0% saves (1 - 89.7/98.0) of freight spend
+            current_freight_spend = baseline_freight_cr * freight_mult
+            benefit = current_freight_spend * (1.0 - (89.7 / 98.0))
 
         elif aid == "ACT-08": # Engineering Substitution
             cost = 3.5
@@ -92,6 +94,7 @@ def evaluate_actions(
         evaluated.append({
             "id": aid,
             "title": act.get("title", aid),
+            "short_name": act.get("short_name", act.get("title", aid)[:20]),
             "category": act.get("category", "General"),
             "description": act.get("description", ""),
             "time_to_implement": act.get("time_to_implement", "1-2 weeks"),
@@ -143,3 +146,8 @@ def optimize_action_bundle(actions: list[dict], cash_budget_cr: float) -> tuple[
                     best_combo = [candidates[j] for j in range(n) if (i & (1 << j))]
 
     return best_combo, best_spend, best_val
+
+
+# Backward-compatible alias
+optimize_action_portfolio = optimize_action_bundle
+

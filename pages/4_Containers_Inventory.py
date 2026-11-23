@@ -1,13 +1,14 @@
 """
 Module 4: Inbound Containers & Inventory Runway
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 """
 
 import streamlit as st
 import pandas as pd
 from engine.scenario import Scenario, get_default_presets
 from engine.chain import run_all
-from ui.components import page_header, kpi_strip, section, insight, explain_box, status_badge
+from engine.exposure import compute_exposure_map, plot_exposure_map
+from ui.components import page_header, kpi_strip, section, insight, explain_box, status_badge, data_badge
 from ui.charts import plot_inventory_runway
 from ui.theme import format_money_cr, format_days, format_inr_t
 
@@ -22,13 +23,13 @@ page_header("Containers & Inventory Model", "Inbound container payloads, freight
 kpi_strip(results, base_results)
 
 # 1. Dynamic Inventory Runway Chart
-section("📊 Inventory Runway vs Effective Lead Time (Days of Cover)", "Visualising vulnerability: Red = Stock-out risk (< Effective LT); Amber = Reorder trigger (< ROP)")
+section(":material/bar_chart: Inventory Runway vs Effective Lead Time (Days of Cover)", "Visualising vulnerability: Red = Stock-out risk (< Effective LT); Amber = Reorder trigger (< ROP)")
 
 fig_inv = plot_inventory_runway(results.inventory_summary)
 st.plotly_chart(fig_inv, use_container_width=True)
 
 # 2. Granular Inventory Policy Table
-section("📋 Inventory Policy & Buffer Health Matrix", "Safety stock sizing (95% service level) and reorder points reacting to shipping delays")
+section(":material/table_chart: Inventory Policy & Buffer Health Matrix", "Safety stock sizing (95% service level) and reorder points reacting to shipping delays")
 
 inv_table_rows = []
 for row in results.inventory_summary:
@@ -53,8 +54,16 @@ st.write(df_inv_display.to_html(escape=False, index=False), unsafe_allow_html=Tr
 
 st.markdown("<br>", unsafe_allow_html=True)
 
+# 2. Global Inbound Trade Lane Exposure Map (N2)
+section(":material/public: Global Inbound Trade Lane Exposure Map (N2)", "Maritime corridors into Chennai / Ennore & JNPT with transit days and spend at risk")
+exposure_data = compute_exposure_map(active_scn)
+fig_map = plot_exposure_map(exposure_data)
+st.plotly_chart(fig_map, use_container_width=True)
+
+st.markdown("<br>", unsafe_allow_html=True)
+
 # 3. Inbound Container Shipments & Payload Utilisation
-section("🚢 Inbound Container Tracking & Payload Efficiency", "40ft container payload utilisation (%) and ocean freight landed cost per tonne")
+section(":material/directions_boat: Inbound Container Tracking & Payload Efficiency " + data_badge("SAMPLE DATA"), "40ft container payload utilisation (%) and ocean freight landed cost per tonne")
 
 col_cnt1, col_cnt2, col_cnt3 = st.columns(3)
 with col_cnt1:
@@ -62,7 +71,8 @@ with col_cnt1:
 with col_cnt2:
     st.metric("Avg Inbound Freight Landed Cost", f"₹ {results.avg_freight_per_tonne_inr:,.0f} / t", f"Multiplier: {active_scn.freight_multiplier:.2f}x")
 with col_cnt3:
-    st.metric("Active Maritime Shipping Delay", f"+{active_scn.shipping_delay_days} days", "Cape of Good Hope rerouting")
+    delay_sub = "Cape of Good Hope rerouting" if active_scn.shipping_delay_days > 0 else "Normal Suez & Gulf routing"
+    st.metric("Active Maritime Shipping Delay", f"+{active_scn.shipping_delay_days} days", delay_sub)
 
 container_table_rows = []
 for c in results.containers:
@@ -94,8 +104,8 @@ if stock_out_items:
     )
 else:
     insight(
-        f"Inventory buffer is stable. Worst runway margin is <b>{results.worst_runway_margin_days:+.1f} days</b> on <b>{results.worst_material_name}</b>. "
-        "Container payload efficiency stands at <b>{results.avg_container_payload_pct:.1f}%</b>."
+        f"Inventory buffer is stable. Worst runway margin is <b>{results.worst_runway_margin_days:+.1f} days</b> on <b>{results.worst_margin_material_name}</b>. "
+        f"Container payload efficiency stands at <b>{results.avg_container_payload_pct:.1f}%</b>."
     )
 
 explain_box(

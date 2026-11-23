@@ -11,7 +11,7 @@ from ui.theme import (
     COLOR_BRAND_PRIMARY, COLOR_BRAND_SECONDARY, COLOR_BRAND_DARK,
     COLOR_BG_MAIN, COLOR_BG_CARD, COLOR_BORDER,
     COLOR_STATUS_GREEN, COLOR_STATUS_AMBER, COLOR_STATUS_RED,
-    COLOR_BASELINE, COLOR_ACTIVE, MATERIAL_COLORS
+    COLOR_BASELINE, COLOR_ACTIVE, MATERIAL_COLORS, format_money_cr
 )
 
 # Register custom 'mmd' template
@@ -179,15 +179,21 @@ def plot_ebitda_waterfall(
 
     measure = ["absolute", "relative", "relative", "relative", "relative", "total", "relative", "total"]
 
+    # T9: Normalized deltas with single true minus sign and negative zero prevention
+    def _fmt_delta(v: float) -> str:
+        if abs(v) < 0.005:
+            return "₹ 0.0 Cr"
+        return format_money_cr(v, show_sign=True)
+
     text = [
-        f"₹{base_ebitda:.1f} Cr",
-        f"-₹{delta_material:.1f} Cr" if delta_material > 0 else f"+₹{-delta_material:.1f} Cr",
-        f"-₹{delta_freight:.1f} Cr" if delta_freight > 0 else f"+₹{-delta_freight:.1f} Cr",
-        f"+₹{recovery:.1f} Cr" if recovery >= 0 else f"-₹{-recovery:.1f} Cr",
-        f"-₹{lost_contrib:.1f} Cr" if lost_contrib > 0 else f"+₹{-lost_contrib:.1f} Cr",
-        f"₹{scenario_ebitda:.1f} Cr",
-        f"₹{fixed_da_tax:.1f} Cr",
-        f"₹{scenario_pat:.1f} Cr"
+        format_money_cr(base_ebitda),
+        _fmt_delta(-delta_material),
+        _fmt_delta(-delta_freight),
+        _fmt_delta(recovery),
+        _fmt_delta(-lost_contrib),
+        format_money_cr(scenario_ebitda),
+        format_money_cr(fixed_da_tax),
+        format_money_cr(scenario_pat)
     ]
 
     fig = go.Figure(go.Waterfall(
@@ -198,16 +204,22 @@ def plot_ebitda_waterfall(
         textposition="outside",
         text=text,
         y=y,
-        connector={"line": {"color": "#94A3B8"}},
+        connector={"line": {"color": "#C9D1D5"}},
         decreasing={"marker": {"color": COLOR_STATUS_RED}},
         increasing={"marker": {"color": COLOR_STATUS_GREEN}},
         totals={"marker": {"color": COLOR_ACTIVE}}
     ))
 
     fig.update_layout(
-        title="<b>EBITDA & PAT Waterfall Bridge (₹ Cr)</b>",
+        title=dict(
+            text="<b>EBITDA & PAT Waterfall Bridge (₹ Cr)</b>",
+            font=dict(size=12, color="#1D262C"),
+            x=0.01,
+            y=0.96
+        ),
         yaxis_title="₹ Crores",
-        height=400,
+        height=380,
+        margin=dict(l=40, r=20, t=45, b=30),
         showlegend=False
     )
     return fig
@@ -301,9 +313,23 @@ def plot_inventory_runway(inventory_rows: list[dict]) -> go.Figure:
     ))
 
     fig.update_layout(
-        title="<b>Inventory Runway vs Effective Lead Time (Days)</b>",
-        xaxis_title="Days",
-        height=380,
+        title=dict(
+            text="<b>Inventory Runway vs Effective Lead Time (Days)</b>",
+            font=dict(size=12, color="#1D262C"),
+            x=0.01,
+            y=0.96
+        ),
+        xaxis_title="Days of Cover",
+        height=360,
+        margin=dict(l=20, r=20, t=50, b=30),
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1.0,
+            font=dict(size=10)
+        ),
         barmode='group'
     )
     return fig
@@ -327,7 +353,7 @@ def plot_freight_redating_trace(raw_df: pd.DataFrame, fixed_df: pd.DataFrame) ->
     fig.add_trace(go.Scatter(
         x=fixed_df['date'],
         y=fixed_df['rate'],
-        name="Team 11.59 Deliberate Fix (Weekly ending 19 Mar 2026)",
+        name="Team 11:59 Deliberate Fix (Weekly ending 19 Mar 2026)",
         mode="lines",
         line=dict(color=COLOR_BRAND_PRIMARY, width=2.5),
         hovertemplate="Fixed Date: %{x|%Y-%m-%d}: $%{y:,.0f}<extra></extra>"
@@ -348,9 +374,178 @@ def plot_freight_redating_trace(raw_df: pd.DataFrame, fixed_df: pd.DataFrame) ->
     )
 
     fig.update_layout(
-        title="<b>Deliberate Data-Judgement Fix: Weekly Container Freight Re-dating</b>",
+        title=dict(
+            text="<b>Deliberate Data-Judgement Fix: Weekly Container Freight Re-dating</b>",
+            font=dict(size=12, color="#1D262C"),
+            x=0.01,
+            y=0.96
+        ),
         yaxis_title="USD per 40ft Container",
         xaxis_title="Timeline",
-        height=400
+        height=380,
+        margin=dict(l=40, r=20, t=50, b=30)
     )
     return fig
+
+
+def plot_profit_at_risk_distribution(risk_data: dict) -> go.Figure:
+    """
+    Renders Monte Carlo profit-at-risk distribution with P10/P50/P90 and breakeven cutoff.
+    T7 / Section 6: Non-overlapping annotations, axes in ₹ Cr.
+    """
+    samples = risk_data.get("ebitda_samples", [])
+    fig = go.Figure()
+
+    if samples:
+        fig.add_trace(go.Histogram(
+            x=samples,
+            nbinsx=40,
+            name="EBITDA Paths",
+            marker=dict(color="#2F5D7C", opacity=0.75, line=dict(color="#1D262C", width=0.5)),
+            hovertemplate="Simulated EBITDA: ₹%{x:.1f} Cr<br>Paths: %{y}<extra></extra>"
+        ))
+
+    # P10, P50, P90 lines
+    p10 = risk_data.get("p10_ebitda_cr", 200.0)
+    p50 = risk_data.get("p50_ebitda_cr", 270.0)
+    p90 = risk_data.get("p90_ebitda_cr", 310.0)
+    fixed_da = 247.458 # PAT = 0 cutoff
+
+    fig.add_vline(x=p10, line=dict(color="#C2382B", dash="dash", width=2),
+                  annotation_text=f"P10: ₹{p10:.1f} Cr", annotation_position="top left",
+                  annotation_font=dict(size=10, color="#C2382B"))
+    fig.add_vline(x=p50, line=dict(color="#1D262C", dash="solid", width=2.5),
+                  annotation_text=f"P50: ₹{p50:.1f} Cr", annotation_position="top",
+                  annotation_font=dict(size=10, color="#1D262C"))
+    fig.add_vline(x=p90, line=dict(color="#1E8A4C", dash="dash", width=2),
+                  annotation_text=f"P90: ₹{p90:.1f} Cr", annotation_position="top right",
+                  annotation_font=dict(size=10, color="#1E8A4C"))
+    fig.add_vline(x=fixed_da, line=dict(color="#8E9AA2", dash="dot", width=1.5),
+                  annotation_text="PAT=0 Cutoff (₹247.5 Cr)", annotation_position="bottom right",
+                  annotation_font=dict(size=9, color="#536471"))
+
+    fig.update_layout(
+        title=dict(
+            text=f"<b>Profit-at-Risk Monte Carlo (2,000 Paths) · P(PAT &lt; 0) = {risk_data.get('prob_loss_pat_pct', 0.0):.1f}%</b>",
+            font=dict(size=12, color="#1D262C"),
+            x=0.01,
+            y=0.96
+        ),
+        xaxis_title="Simulated Operating Profit EBITDA (₹ Cr)",
+        yaxis_title="Path Frequency",
+        height=320,
+        margin=dict(l=40, r=20, t=50, b=30),
+        showlegend=False
+    )
+    return fig
+
+
+def plot_cash_timeline_trough(timeline_data: dict) -> go.Figure:
+    """
+    Renders 12-month cash deficit profile showing the OEM recovery lag trough.
+    Section 6: Shows 'No cash deficit in this scenario' if all values are zero.
+    """
+    months = timeline_data.get("months", [])
+    labels = [m["month_name"] for m in months]
+    gross = [m["gross_shock_cr"] for m in months]
+    recovery = [m["oem_recovery_cr"] for m in months]
+    cumulative = [m["cumulative_cash_deficit_cr"] for m in months]
+
+    fig = go.Figure()
+
+    has_deficit = any(abs(c) > 0.05 for c in cumulative) or any(abs(g) > 0.05 for g in gross)
+
+    if not has_deficit:
+        # Clean baseline indicator instead of empty broken chart
+        fig.add_hline(y=0.0, line_dash="solid", line_color="#C9D1D5", line_width=1.5)
+        fig.add_annotation(
+            text="<b>No working capital cash deficit in this scenario</b><br><span style='font-size:11px; color:#536471;'>Revenues and expenditures operate at calibrated baseline parity.</span>",
+            x=0.5,
+            y=0.5,
+            xref="paper",
+            yref="paper",
+            showarrow=False,
+            font=dict(size=13, color="#1D262C")
+        )
+        fig.update_layout(
+            title=dict(
+                text=f"<b>12-Month Projected Cash Deficit Profile (Lag: {timeline_data.get('lag_days', 75)}d)</b>",
+                font=dict(size=12, color="#1D262C"),
+                x=0.01,
+                y=0.96
+            ),
+            yaxis=dict(title="Cash Flow (₹ Cr)", range=[-5, 5]),
+            xaxis_title="Fiscal Month",
+            height=320,
+            margin=dict(l=40, r=20, t=50, b=30),
+            showlegend=False
+        )
+        return fig
+
+    # Gross shock bar (negative cash out)
+    fig.add_trace(go.Bar(
+        x=labels,
+        y=[-g for g in gross],
+        name="Gross Cost Surge (Outflow)",
+        marker=dict(color="#C2382B", opacity=0.75),
+        hovertemplate="%{x}<br>Gross Outflow: −₹%{customdata:.2f} Cr<extra></extra>",
+        customdata=gross
+    ))
+
+    # OEM recovery bar (cash in)
+    fig.add_trace(go.Bar(
+        x=labels,
+        y=recovery,
+        name="OEM Pass-Through (Inflow)",
+        marker=dict(color="#1E8A4C", opacity=0.75),
+        hovertemplate="%{x}<br>OEM Reimbursement: +₹%{y:.2f} Cr<extra></extra>"
+    ))
+
+    # Cumulative cash line
+    fig.add_trace(go.Scatter(
+        x=labels,
+        y=cumulative,
+        name="Cumulative Cash Deficit",
+        mode="lines+markers",
+        line=dict(color="#1D262C", width=2.5),
+        marker=dict(size=6, color="#1D262C"),
+        hovertemplate="%{x}<br>Cumulative Deficit: ₹%{y:.2f} Cr<extra></extra>"
+    ))
+
+    # Highlight trough
+    trough_val = timeline_data.get("max_cumulative_deficit_cr", 0.0)
+    trough_m = timeline_data.get("trough_month_name", "M3 (Jun)")
+    if trough_val < -0.1:
+        fig.add_annotation(
+            x=trough_m,
+            y=trough_val,
+            text=f"Cash Trough: ₹{trough_val:.1f} Cr",
+            showarrow=True,
+            arrowhead=2,
+            arrowcolor="#C2382B",
+            font=dict(color="#C2382B", size=10, weight="bold")
+        )
+
+    fig.update_layout(
+        title=dict(
+            text=f"<b>12-Month Projected Cash Deficit Profile (Lag: {timeline_data.get('lag_days', 75)}d)</b>",
+            font=dict(size=12, color="#1D262C"),
+            x=0.01,
+            y=0.96
+        ),
+        yaxis_title="Cash Flow (₹ Cr)",
+        xaxis_title="Fiscal Month",
+        barmode="relative",
+        height=320,
+        margin=dict(l=40, r=20, t=50, b=30),
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1.0,
+            font=dict(size=10)
+        )
+    )
+    return fig
+

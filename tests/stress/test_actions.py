@@ -1,6 +1,6 @@
 """
 Level 2 Tests (M21-M23): Prescriptive Action Matrix, Re-ranking & Ripple Effects.
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 """
 
 import pytest
@@ -14,11 +14,12 @@ def test_M21_action_matrix_hand_calc():
     res_base = run_all(Scenario())
     actions_base = {a["id"]: a for a in res_base.action_rankings}
 
-    # ACT-07: Container Consolidation
-    # Cost = 1.2 Cr; Benefit = 0.18 * 25.0 * 1.0 = 4.5 Cr; Net = 3.3 Cr
-    assert abs(actions_base["ACT-07"]["cost_cr"] - 1.2) < 1e-4
-    assert abs(actions_base["ACT-07"]["benefit_cr"] - 4.5) < 1e-4
-    assert abs(actions_base["ACT-07"]["net_benefit_cr"] - 3.3) < 1e-4
+    # ACT-07: Container Consolidation (B10 calibrated: 25.0 * (1 - 89.7/98.0) = 2.1173 Cr)
+    exp_benefit_07 = 25.0 * (1.0 - (89.7 / 98.0))
+    exp_cost_07 = 1.2
+    assert abs(actions_base["ACT-07"]["cost_cr"] - exp_cost_07) < 1e-4
+    assert abs(actions_base["ACT-07"]["benefit_cr"] - exp_benefit_07) < 1e-4
+    assert abs(actions_base["ACT-07"]["net_benefit_cr"] - (exp_benefit_07 - exp_cost_07)) < 1e-4
 
     # ACT-01: Commodity Hedge (No shock at base)
     # Cost = 1.2 Cr; Benefit = 0.0 Cr; Net = -1.2 Cr
