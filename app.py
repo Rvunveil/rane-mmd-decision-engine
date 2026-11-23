@@ -12,7 +12,7 @@ page_setup(title="MMD Decision Engine · Team 11.59")
 
 # Define pages for st.navigation
 pages = [
-    st.Page("pages/0_Command_Centre.py", title="Command Centre", icon="🎯", default=True),
+    st.Page("pages/0_Command_Centre.py", title="Materials Control Room", icon="🎛️", default=True),
     st.Page("pages/1_Forecast.py", title="1 Price & Freight Forecast", icon="📈"),
     st.Page("pages/2_Scenario_Simulator.py", title="2 What-if Scenario Simulator", icon="⚡"),
     st.Page("pages/3_Profit_Chain.py", title="3 Live Recalculation Chain", icon="⛓️"),
