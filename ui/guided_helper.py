@@ -11,7 +11,7 @@ import streamlit as st
 from engine.state import apply_scenario_values, get_current_scenario
 from engine.chain import run_all
 from engine.scenario import Scenario
-from engine.actions import optimize_action_portfolio
+from engine.actions import optimize_action_bundle
 from engine.functions import compute_cross_functional_lenses
 from ui.theme import format_money_cr
 
@@ -96,7 +96,7 @@ def compute_guided_recommendation(event_type: str, severity: str, custom_val: fl
     cost_impact = abs(min(delta_ebitda, 0.0))
 
     # Prescriptive actions
-    best_combo, best_spend, best_val = optimize_action_portfolio(prop_res.action_rankings, 15.0)
+    best_combo, best_spend, best_val = optimize_action_bundle(prop_res.action_rankings, 15.0)
     top_action = best_combo[0] if best_combo else (prop_res.action_rankings[0] if prop_res.action_rankings else None)
 
     # Cross-functional lenses
