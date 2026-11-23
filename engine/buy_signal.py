@@ -1,6 +1,6 @@
 """
 Buy-Timing Signal Engine (N6)
-Rane (Madras) MMD Decision Engine · Team 11.59 · Xovate'26
+Rane (Madras) MMD Decision Engine · Team 11:59 · Xovate'26
 
 Generates algorithmic buy-timing recommendations for MMD procurement buyers:
 'BUY NOW' (Front-Load), 'STAGGER' (Tranche / Dollar-Cost Average), or 'HOLD' (Buffer Draw-Down).

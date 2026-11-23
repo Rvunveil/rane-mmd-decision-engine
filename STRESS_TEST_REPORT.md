@@ -1,6 +1,6 @@
 # Stress Test Report — Rane (Madras) MMD Decision Engine
 **Event:** Xovate'26 Management Hackathon  
-**Team 11.59:** Vikram T · Sayoni Dan · Trisha Pal · XIME Chennai  
+**Team 11:59:** Vikram T · Sayoni Dan · Trisha Pal · XIME Chennai  
 **Date/Time:** 2026-11-23 12:35 IST · **Git Commit:** `23c4c20`  
 **Environment:** Windows 11 x64 · Python 3.12.10 · Streamlit 1.67.0 · Pandas 2.3.3 · NumPy 2.5.5 · Plotly 7.1.0 · Statsforecast 2.1.1 · PuLP 4.3.1  
 
@@ -61,7 +61,7 @@
 | **E02** | Every page loads under Base | Instantiate `AppTest` for all 7 pages | 0 exceptions, 0 error banners | All 7 pages load cleanly with 0 exceptions | **PASS** | `test_ui_apptest.py::test_E02_all_pages_load_under_base_case` |
 | **E03** | Pages load under all presets | Test Red Sea, Metal Shock, Tariff FX across key pages | 0 exceptions across page × preset matrix | Matrix executed with 0 errors | **PASS** | `test_ui_apptest.py::test_E03_pages_load_under_presets` |
 | **E04** | Consistent layout & KPI strip | Inspect header, KPI strip, footer across pages | Identical HTML structures and styles | Consistent design tokens across all 7 pages | **PASS** | `qa/screenshots/page0` through `page6` |
-| **E05** | Branding tokens | Search for tool name, team members, institute | "Rane (Madras)", "Team 11.59", "Vikram T", "Sayoni Dan", "Trisha Pal", "XIME Chennai" | All present in hero banner, sidebar, About tab, footer | **PASS** | `test_ui_apptest.py::test_E05_branding_text_present` |
+| **E05** | Branding tokens | Search for tool name, team members, institute | "Rane (Madras)", "Team 11:59", "Vikram T", "Sayoni Dan", "Trisha Pal", "XIME Chennai" | All present in hero banner, sidebar, About tab, footer | **PASS** | `test_ui_apptest.py::test_E05_branding_text_present` |
 | **E06** | Reset after moving sliders | Trigger reset button in sidebar | Returns to exact Base case (E01) | Exact baseline restored | **PASS** | Verified in `layout.py` & AppTest |
 | **E07** | Preset sets sliders to documented values | Load Red Sea, Metal Shock presets | Red Sea freight=2.73x, delay=18d; Metal shock Cu=+35%, Steel HR=+28% | Matches `config/presets.yaml` exactly | **PASS** | `test_ui_apptest.py::test_E07_preset_slider_values_documented` |
 | **E08** | Scenario persistence | Navigate between pages in session state | Active scenario preserved across multipage navigation | Preserved via `st.session_state.active_scenario` | **PASS** | Verified in smoke & AppTest |
@@ -231,7 +231,7 @@ Case 5: Brutal Multivariant: All +15%, Freight x2.5, FX 95, Demand -10%, Pass 40
 
 ## 9. Data Verification Appendix
 
-| Dataset Fix | Issue in Raw Data | Team 11.59 Deliberate Fix | Before Metric | After Metric | Verification Test |
+| Dataset Fix | Issue in Raw Data | Team 11:59 Deliberate Fix | Before Metric | After Metric | Verification Test |
 |---|---|---|---|---|---|
 | **Weekly Container Freight** | File labelled daily in 2023 | Re-dated weekly ending 2026-03-19 | Consecutive days in 2023 | 165 weekly points; min $1,342, peak $5,937, terminal $2,172 | `test_data_loader.py::test_container_freight_redating_anchors` |
 | **Forex RBI Rate** | Duplicates, strings, missing | Deduplicated, sorted, numeric | 6,280 mixed rows | 6,259 strictly monotonic rows; FY25 avg ₹84.56 | `test_data_loader.py::test_forex_dedup_and_numeric` |

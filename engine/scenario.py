@@ -1,6 +1,6 @@
 """
 Scenario Dataclass and Preset Definitions for Rane MMD Decision Engine
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 """
 
 from dataclasses import dataclass, field

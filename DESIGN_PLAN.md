@@ -1,5 +1,5 @@
 # Rane (Madras) MMD Decision Engine · Design Plan & Aesthetic Specification
-**Team 11.59 · Xovate'26 Management Hackathon**  
+**Team 11:59 · Xovate'26 Management Hackathon**  
 *Lead Designers & Engineers: Vikram T, Sayoni Dan, Trisha Pal (XIME Chennai)*
 
 ---
@@ -39,7 +39,7 @@ Rather than appearing as a generic, airy SaaS web app or a template-driven proto
 
 ## 3. Design Critique Against Generic AI Defaults
 
-| Dimension | Generic AI Prototype Default | Team 11.59 Industrial Standard |
+| Dimension | Generic AI Prototype Default | Team 11:59 Industrial Standard |
 |---|---|---|
 | **Color Scheme** | Generic AI purple (`#6366F1`) & neon gradients | Precision Mill-scale graphite (`#1E293B`) & Galvanised steel blue (`#0284C7`) |
 | **Typography** | Default browser sans, wavy spacing | High-legibility Inter/SF Pro with monospace tabular figures (`font-variant-numeric: tabular-nums`) |
@@ -95,7 +95,7 @@ Rather than appearing as a generic, airy SaaS web app or a template-driven proto
 +---------------------------------------------------------------------------------------------------------------+
 | LIVE COMMODITY TAPE:  Cu: $9,650/t (+3.2%) | Al: $2,420/t (+1.5%) | Fe: ₹58,400/t (-0.4%) | Freight: $4,850/40ft (+123%) | FX: ₹86.40 |
 +---------------------------------------------------------------------------------------------------------------+
-| RANE (MADRAS) MATERIALS CONTROL ROOM · TEAM 11.59 (XIME CHENNAI)                                               |
+| RANE (MADRAS) MATERIALS CONTROL ROOM · TEAM 11:59 (XIME CHENNAI)                                               |
 | "See the shock. Measure it. Decide." · Calibrated Baseline: FY25 Handout (₹3,421 Cr Rev / ₹297.7 Cr EBITDA)   |
 +---------------------------------------------------------------------------------------------------------------+
 | REVENUE: ₹3,421 Cr | EBITDA: ₹297.7 Cr (8.7%) | PAT: ₹37.6 Cr | MAT Δ: +₹0.0 Cr | MIN COVER: 24d (Al) | TOP ACT: ACT-07 (+₹2.1 Cr) |

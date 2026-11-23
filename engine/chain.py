@@ -1,6 +1,6 @@
 """
 Recalculation Chain & P&L Engine for Rane (Madras) MMD Decision Engine
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 Implements Section 7 financial, landed cost, and division formulas.
 """
 

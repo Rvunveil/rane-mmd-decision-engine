@@ -1,6 +1,6 @@
 """
 Dynamic Andon Trigger Playbook Engine (N7)
-Rane (Madras) MMD Decision Engine · Team 11.59 · Xovate'26
+Rane (Madras) MMD Decision Engine · Team 11:59 · Xovate'26
 
 Evaluates 7 mission-critical operational triggers across ocean logistics, commodity surges,
 working capital drag, and plant buffer inventories to drive prescriptive Andon playbooks.

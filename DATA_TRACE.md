@@ -1,6 +1,6 @@
 # DATA_TRACE.md · Data Lineage, Quality Audit & Judgement Log
 **Event:** Xovate'26 Management Hackathon  
-**Team 11.59:** Vikram T · Sayoni Dan · Trisha Pal · XIME Chennai  
+**Team 11:59:** Vikram T · Sayoni Dan · Trisha Pal · XIME Chennai  
 **Governing Standard:** Section 4 of the Hackathon Mandate  
 
 ---

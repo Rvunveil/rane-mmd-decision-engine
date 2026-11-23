@@ -1,6 +1,6 @@
 """
 Module 3: Live Recalculation Chain & P&L Impact
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 """
 
 import streamlit as st

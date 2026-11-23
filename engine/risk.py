@@ -1,6 +1,6 @@
 """
 Monte Carlo Profit-at-Risk Engine (N3)
-Rane (Madras) MMD Decision Engine · Team 11.59 · Xovate'26
+Rane (Madras) MMD Decision Engine · Team 11:59 · Xovate'26
 
 Vectorised multivariate Monte Carlo simulation (2,000 paths) estimating the empirical
 probability distribution of EBITDA, PAT, Value-at-Risk (VaR), and loss probability P(PAT < 0).

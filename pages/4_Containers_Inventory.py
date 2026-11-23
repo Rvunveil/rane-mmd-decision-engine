@@ -1,6 +1,6 @@
 """
 Module 4: Inbound Containers & Inventory Runway
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 """
 
 import streamlit as st

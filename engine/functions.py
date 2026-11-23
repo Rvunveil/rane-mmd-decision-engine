@@ -1,6 +1,6 @@
 """
 Cross-Functional Impact Lenses Engine (N8)
-Rane (Madras) MMD Decision Engine · Team 11.59 · Xovate'26
+Rane (Madras) MMD Decision Engine · Team 11:59 · Xovate'26
 
 Translates active scenario disruptions into 7 department-specific operational perspectives:
 MMD, Finance, Production, HR/IR, Quality, Logistics, and Commercial Sales.

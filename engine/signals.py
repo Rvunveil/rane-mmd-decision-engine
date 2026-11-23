@@ -1,6 +1,6 @@
 """
 Shock Radar & Early Warning Signals Engine
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 Synthesizes live indicators from Chokepoints, GSCPI, Brent, Forex, and Metals into a cohesive risk radar.
 """
 

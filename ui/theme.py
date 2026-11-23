@@ -1,6 +1,6 @@
 """
 UI Theme Tokens for Rane (Madras) MMD Decision Engine
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 """
 
 # Brand & Core Palette

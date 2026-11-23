@@ -1,6 +1,6 @@
 """
 Level 3 Tests (H05, H06, H26): Fuzz Invariant Checking, Monotonicity Sweeps, and Session Stress.
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 """
 
 import pytest

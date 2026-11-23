@@ -1,6 +1,6 @@
 """
 Rane (Madras) MMD Decision Engine · Main Application Entry Point
-Team 11.59 · Xovate'26 Management Hackathon
+Team 11:59 · Xovate'26 Management Hackathon
 Tagline: "See the shock. Measure it. Decide."
 """
 
@@ -8,7 +8,7 @@ import streamlit as st
 from ui.layout import page_setup, render_sidebar
 
 # Initialize layout and session state
-page_setup(title="MMD Decision Engine · Team 11.59")
+page_setup(title="MMD Decision Engine · Team 11:59")
 
 # Define pages for st.navigation
 pages = [

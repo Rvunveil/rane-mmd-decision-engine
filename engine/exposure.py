@@ -1,6 +1,6 @@
 """
 Inbound Supply Chain Exposure Map Engine (N2)
-Rane (Madras) MMD Decision Engine · Team 11.59 · Xovate'26
+Rane (Madras) MMD Decision Engine · Team 11:59 · Xovate'26
 
 Models global inbound trade lanes, maritime chokepoints, container cargo in transit,
 and calculates calibrated spend-at-risk (₹ Cr) across supplier origins and plant destinations.

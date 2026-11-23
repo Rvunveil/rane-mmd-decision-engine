@@ -1,6 +1,6 @@
 """
 Prescriptive Action Matrix & PuLP Optimization Engine
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 Evaluates costs, benefits, live re-ranking, and cross-functional ripple effects.
 """
 

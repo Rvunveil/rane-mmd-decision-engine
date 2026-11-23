@@ -1,6 +1,6 @@
 """
 Materials Control Room (Master Home) · Rane (Madras) MMD Decision Engine
-Team 11.59 · Xovate'26 Management Hackathon
+Team 11:59 · Xovate'26 Management Hackathon
 "See the shock coming, measure what it costs, decide what to do."
 """
 
@@ -73,7 +73,7 @@ st.markdown(
             prescriptive mitigation playbooks, and OEM price-recovery tracking.
         </div>
         <div class="mmd-hero-meta">
-            <span><b>Team:</b> Team 11.59</span>
+            <span><b>Team:</b> Team 11:59</span>
             <span><b>Members:</b> Vikram T · Sayoni Dan · Trisha Pal</span>
             <span><b>Institute:</b> XIME Chennai</span>
             <span><b>Calibrated Baseline:</b> FY25 Official Handout (₹3,421 Cr Rev / ₹297.7 Cr EBITDA)</span>
@@ -291,7 +291,7 @@ with d_col2:
     <body>
         <h1>RANE (MADRAS) LIMITED · EXECUTIVE DECISION BRIEF</h1>
         <div style="font-size: 12px; color: #64748B; margin-bottom: 15px;">
-            Date: 23 November 2026 · Author: Team 11.59 (Xovate'26) · Target: Managing Director & MMD Committee
+            Date: 23 November 2026 · Author: Team 11:59 (Xovate'26) · Target: Managing Director & MMD Committee
         </div>
 
         <p><b>ACTIVE OPERATIONAL SCENARIO:</b> {active_scn.name}</p>

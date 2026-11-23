@@ -1,6 +1,6 @@
 # ASSUMPTIONS.md · Rane (Madras) MMD Decision Engine
 **Event:** Xovate'26 Management Hackathon  
-**Team 11.59:** Vikram T · Sayoni Dan · Trisha Pal · XIME Chennai  
+**Team 11:59:** Vikram T · Sayoni Dan · Trisha Pal · XIME Chennai  
 **Governing Standard:** Section 4 & 7 of the Hackathon Mandate  
 
 ---
@@ -9,7 +9,7 @@
 
 The official hackathon problem statement provides macroeconomic datasets (LME metals, Ministry of Steel, RBI Forex, NY Fed GSCPI, maritime chokepoints) alongside Rane's official baseline financials (Revenue ₹3,421 Cr, EBITDA ₹297.7 Cr, PAT ₹37.6 Cr, Material Spend ₹1,223 Cr, Freight Spend ₹25 Cr). 
 
-However, plant-level bill of materials (BOM), division allocations, inventory holdings, and corporate tax schedules are not provided in the raw files. In accordance with Section 0 and Section 4 of the prompt, Team 11.59 has established **defensible, transparent assumptions**, labelled them in the UI with `[TEAM ASSUMPTION]` badges, and verified them through automated unit and acceptance tests.
+However, plant-level bill of materials (BOM), division allocations, inventory holdings, and corporate tax schedules are not provided in the raw files. In accordance with Section 0 and Section 4 of the prompt, Team 11:59 has established **defensible, transparent assumptions**, labelled them in the UI with `[TEAM ASSUMPTION]` badges, and verified them through automated unit and acceptance tests.
 
 Every assumption is editable in the UI and can be audited live by judges.
 

@@ -1,6 +1,6 @@
 # Rane (Madras) MMD Decision Engine · V2 Upgrade Final Report
 **Event:** Xovate'26 Management Hackathon  
-**Team 11.59:** Vikram T, Sayoni Dan, Trisha Pal (XIME Chennai)  
+**Team 11:59:** Vikram T, Sayoni Dan, Trisha Pal (XIME Chennai)  
 **Date:** 23 November 2026  
 **Git Tag:** `v1-safe` (preserved baseline) · **Active Branch:** `v2`  
 **GitHub Repository:** `https://github.com/Rvunveil/rane-mmd-decision-engine`

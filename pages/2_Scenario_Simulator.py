@@ -1,6 +1,6 @@
 """
 Module 2: What-if Scenario Simulator
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 """
 
 import streamlit as st

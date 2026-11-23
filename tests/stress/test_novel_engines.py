@@ -8,7 +8,7 @@ N6: Buy-Timing Signal Engine (engine/buy_signal.py)
 N7: Dynamic Andon Triggers (engine/triggers.py)
 N8: Cross-Functional Impact Lenses (engine/functions.py)
 
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 """
 
 import pytest

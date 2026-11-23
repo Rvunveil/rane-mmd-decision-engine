@@ -1,6 +1,6 @@
 """
 OEM Price-Recovery Claim Pack Generator (N5)
-Rane (Madras) MMD Decision Engine · Team 11.59 · Xovate'26
+Rane (Madras) MMD Decision Engine · Team 11:59 · Xovate'26
 
 Generates auditable price escalation claim dossiers for Tier-1 OEM customer negotiations,
 partitioned across operating divisions with index-linked citations and HTML claim memo.

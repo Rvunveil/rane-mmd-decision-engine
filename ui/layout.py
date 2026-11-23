@@ -1,6 +1,6 @@
 """
 Shared Layout, Sidebar and Session State Management for Rane MMD Decision Engine
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 """
 
 import os
@@ -14,7 +14,7 @@ def load_yaml(path: str) -> dict:
             return yaml.safe_load(f) or {}
     return {}
 
-def page_setup(title: str = "MMD Decision Engine · Team 11.59"):
+def page_setup(title: str = "MMD Decision Engine · Team 11:59"):
     """Inject styling, initialize state, and configure page."""
     st.set_page_config(
         page_title=title,
@@ -211,7 +211,7 @@ def render_sidebar():
         st.markdown(
             f"""
             <div style="margin-top: 1.5rem; padding-top: 0.75rem; border-top: 1px solid #E2E8F0; font-size: 0.75rem; color: #64748B;">
-                <b>{branding.get('team_name', 'Team 11.59')}</b><br>
+                <b>{branding.get('team_name', 'Team 11:59')}</b><br>
                 Vikram T · Sayoni Dan · Trisha Pal<br>
                 <i>{branding.get('institute', 'XIME Chennai')}</i>
             </div>

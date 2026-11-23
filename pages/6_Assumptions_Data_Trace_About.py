@@ -1,6 +1,6 @@
 """
-Assumptions, Data Trace, Formula Sheet & About Team 11.59
-Team 11.59 · Xovate'26 Management Hackathon
+Assumptions, Data Trace, Formula Sheet & About Team 11:59
+Team 11:59 · Xovate'26 Management Hackathon
 """
 
 import os
@@ -17,7 +17,7 @@ tab_trace, tab_assumptions, tab_formulas, tab_about = st.tabs([
     "🔍 Data Trace & Judgement Fixes",
     "⚙️ Model Assumptions & Parameters",
     "📐 Official Formula Sheet",
-    "👥 About Team 11.59 & Credits"
+    "👥 About Team 11:59 & Credits"
 ])
 
 # ==============================================================================
@@ -33,7 +33,7 @@ with tab_trace:
         However, the file's own internal text description explicitly stated:
         > *"Container freight rates oscillated dramatically between January 2023 and March 2026. Freight rates slumped to their lowest level on the 26th of October 2023 ($1,342)... hitting over $5,900 in July 2024... and stood at $2,172 on March 19, 2026."*
         
-        **Team 11.59 Analytical Fix:**  
+        **Team 11:59 Analytical Fix:**  
         We re-dated the 165 points as a **weekly series ending on 19 March 2026** (7-day intervals backwards).  
         Notice how all key anchors now match the descriptive reality exactly:
         - **October 2023 Low:** $1,342 (Points 42-45 fall in late October 2023).
@@ -54,50 +54,50 @@ with tab_trace:
         {
             "Dataset File": "Weekly Container freight rate...xlsx",
             "Observed Data Issue": "Consecutive days Jan-Jun 2023 despite description citing Jan 2023 - Mar 2026",
-            "Team 11.59 Engineering Fix": "Weekly re-dating backwards from 19 Mar 2026; validated Oct 2023 low ($1342) and Jul 2024 peak ($5937)",
+            "Team 11:59 Engineering Fix": "Weekly re-dating backwards from 19 Mar 2026; validated Oct 2023 low ($1342) and Jul 2024 peak ($5937)",
             "Model Impact": "Accurate Red Sea freight multiplier (2.73x) and baseline ocean freight ($2,172)"
         },
         {
             "Dataset File": "Forex Exchange Rate (inr - usd).xlsx",
             "Observed Data Issue": "Duplicate dates, ~49 non-numeric strings ('ND', '-'), irregular daily gaps",
-            "Team 11.59 Engineering Fix": "Coerced to numeric, deduplicated by date, chronological sort, monthly resampled",
+            "Team 11:59 Engineering Fix": "Coerced to numeric, deduplicated by date, chronological sort, monthly resampled",
             "Model Impact": "Accurate FY25 baseline average (84.56) and latest currency stress (94.60)"
         },
         {
             "Dataset File": "Aluminium Price.xlsx",
             "Observed Data Issue": "Horizontal 5-year wide matrix blocks (2014-2026) with reversed months (Dec down to Jan)",
-            "Team 11.59 Engineering Fix": "Unwrapped wide matrix into tidy monthly chronological series using LME cash-settlement USD/t",
+            "Team 11:59 Engineering Fix": "Unwrapped wide matrix into tidy monthly chronological series using LME cash-settlement USD/t",
             "Model Impact": "Clean 155-month continuous series for AutoARIMA/AutoETS forecasting"
         },
         {
             "Dataset File": "Steel_Price_Dataset_2021-2026.xlsx",
             "Observed Data Issue": "Ministry of Steel HRC and CRC series; contains data-quality flags and indicative notes",
-            "Team 11.59 Engineering Fix": "Preserved domestic INR/t without FX distortion; surfaced data flags in tool",
+            "Team 11:59 Engineering Fix": "Preserved domestic INR/t without FX distortion; surfaced data flags in tool",
             "Model Impact": "Prevents catastrophic double-FX conversion on domestic Indian steel coils"
         },
         {
             "Dataset File": "Resin Price Dataset...xlsx",
             "Observed Data Issue": "Only 17 irregular points with large gaps; ±40% volatility swings",
-            "Team 11.59 Engineering Fix": "Multiplied USD/kg × 1000 to USD/t; deployed robust median naive with empirical confidence bounds",
+            "Team 11:59 Engineering Fix": "Multiplied USD/kg × 1000 to USD/t; deployed robust median naive with empirical confidence bounds",
             "Model Impact": "Labelled as 'TOO SHORT TO FORECAST' to prevent ARIMA overfitting"
         },
         {
             "Dataset File": "Natural Rubber Yearly Trends...xlsx",
             "Observed Data Issue": "Annual Kottayam RSS-4 prices (2005-2025) in ₹/100kg; footer rows contain averages",
-            "Team 11.59 Engineering Fix": "Filtered footer rows, converted ₹/100kg × 10 to ₹/t; damped annual trend with monthly interpolation",
+            "Team 11:59 Engineering Fix": "Filtered footer rows, converted ₹/100kg × 10 to ₹/t; damped annual trend with monthly interpolation",
             "Model Impact": "Labelled as 'ANNUAL SERIES'; aligned unit basis to ₹/t"
         },
         {
             "Dataset File": "Rane financials (Statista 2021-2025)",
             "Observed Data Issue": "Statista figures (FY25 Rev ₹3,863 Cr, PAT ₹107.5 Cr) contradict official handout (₹3,421 Cr, ₹37.6 Cr)",
-            "Team 11.59 Engineering Fix": "Handout baseline strictly governs P&L simulation; Statista retained as historical trend context",
+            "Team 11:59 Engineering Fix": "Handout baseline strictly governs P&L simulation; Statista retained as historical trend context",
             "Model Impact": "100% mathematical fidelity to hackathon handout and acceptance tests"
         }
     ]
     col_cfg_trace = {
         "Dataset File": st.column_config.TextColumn("Dataset File", width="medium"),
         "Observed Data Issue": st.column_config.TextColumn("Observed Data Issue", width="large"),
-        "Team 11.59 Engineering Fix": st.column_config.TextColumn("Team 11.59 Engineering Fix", width="large"),
+        "Team 11:59 Engineering Fix": st.column_config.TextColumn("Team 11:59 Engineering Fix", width="large"),
         "Model Impact": st.column_config.TextColumn("Model Impact", width="medium"),
     }
     st.dataframe(pd.DataFrame(trace_matrix), hide_index=True, use_container_width=True, column_config=col_cfg_trace)
@@ -111,7 +111,7 @@ with tab_assumptions:
     st.markdown(
         """
         The official hackathon dataset does not provide internal plant inventory balances, division bills-of-materials (BOM), 
-        or corporate tax provisions. In strict accordance with the prompt, Team 11.59 established sensible, industry-standard 
+        or corporate tax provisions. In strict accordance with the prompt, Team 11:59 established sensible, industry-standard 
         assumptions calibrated against auto-component manufacturing benchmarks.
         """
     )
@@ -166,10 +166,10 @@ with tab_formulas:
     st.latex(r"\text{Status} = \begin{cases} \text{RED (Stock-out Risk)} & \text{if Days of Cover} < \text{Effective LT} \\ \text{AMBER (Watch/Reorder)} & \text{if Stock} \le \text{ROP} \\ \text{GREEN (Safe)} & \text{otherwise} \end{cases}")
 
 # ==============================================================================
-# TAB 4: ABOUT TEAM 11.59 & CREDITS
+# TAB 4: ABOUT TEAM 11:59 & CREDITS
 # ==============================================================================
 with tab_about:
-    section("👥 Team 11.59 Profile", "Built for Xovate'26 Management Hackathon")
+    section("👥 Team 11:59 Profile", "Built for Xovate'26 Management Hackathon")
     
     st.markdown(
         """
@@ -177,7 +177,7 @@ with tab_about:
             <div style="font-size: 0.8rem; font-weight: 700; color: #0284C7; text-transform: uppercase;">Xovate'26 Management Hackathon</div>
             <h3 style="margin: 0.25rem 0 0 0; color: #0F172A;">Rane (Madras) MMD Decision Engine</h3>
             <div style="font-size: 0.85rem; color: #64748B; font-style: italic; margin-bottom: 0.5rem;">"See the shock. Measure it. Decide."</div>
-            <p style="color: #475569; margin: 0; font-weight: 600;">Team 11.59 · Xavier Institute of Management & Entrepreneurship (XIME Chennai)</p>
+            <p style="color: #475569; margin: 0; font-weight: 600;">Team 11:59 · Xavier Institute of Management & Entrepreneurship (XIME Chennai)</p>
             <div style="display: flex; gap: 2rem; margin-top: 1rem; flex-wrap: wrap;">
                 <div>
                     <b>Vikram T</b><br>

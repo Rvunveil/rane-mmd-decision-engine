@@ -1,7 +1,7 @@
-# Rane (Madras) MMD Decision Engine · Team 11.59
+# Rane (Madras) MMD Decision Engine · Team 11:59
 **Event:** Xovate'26 Management Hackathon  
 **Tagline:** *"See the shock coming, measure what it costs, decide what to do."*  
-**Team 11.59:** Vikram T · Sayoni Dan · Trisha Pal  
+**Team 11:59:** Vikram T · Sayoni Dan · Trisha Pal  
 **Institute:** Xavier Institute of Management & Entrepreneurship (XIME), Chennai  
 
 ---

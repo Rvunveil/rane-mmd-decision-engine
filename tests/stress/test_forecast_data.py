@@ -1,6 +1,6 @@
 """
 Level 2 Tests (M24-M29): Forecasting Quality, Backtesting, and Data Fixes Verification.
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 """
 
 import os

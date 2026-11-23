@@ -327,7 +327,7 @@ def plot_freight_redating_trace(raw_df: pd.DataFrame, fixed_df: pd.DataFrame) ->
     fig.add_trace(go.Scatter(
         x=fixed_df['date'],
         y=fixed_df['rate'],
-        name="Team 11.59 Deliberate Fix (Weekly ending 19 Mar 2026)",
+        name="Team 11:59 Deliberate Fix (Weekly ending 19 Mar 2026)",
         mode="lines",
         line=dict(color=COLOR_BRAND_PRIMARY, width=2.5),
         hovertemplate="Fixed Date: %{x|%Y-%m-%d}: $%{y:,.0f}<extra></extra>"

@@ -1,6 +1,6 @@
 """
 Module 5: Prescriptive Action Matrix & Cross-Functional Ripple
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 """
 
 import streamlit as st

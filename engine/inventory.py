@@ -1,6 +1,6 @@
 """
 Inventory Runway & Inbound Container Simulation Models
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 """
 
 import math

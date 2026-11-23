@@ -1,6 +1,6 @@
 """
 Level 1 (E01) & Level 2 (M01-M17) Numerical Correctness Tests vs Independent Oracle.
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 """
 
 import pytest

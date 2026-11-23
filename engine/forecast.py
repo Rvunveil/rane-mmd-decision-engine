@@ -1,6 +1,6 @@
 """
 Forecasting Engine for Rane (Madras) MMD Decision Engine
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 Uses statsforecast (AutoARIMA, AutoETS, AutoTheta, Naive) for multi-horizon projections
 with 80% and 95% confidence intervals and empirical fallbacks for short/annual series.
 """

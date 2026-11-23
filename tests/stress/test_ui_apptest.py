@@ -1,6 +1,6 @@
 """
 Level 1 (E02-E11), Level 2 (M30) & Level 3 (H09) Streamlit AppTest Suite.
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 """
 
 import pytest
@@ -53,7 +53,7 @@ def test_E05_branding_text_present():
 
     all_text = " ".join([str(m.value) for m in at.markdown])
     assert "Rane (Madras)" in all_text
-    assert "Team 11.59" in all_text
+    assert "Team 11:59" in all_text
     assert "Vikram T" in all_text
     assert "Sayoni Dan" in all_text
     assert "Trisha Pal" in all_text

@@ -1,6 +1,6 @@
 """
 Level 2 Tests (M21-M23): Prescriptive Action Matrix, Re-ranking & Ripple Effects.
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 """
 
 import pytest

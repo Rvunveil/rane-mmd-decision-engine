@@ -1,6 +1,6 @@
 """
 12-Month Cash & OEM Recovery Timeline Engine (N4)
-Rane (Madras) MMD Decision Engine · Team 11.59 · Xovate'26
+Rane (Madras) MMD Decision Engine · Team 11:59 · Xovate'26
 
 Models month-by-month cash drain and working capital trough caused by the
 60-90 day OEM contractual price recovery lag, computing peak deficit and financing interest drag.

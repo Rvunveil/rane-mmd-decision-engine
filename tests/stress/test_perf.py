@@ -1,6 +1,6 @@
 """
 Level 3 Tests (H08): Computational Performance & Recalculation Speed.
-Team 11.59 · Xovate'26
+Team 11:59 · Xovate'26
 """
 
 import time
