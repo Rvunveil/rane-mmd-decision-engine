@@ -65,10 +65,11 @@ def test_handbook_exists_and_toc_resolves(handbook_text):
 def test_all_repo_files_in_inventory(handbook_text):
     """Verifies that every file in the repository (excluding caches/venv/qa images) is listed in the inventory."""
     repo_files = []
+    ignored_dirs = {".git", "_refs", ".venv", ".pytest_cache", "__pycache__", "build", ".dart_tool", ".gradle", ".kotlin", ".idea"}
     for root, dirs, files in os.walk(BASE_DIR):
-        dirs[:] = [d for d in dirs if d not in [".git", "_refs", ".venv", ".pytest_cache", "__pycache__"]]
+        dirs[:] = [d for d in dirs if d not in ignored_dirs]
         for f in files:
-            if f.endswith((".pyc", ".log")) or f == ".DS_Store":
+            if f.endswith((".pyc", ".log", ".apk", ".aab", ".dill", ".stamp", ".iml")) or f == ".DS_Store":
                 continue
             rel = os.path.relpath(os.path.join(root, f), BASE_DIR).replace(os.sep, "/")
             if rel.startswith("qa/") and rel.endswith((".png", ".jpg", ".webm")):

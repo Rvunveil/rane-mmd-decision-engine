@@ -248,7 +248,7 @@ The MMD Decision Engine's automated Claim Pack generator compiles this data into
 ## 5. What the Tool Does Well
 
 ### 5.1 Relentless Automated Verification
-The repository maintains an exhaustive suite of **90 automated tests** executing in **53.4 seconds** across 12 test files:
+The repository maintains an exhaustive suite of **90 automated tests** executing in **52.4 seconds** across 12 test files:
 * **Unit and Mathematical Acceptance**: Validates formula invariants, tax asymmetry, and calibration against hand-calculated oracle values.
 * **Stress and Boundary Testing**: Fuzzes inputs with extreme shocks (-100% to +500%), zero volume, infinite freight, and negative margins.
 * **Streamlit AppTest Harness**: Verifies that all 7 multipage applications compile, render widgets, and react to state updates without runtime exceptions.
@@ -256,8 +256,8 @@ The repository maintains an exhaustive suite of **90 automated tests** executing
 
 ### 5.2 Sub-Second Deterministic Calculation
 All analytical calculations are implemented in pure vectorized Python and NumPy:
-* **`engine.chain.run_all`**: Recalculates the entire multi-echelon P&L, exposure maps, triggers, and inventory metrics in **67.67 milliseconds**.
-* **2,000-Path Correlated Monte Carlo**: Generates Cholesky-decomposed joint log-normal distributions and computes P10/P50/P90 percentiles in **156.77 milliseconds**.
+* **`engine.chain.run_all`**: Recalculates the entire multi-echelon P&L, exposure maps, triggers, and inventory metrics in **48.50 milliseconds**.
+* **2,000-Path Correlated Monte Carlo**: Generates Cholesky-decomposed joint log-normal distributions and computes P10/P50/P90 percentiles in **52.06 milliseconds**.
 * **Zero UI Latency**: Sliders on the Control Deck update instantly without waiting on network API requests or remote database queries.
 
 ### 5.3 Complete Offline Independence
@@ -904,16 +904,16 @@ The table below catalogs every file in the repository (excluding `.git`, `_refs`
 
 | File Path | Directory | Lines | Size (KB) | Key Classes & Functions (Extracted via AST) | Purpose & Architectural Role |
 |---|---|---|---|---|---|
-| `.gitignore` | `root` | 0 | 0.1 | - | File in root |
-| `ASSUMPTIONS.md` | `root` | 99 | 7.0 | - | File in root |
+| `.gitignore` | `root` | 0 | 0.2 | - | File in root |
+| `ASSUMPTIONS.md` | `root` | 99 | 7.1 | - | File in root |
 | `DATA_TRACE.md` | `root` | 124 | 10.1 | - | File in root |
 | `DEMO_SCRIPT.md` | `root` | 78 | 13.3 | - | File in root |
-| `DESIGN_PLAN.md` | `root` | 83 | 5.9 | - | File in root |
+| `DESIGN_PLAN.md` | `root` | 83 | 6.0 | - | File in root |
 | `README.md` | `root` | 173 | 12.7 | - | File in root |
-| `RELEASE_TEST_REPORT.md` | `root` | 244 | 19.0 | - | File in root |
+| `RELEASE_TEST_REPORT.md` | `root` | 244 | 19.3 | - | File in root |
 | `STRESS_TEST_REPORT.md` | `root` | 274 | 27.5 | - | File in root |
 | `V2_REPORT.md` | `root` | 120 | 11.4 | - | File in root |
-| `V3_REPORT.md` | `root` | 159 | 13.5 | - | File in root |
+| `V3_REPORT.md` | `root` | 159 | 13.7 | - | File in root |
 | `app.py` | `root` | 42 | 1.6 | - | File in root |
 | `conftest.py` | `root` | 4 | 0.1 | - | File in root |
 | `pytest.ini` | `root` | 3 | 0.0 | - | File in root |
@@ -967,30 +967,198 @@ The table below catalogs every file in the repository (excluding `.git`, `_refs`
 | `data/raw/Dataset xovate (!)/Rane financials/net_income_of_rane_madras_limited_from_2021_to_2025_in_million_indian_rupees.xlsx` | `data` | 0 | 8.8 | - | File in data |
 | `data/raw/Dataset xovate (!)/Rane financials/operating_profit_of_rane_madras_limited_from_2021_to_2025_in_million_indian_rupees.xlsx` | `data` | 0 | 9.0 | - | File in data |
 | `data/raw/Dataset xovate (!)/Rane financials/revenue_of_rane_madras_limited_from_2021_to_2025_in_billion_indian_rupees.xlsx` | `data` | 0 | 8.9 | - | File in data |
-| `demo/README.md` | `demo` | 48 | 1.7 | - | File in demo |
+| `demo/README.md` | `demo` | 48 | 1.8 | - | File in demo |
 | `demo/__init__.py` | `demo` | 8 | 0.2 | - | File in demo |
-| `demo/overlay.py` | `demo` | 122 | 3.9 | `render_demo_overlay` | File in demo |
-| `demo/player.py` | `demo` | 235 | 7.1 | `load_demo_config`, `load_storyboard`, `_record_timeline`, `is_demo_running`, `start_demo`, `stop_demo`, `_apply_step`, `run_demo_player` | File in demo |
-| `demo/storyboard.yaml` | `demo` | 90 | 3.3 | - | File in demo |
+| `demo/overlay.py` | `demo` | 122 | 4.0 | `render_demo_overlay` | File in demo |
+| `demo/player.py` | `demo` | 235 | 7.4 | `load_demo_config`, `load_storyboard`, `_record_timeline`, `is_demo_running`, `start_demo`, `stop_demo`, `_apply_step`, `run_demo_player` | File in demo |
+| `demo/storyboard.yaml` | `demo` | 90 | 3.4 | - | File in demo |
 | `demo_out/demo_timeline.json` | `demo_out` | 0 | 3.1 | - | File in demo_out |
 | `engine/__init__.py` | `engine` | 1 | 0.0 | - | File in engine |
 | `engine/actions.py` | `engine` | 153 | 5.6 | `load_actions_config`, `evaluate_actions`, `optimize_action_bundle` | File in engine |
 | `engine/buy_signal.py` | `engine` | 80 | 3.4 | `compute_buy_signals` | File in engine |
 | `engine/chain.py` | `engine` | 250 | 10.6 | `load_config`, `compute_landed_costs`, `run_all` | File in engine |
-| `engine/claims.py` | `engine` | 168 | 8.9 | `generate_oem_claims_pack` | File in engine |
-| `engine/data_loader.py` | `engine` | 278 | 11.2 | `get_raw_path`, `clean_forex_data`, `clean_container_freight_data`, `clean_copper_data`, `clean_nickel_data`, `clean_aluminium_data`, `clean_steel_data`, `clean_resin_data`, `clean_rubber_data`, `clean_brent_data`, `clean_gscpi_data`, `clean_chokepoints_data`, `load_all_cleaned_datasets`, `load_assumptions` | File in engine |
-| `engine/exposure.py` | `engine` | 353 | 13.0 | `compute_exposure_map`, `plot_exposure_map` | File in engine |
+| `engine/claims.py` | `engine` | 168 | 9.1 | `generate_oem_claims_pack` | File in engine |
+| `engine/data_loader.py` | `engine` | 278 | 11.4 | `get_raw_path`, `clean_forex_data`, `clean_container_freight_data`, `clean_copper_data`, `clean_nickel_data`, `clean_aluminium_data`, `clean_steel_data`, `clean_resin_data`, `clean_rubber_data`, `clean_brent_data`, `clean_gscpi_data`, `clean_chokepoints_data`, `load_all_cleaned_datasets`, `load_assumptions` | File in engine |
+| `engine/exposure.py` | `engine` | 353 | 13.4 | `compute_exposure_map`, `plot_exposure_map` | File in engine |
 | `engine/forecast.py` | `engine` | 290 | 10.8 | `load_processed_series`, `generate_short_series_forecast`, `generate_annual_series_forecast`, `generate_full_series_forecast`, `get_all_forecasts` | File in engine |
 | `engine/functions.py` | `engine` | 104 | 5.6 | `compute_cross_functional_lenses` | File in engine |
 | `engine/inventory.py` | `engine` | 170 | 6.9 | `evaluate_inventory`, `evaluate_containers` | File in engine |
-| `engine/results.py` | `engine` | 53 | 1.6 | `Results` | File in engine |
-| `engine/risk.py` | `engine` | 234 | 9.3 | `compute_historical_volatilities`, `run_profit_at_risk_monte_carlo` | File in engine |
+| `engine/results.py` | `engine` | 53 | 1.7 | `Results` | File in engine |
+| `engine/risk.py` | `engine` | 234 | 9.5 | `compute_historical_volatilities`, `run_profit_at_risk_monte_carlo` | File in engine |
 | `engine/scenario.py` | `engine` | 116 | 4.3 | `Scenario`, `get_default_presets`, `compute_todays_market_scenario` | File in engine |
 | `engine/signals.py` | `engine` | 354 | 15.0 | `get_shock_radar_signals`, `make_svg_sparkline`, `get_market_tape` | File in engine |
-| `engine/state.py` | `engine` | 260 | 10.3 | `_get_state_store`, `load_glossary`, `init_canonical_state`, `sync_widgets_from_scn`, `get_current_scenario`, `apply_scenario_values`, `apply_preset_by_name`, `reset_to_base` | File in engine |
+| `engine/state.py` | `engine` | 260 | 10.5 | `_get_state_store`, `load_glossary`, `init_canonical_state`, `sync_widgets_from_scn`, `get_current_scenario`, `apply_scenario_values`, `apply_preset_by_name`, `reset_to_base` | File in engine |
 | `engine/timeline.py` | `engine` | 94 | 3.4 | `compute_cash_recovery_timeline` | File in engine |
 | `engine/triggers.py` | `engine` | 107 | 4.0 | `load_triggers_config`, `evaluate_andon_triggers` | File in engine |
-| `pages/0_Command_Centre.py` | `pages` | 390 | 21.3 | `_fmt_brief_nb` | File in pages |
+| `mobile_app/.gitignore` | `mobile_app` | 0 | 0.8 | - | File in mobile_app |
+| `mobile_app/.metadata` | `mobile_app` | 0 | 1.7 | - | File in mobile_app |
+| `mobile_app/README.md` | `mobile_app` | 137 | 7.3 | - | File in mobile_app |
+| `mobile_app/analysis_options.yaml` | `mobile_app` | 41 | 1.6 | - | File in mobile_app |
+| `mobile_app/pubspec.lock` | `mobile_app` | 0 | 6.6 | - | File in mobile_app |
+| `mobile_app/pubspec.yaml` | `mobile_app` | 90 | 3.9 | - | File in mobile_app |
+| `mobile_app/android/.gitignore` | `mobile_app` | 0 | 0.3 | - | File in mobile_app |
+| `mobile_app/android/build.gradle.kts` | `mobile_app` | 0 | 0.5 | - | File in mobile_app |
+| `mobile_app/android/gradle.properties` | `mobile_app` | 0 | 0.3 | - | File in mobile_app |
+| `mobile_app/android/gradlew` | `mobile_app` | 0 | 4.9 | - | File in mobile_app |
+| `mobile_app/android/gradlew.bat` | `mobile_app` | 0 | 2.3 | - | File in mobile_app |
+| `mobile_app/android/local.properties` | `mobile_app` | 0 | 0.2 | - | File in mobile_app |
+| `mobile_app/android/settings.gradle.kts` | `mobile_app` | 0 | 0.8 | - | File in mobile_app |
+| `mobile_app/android/app/build.gradle.kts` | `mobile_app` | 0 | 1.8 | - | File in mobile_app |
+| `mobile_app/android/app/src/debug/AndroidManifest.xml` | `mobile_app` | 0 | 0.4 | - | File in mobile_app |
+| `mobile_app/android/app/src/main/AndroidManifest.xml` | `mobile_app` | 0 | 2.3 | - | File in mobile_app |
+| `mobile_app/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java` | `mobile_app` | 0 | 0.5 | - | File in mobile_app |
+| `mobile_app/android/app/src/main/kotlin/com/rane/mmd/rane_mmd_app/MainActivity.kt` | `mobile_app` | 0 | 0.1 | - | File in mobile_app |
+| `mobile_app/android/app/src/main/res/drawable/launch_background.xml` | `mobile_app` | 0 | 0.4 | - | File in mobile_app |
+| `mobile_app/android/app/src/main/res/drawable-v21/launch_background.xml` | `mobile_app` | 0 | 0.4 | - | File in mobile_app |
+| `mobile_app/android/app/src/main/res/mipmap-hdpi/ic_launcher.png` | `mobile_app` | 0 | 0.5 | - | File in mobile_app |
+| `mobile_app/android/app/src/main/res/mipmap-mdpi/ic_launcher.png` | `mobile_app` | 0 | 0.4 | - | File in mobile_app |
+| `mobile_app/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png` | `mobile_app` | 0 | 0.7 | - | File in mobile_app |
+| `mobile_app/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png` | `mobile_app` | 0 | 1.0 | - | File in mobile_app |
+| `mobile_app/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png` | `mobile_app` | 0 | 1.4 | - | File in mobile_app |
+| `mobile_app/android/app/src/main/res/values/styles.xml` | `mobile_app` | 0 | 1.0 | - | File in mobile_app |
+| `mobile_app/android/app/src/main/res/values-night/styles.xml` | `mobile_app` | 0 | 1.0 | - | File in mobile_app |
+| `mobile_app/android/app/src/profile/AndroidManifest.xml` | `mobile_app` | 0 | 0.4 | - | File in mobile_app |
+| `mobile_app/android/gradle/wrapper/gradle-wrapper.jar` | `mobile_app` | 0 | 52.4 | - | File in mobile_app |
+| `mobile_app/android/gradle/wrapper/gradle-wrapper.properties` | `mobile_app` | 0 | 0.2 | - | File in mobile_app |
+| `mobile_app/ios/.gitignore` | `mobile_app` | 0 | 0.6 | - | File in mobile_app |
+| `mobile_app/ios/Flutter/AppFrameworkInfo.plist` | `mobile_app` | 0 | 0.7 | - | File in mobile_app |
+| `mobile_app/ios/Flutter/Debug.xcconfig` | `mobile_app` | 0 | 0.0 | - | File in mobile_app |
+| `mobile_app/ios/Flutter/Generated.xcconfig` | `mobile_app` | 0 | 0.7 | - | File in mobile_app |
+| `mobile_app/ios/Flutter/Release.xcconfig` | `mobile_app` | 0 | 0.0 | - | File in mobile_app |
+| `mobile_app/ios/Flutter/flutter_export_environment.sh` | `mobile_app` | 0 | 0.7 | - | File in mobile_app |
+| `mobile_app/ios/Flutter/ephemeral/.swift_pm.lock` | `mobile_app` | 0 | 0.0 | - | File in mobile_app |
+| `mobile_app/ios/Flutter/ephemeral/flutter_lldb_helper.py` | `mobile_app` | 32 | 1.2 | `handle_new_rx_page`, `__lldb_init_module` | File in mobile_app |
+| `mobile_app/ios/Flutter/ephemeral/flutter_lldbinit` | `mobile_app` | 0 | 0.1 | - | File in mobile_app |
+| `mobile_app/ios/Flutter/ephemeral/flutter_native_integration.env` | `mobile_app` | 0 | 0.5 | - | File in mobile_app |
+| `mobile_app/ios/Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage/Package.swift` | `mobile_app` | 0 | 0.6 | - | File in mobile_app |
+| `mobile_app/ios/Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage/Sources/FlutterGeneratedPluginSwiftPackage/FlutterGeneratedPluginSwiftPackage.swift` | `mobile_app` | 0 | 0.0 | - | File in mobile_app |
+| `mobile_app/ios/Runner/AppDelegate.swift` | `mobile_app` | 0 | 0.5 | - | File in mobile_app |
+| `mobile_app/ios/Runner/GeneratedPluginRegistrant.h` | `mobile_app` | 0 | 0.4 | - | File in mobile_app |
+| `mobile_app/ios/Runner/GeneratedPluginRegistrant.m` | `mobile_app` | 0 | 0.2 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Info.plist` | `mobile_app` | 0 | 2.2 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Runner-Bridging-Header.h` | `mobile_app` | 0 | 0.0 | - | File in mobile_app |
+| `mobile_app/ios/Runner/SceneDelegate.swift` | `mobile_app` | 0 | 0.1 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json` | `mobile_app` | 0 | 2.6 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png` | `mobile_app` | 0 | 10.7 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png` | `mobile_app` | 0 | 0.3 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png` | `mobile_app` | 0 | 0.4 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png` | `mobile_app` | 0 | 0.4 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png` | `mobile_app` | 0 | 0.3 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png` | `mobile_app` | 0 | 0.5 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png` | `mobile_app` | 0 | 0.7 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png` | `mobile_app` | 0 | 0.4 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png` | `mobile_app` | 0 | 0.6 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png` | `mobile_app` | 0 | 0.8 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png` | `mobile_app` | 0 | 0.8 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png` | `mobile_app` | 0 | 1.6 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png` | `mobile_app` | 0 | 0.7 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png` | `mobile_app` | 0 | 1.2 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png` | `mobile_app` | 0 | 1.4 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json` | `mobile_app` | 0 | 0.4 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png` | `mobile_app` | 0 | 0.1 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png` | `mobile_app` | 0 | 0.1 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png` | `mobile_app` | 0 | 0.1 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md` | `mobile_app` | 5 | 0.3 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Base.lproj/LaunchScreen.storyboard` | `mobile_app` | 0 | 2.4 | - | File in mobile_app |
+| `mobile_app/ios/Runner/Base.lproj/Main.storyboard` | `mobile_app` | 0 | 1.6 | - | File in mobile_app |
+| `mobile_app/ios/Runner.xcodeproj/project.pbxproj` | `mobile_app` | 0 | 25.8 | - | File in mobile_app |
+| `mobile_app/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata` | `mobile_app` | 0 | 0.1 | - | File in mobile_app |
+| `mobile_app/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist` | `mobile_app` | 0 | 0.2 | - | File in mobile_app |
+| `mobile_app/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings` | `mobile_app` | 0 | 0.2 | - | File in mobile_app |
+| `mobile_app/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme` | `mobile_app` | 0 | 4.7 | - | File in mobile_app |
+| `mobile_app/ios/Runner.xcworkspace/contents.xcworkspacedata` | `mobile_app` | 0 | 0.2 | - | File in mobile_app |
+| `mobile_app/ios/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist` | `mobile_app` | 0 | 0.2 | - | File in mobile_app |
+| `mobile_app/ios/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings` | `mobile_app` | 0 | 0.2 | - | File in mobile_app |
+| `mobile_app/ios/RunnerTests/RunnerTests.swift` | `mobile_app` | 0 | 0.3 | - | File in mobile_app |
+| `mobile_app/lib/main.dart` | `mobile_app` | 0 | 3.6 | - | File in mobile_app |
+| `mobile_app/lib/domain/models/market_data.dart` | `mobile_app` | 0 | 5.2 | - | File in mobile_app |
+| `mobile_app/lib/domain/models/mitigation_action.dart` | `mobile_app` | 0 | 1.7 | - | File in mobile_app |
+| `mobile_app/lib/domain/models/results.dart` | `mobile_app` | 0 | 1.5 | - | File in mobile_app |
+| `mobile_app/lib/domain/models/scenario.dart` | `mobile_app` | 0 | 5.6 | - | File in mobile_app |
+| `mobile_app/lib/domain/services/profit_chain_engine.dart` | `mobile_app` | 0 | 10.9 | - | File in mobile_app |
+| `mobile_app/lib/ui/theme/app_theme.dart` | `mobile_app` | 0 | 2.8 | - | File in mobile_app |
+| `mobile_app/lib/ui/viewmodels/decision_engine_viewmodel.dart` | `mobile_app` | 0 | 4.8 | - | File in mobile_app |
+| `mobile_app/lib/ui/views/action_matrix_view.dart` | `mobile_app` | 0 | 11.5 | - | File in mobile_app |
+| `mobile_app/lib/ui/views/control_room_view.dart` | `mobile_app` | 0 | 11.2 | - | File in mobile_app |
+| `mobile_app/lib/ui/views/guided_helper_dialog.dart` | `mobile_app` | 0 | 10.2 | - | File in mobile_app |
+| `mobile_app/lib/ui/views/inventory_view.dart` | `mobile_app` | 0 | 8.4 | - | File in mobile_app |
+| `mobile_app/lib/ui/views/profit_chain_view.dart` | `mobile_app` | 0 | 10.6 | - | File in mobile_app |
+| `mobile_app/lib/ui/views/simulator_view.dart` | `mobile_app` | 0 | 9.6 | - | File in mobile_app |
+| `mobile_app/lib/ui/widgets/market_tape_widget.dart` | `mobile_app` | 0 | 2.3 | - | File in mobile_app |
+| `mobile_app/lib/ui/widgets/metric_card_widget.dart` | `mobile_app` | 0 | 3.5 | - | File in mobile_app |
+| `mobile_app/lib/ui/widgets/preset_selector_widget.dart` | `mobile_app` | 0 | 3.5 | - | File in mobile_app |
+| `mobile_app/lib/ui/widgets/waterfall_chart_widget.dart` | `mobile_app` | 0 | 4.1 | - | File in mobile_app |
+| `mobile_app/linux/.gitignore` | `mobile_app` | 0 | 0.0 | - | File in mobile_app |
+| `mobile_app/linux/CMakeLists.txt` | `mobile_app` | 128 | 4.8 | - | File in mobile_app |
+| `mobile_app/linux/flutter/CMakeLists.txt` | `mobile_app` | 88 | 2.8 | - | File in mobile_app |
+| `mobile_app/linux/flutter/generated_plugin_registrant.cc` | `mobile_app` | 0 | 0.2 | - | File in mobile_app |
+| `mobile_app/linux/flutter/generated_plugin_registrant.h` | `mobile_app` | 0 | 0.3 | - | File in mobile_app |
+| `mobile_app/linux/flutter/generated_plugins.cmake` | `mobile_app` | 0 | 0.7 | - | File in mobile_app |
+| `mobile_app/linux/runner/CMakeLists.txt` | `mobile_app` | 26 | 1.0 | - | File in mobile_app |
+| `mobile_app/linux/runner/main.cc` | `mobile_app` | 0 | 0.2 | - | File in mobile_app |
+| `mobile_app/linux/runner/my_application.cc` | `mobile_app` | 0 | 4.8 | - | File in mobile_app |
+| `mobile_app/linux/runner/my_application.h` | `mobile_app` | 0 | 0.5 | - | File in mobile_app |
+| `mobile_app/macos/.gitignore` | `mobile_app` | 0 | 0.1 | - | File in mobile_app |
+| `mobile_app/macos/Flutter/Flutter-Debug.xcconfig` | `mobile_app` | 0 | 0.0 | - | File in mobile_app |
+| `mobile_app/macos/Flutter/Flutter-Release.xcconfig` | `mobile_app` | 0 | 0.0 | - | File in mobile_app |
+| `mobile_app/macos/Flutter/GeneratedPluginRegistrant.swift` | `mobile_app` | 0 | 0.2 | - | File in mobile_app |
+| `mobile_app/macos/Flutter/ephemeral/.swift_pm.lock` | `mobile_app` | 0 | 0.0 | - | File in mobile_app |
+| `mobile_app/macos/Flutter/ephemeral/Flutter-Generated.xcconfig` | `mobile_app` | 0 | 0.6 | - | File in mobile_app |
+| `mobile_app/macos/Flutter/ephemeral/flutter_export_environment.sh` | `mobile_app` | 0 | 0.7 | - | File in mobile_app |
+| `mobile_app/macos/Flutter/ephemeral/flutter_native_integration.env` | `mobile_app` | 0 | 0.5 | - | File in mobile_app |
+| `mobile_app/macos/Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage/Package.swift` | `mobile_app` | 0 | 0.6 | - | File in mobile_app |
+| `mobile_app/macos/Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage/Sources/FlutterGeneratedPluginSwiftPackage/FlutterGeneratedPluginSwiftPackage.swift` | `mobile_app` | 0 | 0.0 | - | File in mobile_app |
+| `mobile_app/macos/Runner/AppDelegate.swift` | `mobile_app` | 0 | 0.3 | - | File in mobile_app |
+| `mobile_app/macos/Runner/DebugProfile.entitlements` | `mobile_app` | 0 | 0.4 | - | File in mobile_app |
+| `mobile_app/macos/Runner/Info.plist` | `mobile_app` | 0 | 1.1 | - | File in mobile_app |
+| `mobile_app/macos/Runner/MainFlutterWindow.swift` | `mobile_app` | 0 | 0.4 | - | File in mobile_app |
+| `mobile_app/macos/Runner/Release.entitlements` | `mobile_app` | 0 | 0.2 | - | File in mobile_app |
+| `mobile_app/macos/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json` | `mobile_app` | 0 | 1.3 | - | File in mobile_app |
+| `mobile_app/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_1024.png` | `mobile_app` | 0 | 100.6 | - | File in mobile_app |
+| `mobile_app/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_128.png` | `mobile_app` | 0 | 5.5 | - | File in mobile_app |
+| `mobile_app/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_16.png` | `mobile_app` | 0 | 0.5 | - | File in mobile_app |
+| `mobile_app/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_256.png` | `mobile_app` | 0 | 13.8 | - | File in mobile_app |
+| `mobile_app/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_32.png` | `mobile_app` | 0 | 1.0 | - | File in mobile_app |
+| `mobile_app/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_512.png` | `mobile_app` | 0 | 35.6 | - | File in mobile_app |
+| `mobile_app/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_64.png` | `mobile_app` | 0 | 2.2 | - | File in mobile_app |
+| `mobile_app/macos/Runner/Base.lproj/MainMenu.xib` | `mobile_app` | 0 | 23.5 | - | File in mobile_app |
+| `mobile_app/macos/Runner/Configs/AppInfo.xcconfig` | `mobile_app` | 0 | 0.6 | - | File in mobile_app |
+| `mobile_app/macos/Runner/Configs/Debug.xcconfig` | `mobile_app` | 0 | 0.1 | - | File in mobile_app |
+| `mobile_app/macos/Runner/Configs/Release.xcconfig` | `mobile_app` | 0 | 0.1 | - | File in mobile_app |
+| `mobile_app/macos/Runner/Configs/Warnings.xcconfig` | `mobile_app` | 0 | 0.6 | - | File in mobile_app |
+| `mobile_app/macos/Runner.xcodeproj/project.pbxproj` | `mobile_app` | 0 | 28.0 | - | File in mobile_app |
+| `mobile_app/macos/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist` | `mobile_app` | 0 | 0.2 | - | File in mobile_app |
+| `mobile_app/macos/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme` | `mobile_app` | 0 | 4.6 | - | File in mobile_app |
+| `mobile_app/macos/Runner.xcworkspace/contents.xcworkspacedata` | `mobile_app` | 0 | 0.2 | - | File in mobile_app |
+| `mobile_app/macos/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist` | `mobile_app` | 0 | 0.2 | - | File in mobile_app |
+| `mobile_app/macos/RunnerTests/RunnerTests.swift` | `mobile_app` | 0 | 0.3 | - | File in mobile_app |
+| `mobile_app/test/widget_test.dart` | `mobile_app` | 0 | 2.9 | - | File in mobile_app |
+| `mobile_app/web/favicon.png` | `mobile_app` | 0 | 0.9 | - | File in mobile_app |
+| `mobile_app/web/index.html` | `mobile_app` | 0 | 2.1 | - | File in mobile_app |
+| `mobile_app/web/manifest.json` | `mobile_app` | 0 | 0.9 | - | File in mobile_app |
+| `mobile_app/web/icons/Icon-192.png` | `mobile_app` | 0 | 5.2 | - | File in mobile_app |
+| `mobile_app/web/icons/Icon-512.png` | `mobile_app` | 0 | 8.1 | - | File in mobile_app |
+| `mobile_app/web/icons/Icon-maskable-192.png` | `mobile_app` | 0 | 5.5 | - | File in mobile_app |
+| `mobile_app/web/icons/Icon-maskable-512.png` | `mobile_app` | 0 | 20.5 | - | File in mobile_app |
+| `mobile_app/windows/.gitignore` | `mobile_app` | 0 | 0.3 | - | File in mobile_app |
+| `mobile_app/windows/CMakeLists.txt` | `mobile_app` | 108 | 4.2 | - | File in mobile_app |
+| `mobile_app/windows/flutter/CMakeLists.txt` | `mobile_app` | 109 | 3.8 | - | File in mobile_app |
+| `mobile_app/windows/flutter/generated_plugin_registrant.cc` | `mobile_app` | 0 | 0.2 | - | File in mobile_app |
+| `mobile_app/windows/flutter/generated_plugin_registrant.h` | `mobile_app` | 0 | 0.3 | - | File in mobile_app |
+| `mobile_app/windows/flutter/generated_plugins.cmake` | `mobile_app` | 0 | 0.7 | - | File in mobile_app |
+| `mobile_app/windows/runner/CMakeLists.txt` | `mobile_app` | 40 | 1.8 | - | File in mobile_app |
+| `mobile_app/windows/runner/Runner.rc` | `mobile_app` | 0 | 3.1 | - | File in mobile_app |
+| `mobile_app/windows/runner/flutter_window.cpp` | `mobile_app` | 0 | 2.1 | - | File in mobile_app |
+| `mobile_app/windows/runner/flutter_window.h` | `mobile_app` | 0 | 0.9 | - | File in mobile_app |
+| `mobile_app/windows/runner/main.cpp` | `mobile_app` | 0 | 1.3 | - | File in mobile_app |
+| `mobile_app/windows/runner/resource.h` | `mobile_app` | 0 | 0.4 | - | File in mobile_app |
+| `mobile_app/windows/runner/runner.exe.manifest` | `mobile_app` | 0 | 0.6 | - | File in mobile_app |
+| `mobile_app/windows/runner/utils.cpp` | `mobile_app` | 0 | 2.2 | - | File in mobile_app |
+| `mobile_app/windows/runner/utils.h` | `mobile_app` | 0 | 0.7 | - | File in mobile_app |
+| `mobile_app/windows/runner/win32_window.cpp` | `mobile_app` | 0 | 8.6 | - | File in mobile_app |
+| `mobile_app/windows/runner/win32_window.h` | `mobile_app` | 0 | 3.5 | - | File in mobile_app |
+| `mobile_app/windows/runner/resources/app_icon.ico` | `mobile_app` | 0 | 33.0 | - | File in mobile_app |
+| `pages/0_Command_Centre.py` | `pages` | 390 | 21.7 | `_fmt_brief_nb` | File in pages |
 | `pages/1_Forecast.py` | `pages` | 203 | 9.7 | - | File in pages |
 | `pages/2_Scenario_Simulator.py` | `pages` | 158 | 8.0 | `compute_tornado_data` | File in pages |
 | `pages/3_Profit_Chain.py` | `pages` | 171 | 8.2 | - | File in pages |
@@ -1002,34 +1170,34 @@ The table below catalogs every file in the repository (excluding `.git`, `_refs`
 | `qa/release/inventory.json` | `qa` | 0 | 10.1 | - | File in qa |
 | `qa/v2/pytest_v2.txt` | `qa` | 69 | 4.5 | - | File in qa |
 | `qa/v3/pytest_v3.txt` | `qa` | 27 | 2.0 | - | File in qa |
-| `scripts/build_handbook.py` | `scripts` | 1493 | 101.6 | `slugify`, `get_live_engine_numbers`, `get_repository_inventory`, `build_part_a`, `build_part_b`, `build_part_c`, `build_part_d`, `build_part_e`, `build_part_f`, `build_handbook`, `main` | File in scripts |
+| `scripts/build_handbook.py` | `scripts` | 1494 | 103.2 | `slugify`, `get_live_engine_numbers`, `get_repository_inventory`, `build_part_a`, `build_part_b`, `build_part_c`, `build_part_d`, `build_part_e`, `build_part_f`, `build_handbook`, `main` | File in scripts |
 | `scripts/build_processed_data.py` | `scripts` | 26 | 0.8 | `main` | File in scripts |
-| `scripts/capture_v3_screenshots.py` | `scripts` | 102 | 4.0 | `run_capture` | File in scripts |
-| `scripts/precompute_forecasts.py` | `scripts` | 185 | 7.6 | `precompute_all_forecasts` | File in scripts |
-| `scripts/record_demo.py` | `scripts` | 78 | 2.7 | `record_demo` | File in scripts |
-| `scripts/run_backtests.py` | `scripts` | 240 | 10.1 | `run_all_backtests` | File in scripts |
+| `scripts/capture_v3_screenshots.py` | `scripts` | 102 | 4.1 | `run_capture` | File in scripts |
+| `scripts/precompute_forecasts.py` | `scripts` | 185 | 7.8 | `precompute_all_forecasts` | File in scripts |
+| `scripts/record_demo.py` | `scripts` | 78 | 2.8 | `record_demo` | File in scripts |
+| `scripts/run_backtests.py` | `scripts` | 240 | 10.3 | `run_all_backtests` | File in scripts |
 | `scripts/verify_h24.py` | `scripts` | 87 | 2.8 | - | File in scripts |
 | `tests/oracle.py` | `tests` | 341 | 12.8 | `load_yaml`, `get_oracle_baseline`, `get_oracle_assumptions`, `oracle_compute_landed_costs`, `oracle_calculate`, `oracle_inventory_item`, `oracle_containers`, `oracle_breakeven_uniform_shock` | File in tests |
 | `tests/test_acceptance.py` | `tests` | 146 | 5.6 | `test_acceptance_1_base_case`, `test_acceptance_2_ten_percent_shock_wipes_out_profit`, `test_acceptance_3_monotonicity`, `test_acceptance_4_presets_and_todays_market`, `test_acceptance_6_action_reranking` | File in tests |
 | `tests/test_app_smoke.py` | `tests` | 68 | 2.6 | `test_app_smoke_base_case`, `test_command_centre_smoke`, `test_forecast_page_smoke`, `test_scenario_simulator_smoke`, `test_profit_chain_smoke`, `test_containers_inventory_smoke`, `test_action_matrix_smoke`, `test_assumptions_page_smoke` | File in tests |
 | `tests/test_data_loader.py` | `tests` | 103 | 3.5 | `test_container_freight_redating_anchors`, `test_forex_dedup_and_numeric`, `test_aluminium_reshape`, `test_steel_not_fx_converted`, `test_resin_and_rubber_conversions` | File in tests |
-| `tests/test_handbook.py` | `tests` | 167 | 7.6 | `handbook_text`, `test_handbook_exists_and_toc_resolves`, `test_all_repo_files_in_inventory`, `test_all_engine_functions_and_pages_mentioned`, `test_deny_list_absent`, `test_baseline_and_shock_numbers_match_engine` | File in tests |
-| `tests/e2e/test_browser_suite.py` | `tests` | 192 | 7.6 | `_check_page_health`, `test_e2e_p0_crash_paths_twenty_times`, `test_e2e_interactive_widgets_and_sliders`, `test_e2e_full_page_screenshots_and_viewports`, `test_e2e_browser_refresh_persistence`, `test_e2e_demo_run_video_recording` | File in tests |
-| `tests/release/inventory.py` | `tests` | 228 | 8.3 | `extract_ast_elements`, `discover_inventory`, `save_inventory`, `get_inventory` | File in tests |
-| `tests/release/test_p0_widgets.py` | `tests` | 165 | 7.9 | `get_all_widget_keys`, `test_P0_1_no_direct_widget_key_assignments_outside_sync`, `test_P0_2_no_if_button_calling_scenario_mutation`, `test_P0_3_control_room_preset_clicks_and_reset_in_apptest`, `test_P0_4_demo_lifecycle_in_apptest` | File in tests |
-| `tests/release/test_part_a_pages_and_states.py` | `tests` | 218 | 7.0 | `_check_text_leaks`, `test_part_a_base_case`, `test_part_a_presets`, `test_part_a_custom_extremes`, `test_part_a_after_reset`, `test_part_a_saved_scenarios_and_toggles` | File in tests |
-| `tests/release/test_part_b_widgets_and_values.py` | `tests` | 174 | 6.6 | `test_part_b_deck_sliders_sweep`, `test_part_b_buttons_single_and_double_click`, `test_part_b_simple_view_toggle`, `test_part_b_action_matrix_selectbox`, `test_part_b_download_buttons_content` | File in tests |
-| `tests/release/test_part_c_cross_control.py` | `tests` | 160 | 6.0 | `test_part_c_preset_vs_helper_parity`, `test_part_c_lever_deck_sidebar_parity`, `test_part_c_state_persistence_across_pages`, `test_part_c_scenario_save_load_delete_lifecycle`, `test_part_c_compare_table_fidelity` | File in tests |
-| `tests/release/test_part_d_sequences.py` | `tests` | 267 | 9.2 | `test_seq_1_preset_slider_preset_reset`, `test_seq_2_page_switch_mid_change`, `test_seq_3_guided_helper_sidebar_deck_chip`, `test_seq_4_forecast_to_simulator_to_profit_chain`, `test_seq_5_demo_start_page_switch_stop_slider`, `test_seq_6_demo_start_reset_during_demo`, `test_seq_7_save_load_during_demo`, `test_seq_8_simple_view_toggle_preset_cycle`, `test_seq_9_twenty_rapid_alternating_preset_clicks` | File in tests |
-| `tests/release/test_part_e_monkey.py` | `tests` | 145 | 5.7 | `_assert_invariants`, `test_part_e_monkey_random_walk` | File in tests |
-| `tests/release/test_part_f_engine_invariants.py` | `tests` | 134 | 5.0 | `test_part_f_oracle_parity`, `test_part_f_zero_volatility_mc_collapse`, `test_part_f_breakeven_plug_back`, `test_part_f_fuzz_1000_scenarios` | File in tests |
-| `tests/release/test_part_g_demo_mode.py` | `tests` | 103 | 3.3 | `test_part_g_full_storyboard_accelerated_run`, `test_part_g_feature_flag_off`, `test_part_g_simulated_demo_removal`, `test_part_g_step_controls_zero_exceptions` | File in tests |
-| `tests/release/test_part_h_resilience.py` | `tests` | 79 | 3.0 | `test_part_h_core_engine_runs_without_data_directory`, `test_part_h_signals_resilience_to_missing_files`, `test_part_h_corrupted_csv_handling`, `test_part_h_fallback_cache_integrity` | File in tests |
-| `tests/release/test_part_i_performance.py` | `tests` | 130 | 4.4 | `test_part_i_run_all_latency`, `test_part_i_control_room_rerun_speed`, `test_part_i_monte_carlo_performance`, `test_part_i_demo_step_transition_speed`, `test_part_i_two_hundred_consecutive_actions` | File in tests |
+| `tests/test_handbook.py` | `tests` | 168 | 7.9 | `handbook_text`, `test_handbook_exists_and_toc_resolves`, `test_all_repo_files_in_inventory`, `test_all_engine_functions_and_pages_mentioned`, `test_deny_list_absent`, `test_baseline_and_shock_numbers_match_engine` | File in tests |
+| `tests/e2e/test_browser_suite.py` | `tests` | 192 | 7.8 | `_check_page_health`, `test_e2e_p0_crash_paths_twenty_times`, `test_e2e_interactive_widgets_and_sliders`, `test_e2e_full_page_screenshots_and_viewports`, `test_e2e_browser_refresh_persistence`, `test_e2e_demo_run_video_recording` | File in tests |
+| `tests/release/inventory.py` | `tests` | 228 | 8.5 | `extract_ast_elements`, `discover_inventory`, `save_inventory`, `get_inventory` | File in tests |
+| `tests/release/test_p0_widgets.py` | `tests` | 165 | 8.1 | `get_all_widget_keys`, `test_P0_1_no_direct_widget_key_assignments_outside_sync`, `test_P0_2_no_if_button_calling_scenario_mutation`, `test_P0_3_control_room_preset_clicks_and_reset_in_apptest`, `test_P0_4_demo_lifecycle_in_apptest` | File in tests |
+| `tests/release/test_part_a_pages_and_states.py` | `tests` | 218 | 7.2 | `_check_text_leaks`, `test_part_a_base_case`, `test_part_a_presets`, `test_part_a_custom_extremes`, `test_part_a_after_reset`, `test_part_a_saved_scenarios_and_toggles` | File in tests |
+| `tests/release/test_part_b_widgets_and_values.py` | `tests` | 174 | 6.8 | `test_part_b_deck_sliders_sweep`, `test_part_b_buttons_single_and_double_click`, `test_part_b_simple_view_toggle`, `test_part_b_action_matrix_selectbox`, `test_part_b_download_buttons_content` | File in tests |
+| `tests/release/test_part_c_cross_control.py` | `tests` | 160 | 6.2 | `test_part_c_preset_vs_helper_parity`, `test_part_c_lever_deck_sidebar_parity`, `test_part_c_state_persistence_across_pages`, `test_part_c_scenario_save_load_delete_lifecycle`, `test_part_c_compare_table_fidelity` | File in tests |
+| `tests/release/test_part_d_sequences.py` | `tests` | 267 | 9.4 | `test_seq_1_preset_slider_preset_reset`, `test_seq_2_page_switch_mid_change`, `test_seq_3_guided_helper_sidebar_deck_chip`, `test_seq_4_forecast_to_simulator_to_profit_chain`, `test_seq_5_demo_start_page_switch_stop_slider`, `test_seq_6_demo_start_reset_during_demo`, `test_seq_7_save_load_during_demo`, `test_seq_8_simple_view_toggle_preset_cycle`, `test_seq_9_twenty_rapid_alternating_preset_clicks` | File in tests |
+| `tests/release/test_part_e_monkey.py` | `tests` | 145 | 5.8 | `_assert_invariants`, `test_part_e_monkey_random_walk` | File in tests |
+| `tests/release/test_part_f_engine_invariants.py` | `tests` | 134 | 5.2 | `test_part_f_oracle_parity`, `test_part_f_zero_volatility_mc_collapse`, `test_part_f_breakeven_plug_back`, `test_part_f_fuzz_1000_scenarios` | File in tests |
+| `tests/release/test_part_g_demo_mode.py` | `tests` | 103 | 3.4 | `test_part_g_full_storyboard_accelerated_run`, `test_part_g_feature_flag_off`, `test_part_g_simulated_demo_removal`, `test_part_g_step_controls_zero_exceptions` | File in tests |
+| `tests/release/test_part_h_resilience.py` | `tests` | 79 | 3.1 | `test_part_h_core_engine_runs_without_data_directory`, `test_part_h_signals_resilience_to_missing_files`, `test_part_h_corrupted_csv_handling`, `test_part_h_fallback_cache_integrity` | File in tests |
+| `tests/release/test_part_i_performance.py` | `tests` | 130 | 4.5 | `test_part_i_run_all_latency`, `test_part_i_control_room_rerun_speed`, `test_part_i_monte_carlo_performance`, `test_part_i_demo_step_transition_speed`, `test_part_i_two_hundred_consecutive_actions` | File in tests |
 | `tests/stress/__init__.py` | `tests` | 1 | 0.1 | - | File in tests |
 | `tests/stress/test_actions.py` | `tests` | 79 | 3.6 | `test_M21_action_matrix_hand_calc`, `test_M22_action_reranking_under_crisis`, `test_M23_ripple_matrix_and_suppliers` | File in tests |
-| `tests/stress/test_control_deck.py` | `tests` | 101 | 3.7 | `test_CD01_canonical_state_lifecycle`, `test_CD02_apply_preset_synchronization`, `test_CD03_glossary_content`, `test_CD04_command_centre_control_deck_apptest`, `test_CD05_simple_view_toggle_behavior` | File in tests |
-| `tests/stress/test_demo_mode.py` | `tests` | 76 | 2.4 | `test_DM01_storyboard_structure`, `test_DM02_feature_flag_and_env_override`, `test_DM03_step_execution_and_timeline_logging`, `test_DM04_app_loads_with_demo_hook` | File in tests |
+| `tests/stress/test_control_deck.py` | `tests` | 101 | 3.8 | `test_CD01_canonical_state_lifecycle`, `test_CD02_apply_preset_synchronization`, `test_CD03_glossary_content`, `test_CD04_command_centre_control_deck_apptest`, `test_CD05_simple_view_toggle_behavior` | File in tests |
+| `tests/stress/test_demo_mode.py` | `tests` | 76 | 2.5 | `test_DM01_storyboard_structure`, `test_DM02_feature_flag_and_env_override`, `test_DM03_step_execution_and_timeline_logging`, `test_DM04_app_loads_with_demo_hook` | File in tests |
 | `tests/stress/test_extremes.py` | `tests` | 126 | 4.7 | `test_H01_all_sliders_to_maximum`, `test_H02_all_sliders_to_minimum`, `test_H03_pass_through_100pct_with_max_shocks`, `test_H04_demand_volume_extremes`, `test_H11_edit_assumptions_and_reset`, `test_H12_invalid_assumptions_resilience` | File in tests |
 | `tests/stress/test_forecast_data.py` | `tests` | 129 | 5.3 | `test_M24_forecast_confidence_bands_monotonicity`, `test_M25_series_tiers_and_quality_badges`, `test_M26_backtest_scorecard_metrics`, `test_M27_forecast_to_scenario_conversion`, `test_M28_data_cleaning_fixes_verification`, `test_M29_radar_signals_computed_accurately` | File in tests |
 | `tests/stress/test_fuzz_invariants.py` | `tests` | 120 | 5.6 | `test_H05_fuzz_300_scenarios_invariants`, `test_H06_monotonicity_sweeps`, `test_H26_long_session_stress` | File in tests |
@@ -1038,16 +1206,16 @@ The table below catalogs every file in the repository (excluding `.git`, `_refs`
 | `tests/stress/test_numbers.py` | `tests` | 249 | 10.6 | `test_E01_fresh_start_base_case`, `test_M01_all_10pct_pass_50pct`, `test_M02_all_10pct_pass_0pct`, `test_M03_all_10pct_pass_100pct`, `test_M04_freight_2x_only`, `test_M05_fx_10pct_only`, `test_M06_demand_minus_12pct_only`, `test_M07_copper_10pct_only`, `test_M08_steel_hr_10pct_and_fx_invariance`, `test_M09_all_10pct_freight_2x_fx_10pct`, `test_M10_all_10pct_demand_minus_12pct`, `test_M11_in_year_recovery_mode`, `test_M12_breakeven_uniform_shock`, `test_M13_tariff_10pct_only`, `test_M14_waterfall_reconciliation`, `test_M15_division_cost_totals`, `test_M16_landed_cost_per_tonne_invariance`, `test_M17_todays_market_preset` | File in tests |
 | `tests/stress/test_perf.py` | `tests` | 43 | 1.5 | `test_H08_recalc_speed_100_scenarios` | File in tests |
 | `tests/stress/test_resilience.py` | `tests` | 43 | 1.8 | `test_H13_resilience_to_missing_data_files`, `test_H14_processed_and_fallback_cache_integrity` | File in tests |
-| `tests/stress/test_truth_pass.py` | `tests` | 154 | 7.3 | `test_T1_market_tape_equals_processed_data`, `test_T2_backtest_reproducibility_and_honesty`, `test_T3_precomputed_forecasts_match_winning_model_and_mape`, `test_T4_monte_carlo_symmetry_and_zero_vol_collapse`, `test_T5_deny_list_entities_absent` | File in tests |
+| `tests/stress/test_truth_pass.py` | `tests` | 154 | 7.5 | `test_T1_market_tape_equals_processed_data`, `test_T2_backtest_reproducibility_and_honesty`, `test_T3_precomputed_forecasts_match_winning_model_and_mape`, `test_T4_monte_carlo_symmetry_and_zero_vol_collapse`, `test_T5_deny_list_entities_absent` | File in tests |
 | `tests/stress/test_ui_apptest.py` | `tests` | 141 | 5.8 | `test_E02_all_pages_load_under_base_case`, `test_E03_pages_load_under_presets`, `test_E05_branding_text_present`, `test_E07_preset_slider_values_documented`, `test_E10_no_nan_or_unrounded_floats_in_ui`, `test_E11_expander_formula_boxes_present`, `test_M30_kpi_strip_consistency`, `test_H09_saved_scenarios_management`, `test_B01_regression_text_leak_scanner` | File in tests |
 | `ui/__init__.py` | `ui` | 1 | 0.0 | - | File in ui |
 | `ui/charts.py` | `ui` | 551 | 18.0 | `plot_forecast_chart`, `plot_ebitda_waterfall`, `plot_tornado_sensitivity`, `plot_inventory_runway`, `plot_freight_redating_trace`, `plot_profit_at_risk_distribution`, `plot_cash_timeline_trough` | File in ui |
 | `ui/components.py` | `ui` | 161 | 6.3 | `page_header`, `kpi_card`, `kpi_strip`, `status_badge`, `data_badge`, `insight`, `section`, `explain_box` | File in ui |
-| `ui/control_deck.py` | `ui` | 208 | 9.6 | `render_control_deck` | File in ui |
-| `ui/guided_helper.py` | `ui` | 206 | 9.6 | `compute_guided_recommendation`, `render_guided_helper_dialog` | File in ui |
-| `ui/layout.py` | `ui` | 174 | 7.7 | `load_yaml`, `page_setup`, `render_sidebar` | File in ui |
-| `ui/styles.css` | `ui` | 305 | 7.2 | - | File in ui |
-| `ui/theme.py` | `ui` | 131 | 4.2 | `format_money_cr`, `format_pct`, `format_inr_t`, `format_usd`, `format_days` | File in ui |
+| `ui/control_deck.py` | `ui` | 208 | 9.8 | `render_control_deck` | File in ui |
+| `ui/guided_helper.py` | `ui` | 206 | 9.8 | `compute_guided_recommendation`, `render_guided_helper_dialog` | File in ui |
+| `ui/layout.py` | `ui` | 174 | 7.9 | `load_yaml`, `page_setup`, `render_sidebar` | File in ui |
+| `ui/styles.css` | `ui` | 305 | 7.5 | - | File in ui |
+| `ui/theme.py` | `ui` | 131 | 4.3 | `format_money_cr`, `format_pct`, `format_inr_t`, `format_usd`, `format_days` | File in ui |
 
 ---
 
@@ -1349,4 +1517,4 @@ We gratefully acknowledge the developers and maintainers of the open-source libr
 * **Playwright**: Browser automation and cross-platform headless testing.
 
 ---
-*Generated autonomously by `scripts/build_handbook.py` on 2026-11-23 16:33:01. Verified against 90 passing automated tests.*
+*Generated autonomously by `scripts/build_handbook.py` on 2026-11-23 17:37:10. Verified against 90 passing automated tests.*

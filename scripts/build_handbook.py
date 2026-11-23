@@ -128,10 +128,11 @@ def get_repository_inventory() -> Tuple[List[Dict[str, Any]], Dict[str, List[str
     repo_files = []
     engine_funcs = {}
     
+    ignored_dirs = {".git", "_refs", ".venv", ".pytest_cache", "__pycache__", "build", ".dart_tool", ".gradle", ".kotlin", ".idea"}
     for root, dirs, files in os.walk(BASE_DIR):
-        dirs[:] = [d for d in dirs if d not in [".git", "_refs", ".venv", ".pytest_cache", "__pycache__"]]
+        dirs[:] = [d for d in dirs if d not in ignored_dirs]
         for f in sorted(files):
-            if f.endswith((".pyc", ".log")) or f == ".DS_Store":
+            if f.endswith((".pyc", ".log", ".apk", ".aab", ".dill", ".stamp", ".iml")) or f == ".DS_Store":
                 continue
             full_path = os.path.join(root, f)
             rel = os.path.relpath(full_path, BASE_DIR).replace(os.sep, "/")
