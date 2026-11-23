@@ -1,12 +1,12 @@
 """
-Shared Layout, Sidebar and Session State Management (Section 3)
+Shared Layout, Sidebar and Session State Management (Section 3 / P0 Fix)
 Team 11:59 · Xovate'26 · Rane (Madras) MMD Decision Engine
 
 Enforces:
-- 3a: Canonical state via engine.state
-- 3b: Decouples widgets from value= parameter; prevents dual key/value Streamlit warnings
-- 3c: Preset changes through apply_scenario_values()
-- 3d: Clean compact summary on Control Room; interactive sliders on other module pages
+- Canonical state via engine.state
+- P0: Decouples widgets from value= parameter; prevents dual key/value Streamlit warnings
+- P0: Preset changes through on_click/on_change callbacks
+- Clean compact summary on Control Room; interactive sliders on other module pages
 """
 
 import os
@@ -37,7 +37,6 @@ def page_setup(title: str = "MMD Decision Engine · Team 11:59"):
         initial_sidebar_state="expanded"
     )
 
-    # Inject global stylesheet
     css_path = os.path.join(os.path.dirname(__file__), "styles.css")
     if os.path.exists(css_path):
         with open(css_path, "r", encoding="utf-8") as f:
@@ -49,8 +48,7 @@ def page_setup(title: str = "MMD Decision Engine · Team 11:59"):
 def render_sidebar(is_control_room: bool = False):
     """
     Renders standardized interactive sidebar.
-    Rule 3d: On Control Room, shows a compact read-only summary card plus presets.
-    On module pages, renders full interactive sliders synchronized with canonical state.
+    P0: All widget interactions use callbacks; no direct writes into instantiated widget keys.
     """
     init_canonical_state()
     branding = load_yaml("config/branding.yaml")
@@ -76,7 +74,7 @@ def render_sidebar(is_control_room: bool = False):
             unsafe_allow_html=True
         )
 
-        # 2. Preset Selector
+        # 2. Preset Selector with on_change callback (P0)
         preset_map = {
             "Base case": "base_case",
             "Today's market (Live Data)": "todays_market",
@@ -94,20 +92,21 @@ def render_sidebar(is_control_room: bool = False):
                 idx = i
                 break
 
-        selected_preset = st.selectbox(
+        def _on_preset_select():
+            sel = st.session_state.get("sb_preset_select")
+            if sel and sel in preset_map:
+                apply_preset_by_name(preset_map[sel])
+
+        st.selectbox(
             ":material/bolt: Quick Shock Scenario Preset",
             options=preset_options,
             index=idx,
             key="sb_preset_select",
+            on_change=_on_preset_select,
             help="Select a calibrated crisis preset or fine-tune individual shock sliders."
         )
 
-        selected_key = preset_map[selected_preset]
-        if selected_key != "base_case" and current_name == "Base case" and selected_preset != "Base case":
-            apply_preset_by_name(selected_key)
-            st.rerun()
-
-        # 3. Rule 3d: Sidebar mode
+        # 3. Sidebar mode
         if is_control_room:
             # Compact read-only summary on Control Room
             st.markdown(
@@ -128,16 +127,7 @@ def render_sidebar(is_control_room: bool = False):
             )
             st.caption("ℹ️ Full scenario sliders are accessible directly on the Control Deck above, or deep-dive in **Module 2 (Scenario Simulator)**.")
         else:
-            # Interactive Sliders for Module Pages (Rule 3b: no value= with key=)
             st.markdown("<div style='font-size:0.78rem; font-weight:700; color:#536471; margin:0.75rem 0 0.25rem 0;'>FINE-TUNE SHOCK PARAMETERS</div>", unsafe_allow_html=True)
-
-            # Pre-populate sidebar slider keys if missing
-            if "sb_freight" not in st.session_state:
-                st.session_state["sb_freight"] = float(scn.get("freight_multiplier", 1.0))
-                st.session_state["sb_delay"] = int(scn.get("shipping_delay_days", 0))
-                st.session_state["sb_fx"] = float(scn.get("fx_inr_usd", 84.56))
-                st.session_state["sb_pass_through"] = float(scn.get("oem_pass_through_pct", 50.0))
-                st.session_state["sb_demand"] = float(scn.get("demand_volume_pct", 0.0))
 
             def _on_sb_slider_change():
                 apply_scenario_values({
@@ -160,16 +150,14 @@ def render_sidebar(is_control_room: bool = False):
                 st.slider("OEM Cost Pass-Through (%)", 0.0, 100.0, step=5.0, key="sb_pass_through", on_change=_on_sb_slider_change)
                 st.slider("Vehicle Demand Volume Δ (%)", -30.0, 30.0, step=1.0, key="sb_demand", on_change=_on_sb_slider_change)
 
-        # 4. Quick Action Buttons
+        # 4. Quick Action Buttons (P0: on_click callbacks)
         col_btn1, col_btn2 = st.columns(2)
         with col_btn1:
-            if st.button(":material/restart_alt: Reset Base", use_container_width=True):
-                reset_to_base()
-                st.rerun()
+            st.button(":material/restart_alt: Reset Base", use_container_width=True, on_click=reset_to_base)
         with col_btn2:
-            if st.button(":material/bookmark: Save", use_container_width=True):
+            def _on_sb_save():
                 st.session_state.setdefault("saved_scenarios", {})[active.name] = active
-                st.toast(f"Saved scenario '{active.name}'")
+            st.button(":material/bookmark: Save", use_container_width=True, on_click=_on_sb_save)
 
         # 5. Team Footer
         st.markdown(

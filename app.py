@@ -5,10 +5,14 @@ Tagline: "See the shock. Measure it. Decide."
 """
 
 import streamlit as st
+from engine.state import sync_widgets_from_scn
 from ui.layout import page_setup, render_sidebar
 
 # Initialize layout and session state
 page_setup(title="MMD Decision Engine · Team 11:59")
+
+# P0: Sync all widget keys from canonical scn BEFORE any widget is created
+sync_widgets_from_scn()
 
 # Define pages for st.navigation
 pages = [
@@ -23,16 +27,16 @@ pages = [
 
 nav = st.navigation(pages)
 
-# Render global shared sidebar
-render_sidebar()
-
-# Demo mode hook (isolated in demo/, feature-flagged, <= 6 lines)
+# Demo mode hook (runs before sidebar and page widgets, using rerun-safe state)
 try:
     from demo import maybe_run_demo
 except ImportError:
     maybe_run_demo = None
 if maybe_run_demo:
     maybe_run_demo()
+
+# Render global shared sidebar
+render_sidebar()
 
 # Run the selected page
 nav.run()

@@ -138,16 +138,15 @@ def render_guided_helper_dialog():
     # Severity selection
     st.markdown("<b>2. How big is the disruption?</b>", unsafe_allow_html=True)
     c1, c2, c3 = st.columns(3)
-    sev_choice = "Medium"
+    def _set_sev(val):
+        st.session_state["guided_sev"] = val
+
     with c1:
-        if st.button("🟡 Small", use_container_width=True):
-            st.session_state["guided_sev"] = "Small"
+        st.button("🟡 Small", use_container_width=True, on_click=_set_sev, args=("Small",))
     with c2:
-        if st.button("🟠 Medium", use_container_width=True):
-            st.session_state["guided_sev"] = "Medium"
+        st.button("🟠 Medium", use_container_width=True, on_click=_set_sev, args=("Medium",))
     with c3:
-        if st.button("🔴 Large", use_container_width=True):
-            st.session_state["guided_sev"] = "Large"
+        st.button("🔴 Large", use_container_width=True, on_click=_set_sev, args=("Large",))
 
     active_sev = st.session_state.get("guided_sev", "Medium")
     st.caption(f"Selected severity: **{active_sev}**")
@@ -175,10 +174,11 @@ def render_guided_helper_dialog():
 
     col_btn1, col_btn2 = st.columns([1, 1])
     with col_btn1:
-        if st.button("Apply to dashboard", type="primary", use_container_width=True):
-            apply_scenario_values(rec["scenario_dict"], source="guided_helper")
+        def _on_apply_guided(shock_dict):
+            apply_scenario_values(shock_dict, source="guided_helper")
             st.session_state["show_helper_dialog"] = False
-            st.rerun()
+
+        st.button("Apply to dashboard", type="primary", use_container_width=True, on_click=_on_apply_guided, args=(rec["scenario_dict"],))
 
     with col_btn2:
         brief_html = f"""

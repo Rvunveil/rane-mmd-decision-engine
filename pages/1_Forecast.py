@@ -144,7 +144,7 @@ with col_action:
 
         st.markdown(f"Implied Shock: **{pct_shock:+.1f}%** for **{selected_id.upper()}**")
         
-        if st.button(f":material/arrow_forward: Apply {horizon_choice} ({mode_tag}) to Sliders", use_container_width=True):
+        def _on_apply_fc():
             scn_name = f"Forecast Driven ({selected_id.title()} {horizon_choice} {mode_tag})"
             if selected_id == "freight":
                 new_mult = max(1.0 + pct_shock / 100.0, 0.5)
@@ -157,8 +157,12 @@ with col_action:
                     selected_id: round(pct_shock, 1),
                     "name": scn_name
                 }, source="forecast")
-            st.toast(f"Applied {selected_id.title()} {horizon_choice} {mode_tag} forecast to scenario!")
-            st.rerun()
+
+        st.button(
+            f":material/arrow_forward: Apply {horizon_choice} ({mode_tag}) to Sliders",
+            use_container_width=True,
+            on_click=_on_apply_fc
+        )
 
 # Backtest Scorecard Table
 section(":material/analytics: Model Selection Rationale & Rolling-Origin Backtest Scorecard", "Evaluating AutoARIMA, AutoETS, AutoTheta, and Empirical Naive across 8 inputs")

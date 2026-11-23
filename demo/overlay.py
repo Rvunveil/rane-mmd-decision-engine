@@ -106,25 +106,17 @@ def render_demo_overlay(
         unsafe_allow_html=True
     )
 
-    # Optional control button bar in bottom sidebar or top corner
+    # Control button bar in sidebar with on_click callbacks (P0)
     with st.sidebar:
         st.markdown("---")
         st.markdown("#### :material/smart_display: Guided Tour Controls")
         c1, c2, c3, c4 = st.columns(4)
         with c1:
-            if st.button("⏮️", help="Previous step", key="demo_btn_prev"):
-                if on_prev:
-                    on_prev()
+            st.button("⏮️", help="Previous step", key="demo_btn_prev", on_click=on_prev)
         with c2:
             pause_label = "▶️" if is_paused else "⏸️"
-            if st.button(pause_label, help="Pause/Resume playback", key="demo_btn_pause"):
-                if on_toggle_pause:
-                    on_toggle_pause()
+            st.button(pause_label, help="Pause/Resume playback", key="demo_btn_pause", on_click=on_toggle_pause)
         with c3:
-            if st.button("⏭️", help="Next step", key="demo_btn_next"):
-                if on_next:
-                    on_next()
+            st.button("⏭️", help="Next step", key="demo_btn_next", on_click=on_next)
         with c4:
-            if st.button("⏹️", help="Exit guided demo", key="demo_btn_stop"):
-                if on_stop:
-                    on_stop()
+            st.button("⏹️", help="Exit guided demo", key="demo_btn_stop", on_click=on_stop)

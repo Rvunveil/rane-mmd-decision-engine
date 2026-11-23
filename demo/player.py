@@ -111,7 +111,6 @@ def stop_demo():
         "paused": False
     }
     reset_to_base()
-    st.rerun()
 
 
 def _apply_step(step_idx: int):
@@ -173,13 +172,11 @@ def run_demo_player():
 
     demo_state = st.session_state["demo"]
 
-    # Render launcher button in sidebar if inactive
+    # Render launcher button in sidebar if inactive (P0: on_click callback)
     with st.sidebar:
         if not demo_state["active"]:
             st.markdown("<div style='margin-top: 10px;'></div>", unsafe_allow_html=True)
-            if st.button("🎬 Run Director Demo (60s)", help="Autonomously tours all 5 modules with live calculations", key="btn_start_demo", use_container_width=True):
-                start_demo()
-                st.rerun()
+            st.button("🎬 Run Director Demo (60s)", help="Autonomously tours all 5 modules with live calculations", key="btn_start_demo", use_container_width=True, on_click=start_demo)
             return
 
     # If demo is active:
@@ -190,13 +187,12 @@ def run_demo_player():
 
     current_step = steps[current_step_idx - 1]
 
-    # Handlers for interactive controls
+    # Handlers for interactive controls (P0: callback-safe)
     def on_next():
         if current_step_idx < total_steps:
             demo_state["step"] = current_step_idx + 1
             demo_state["step_started_at"] = time.time()
             _apply_step(demo_state["step"])
-            st.rerun()
         else:
             stop_demo()
 
@@ -205,11 +201,9 @@ def run_demo_player():
             demo_state["step"] = current_step_idx - 1
             demo_state["step_started_at"] = time.time()
             _apply_step(demo_state["step"])
-            st.rerun()
 
     def on_toggle_pause():
         demo_state["paused"] = not demo_state.get("paused", False)
-        st.rerun()
 
     def on_stop():
         stop_demo()

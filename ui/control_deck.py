@@ -1,11 +1,11 @@
 """
-Materials Control Deck Component (Section 2a / Section 3)
+Materials Control Deck Component (Section 2a / Section 3 / P0 Fix)
 Team 11:59 · Xovate'26 · Rane (Madras) MMD Decision Engine
 
 Renders the top control deck:
-- Scenario chips with active highlighting
+- Scenario chips with active highlighting and on_click callbacks (P0)
 - 6 big levers inline with delta vs base
-- Popover for individual metals
+- Popover for individual metals with on_change callbacks
 - Reset, Save, Compare, and Guided Helper actions
 - Simple View toggle
 """
@@ -29,25 +29,15 @@ def render_control_deck():
     """
     Renders the unified interactive control deck directly on the dashboard.
     Enforces Rule 3b: no duplicate value= and key= arguments.
+    Enforces P0: All scenario mutations happen via on_click/on_change callbacks.
     """
     init_canonical_state()
     scn = st.session_state["scn"]
     presets = get_default_presets()
     glossary = load_glossary()
 
-    # Pre-populate widget session state keys before sliders render (Rule 3b)
-    if "deck_metal" not in st.session_state or st.session_state.get("_sync_needed"):
-        st.session_state["deck_metal"] = float(scn.get("metal_master", 0.0))
-        st.session_state["deck_freight"] = float(scn.get("freight_multiplier", 1.0))
-        st.session_state["deck_delay"] = int(scn.get("shipping_delay_days", 0))
-        st.session_state["deck_fx"] = float(scn.get("fx_inr_usd", 84.56))
-        st.session_state["deck_pass_through"] = float(scn.get("oem_pass_through_pct", 50.0))
-        st.session_state["deck_demand"] = float(scn.get("demand_volume_pct", 0.0))
-        st.session_state["_sync_needed"] = False
-
-    # 1. SCENARIO CHIPS ROW
+    # 1. SCENARIO CHIPS ROW (P0: on_click callbacks)
     chip_cols = st.columns([1, 1.1, 1.3, 1, 1.1, 1.2, 0.8, 1.5])
-    
     active_name = scn.get("name", "Custom")
 
     preset_chips = [
@@ -63,10 +53,14 @@ def render_control_deck():
         with chip_cols[idx]:
             is_active = (active_name == label) or (label == "Base" and active_name == "Base case")
             btn_type = "primary" if is_active else "secondary"
-            if st.button(label, key=f"chip_{pkey}", type=btn_type, use_container_width=True):
-                apply_preset_by_name(pkey)
-                st.session_state["_sync_needed"] = True
-                st.rerun()
+            st.button(
+                label,
+                key=f"chip_{pkey}",
+                type=btn_type,
+                use_container_width=True,
+                on_click=apply_preset_by_name,
+                args=(pkey,)
+            )
 
     with chip_cols[6]:
         is_custom = active_name not in ["Base case", "Base", "Today's market", "Red Sea / Hormuz crisis", "Metal shock", "Tariff & FX escalation", "Demand recession"]
@@ -76,11 +70,10 @@ def render_control_deck():
         if st.button(":material/help: What happened?", type="secondary", use_container_width=True):
             render_guided_helper_dialog()
 
-    # 2. SIX BIG LEVERS INLINE
+    # 2. SIX BIG LEVERS INLINE (P0: on_change callbacks, no value= with key=)
     st.markdown("<div style='margin-top: 6px;'></div>", unsafe_allow_html=True)
     l_cols = st.columns(6)
 
-    # Callbacks to update canonical state on user slider adjustment
     def _on_metal_change():
         apply_scenario_values({"metal_master": st.session_state["deck_metal"], "name": "Custom"})
 
@@ -140,17 +133,14 @@ def render_control_deck():
     f_cols = st.columns([1, 1, 1.2, 1.8, 1.5])
     
     with f_cols[0]:
-        if st.button(":material/restart_alt: Reset", use_container_width=True):
-            reset_to_base()
-            st.session_state["_sync_needed"] = True
-            st.rerun()
+        st.button(":material/restart_alt: Reset", use_container_width=True, on_click=reset_to_base)
 
     with f_cols[1]:
         with st.popover(":material/bookmark: Save"):
             s_name = st.text_input("Scenario Name", value=f"Scenario-{len(st.session_state.get('saved_scenarios', {})) + 1}")
-            if st.button("Save Current"):
+            def _on_save():
                 st.session_state.setdefault("saved_scenarios", {})[s_name] = get_current_scenario()
-                st.success(f"Saved '{s_name}'")
+            st.button("Save Current", on_click=_on_save)
 
     with f_cols[2]:
         with st.popover(":material/compare_arrows: Compare"):
@@ -184,6 +174,13 @@ def render_control_deck():
     with f_cols[3]:
         with st.popover(":material/tune: Individual Metals"):
             st.markdown("<b>Fine-Tune Individual Material Price Shocks (%):</b>", unsafe_allow_html=True)
+            
+            def _make_fine_cb(metal_key):
+                def _cb():
+                    val = st.session_state.get(f"fine_{metal_key}", 0.0)
+                    apply_scenario_values({metal_key: val, "name": "Custom"})
+                return _cb
+
             for m_key, m_label in [
                 ("copper", "Copper Cathode"),
                 ("aluminium", "Aluminium Ingot"),
@@ -193,17 +190,19 @@ def render_control_deck():
                 ("resin", "Phenolic Resin"),
                 ("rubber", "Natural Rubber")
             ]:
-                cur_v = float(scn.get(m_key, scn.get("metal_master", 0.0)))
-                new_v = st.slider(m_label, -30.0, 60.0, cur_v, 1.0, key=f"fine_{m_key}")
-                if new_v != cur_v:
-                    apply_scenario_values({m_key: new_v, "name": "Custom"})
-                    st.rerun()
+                st.slider(
+                    m_label,
+                    min_value=-30.0,
+                    max_value=60.0,
+                    step=1.0,
+                    key=f"fine_{m_key}",
+                    on_change=_make_fine_cb(m_key)
+                )
 
     with f_cols[4]:
-        is_simple_val = st.session_state.get("simple_view", False) or st.session_state.get("simple_view_toggle", False)
-        simple = st.toggle("Simple view", value=is_simple_val, key="simple_view_toggle")
-        if simple != st.session_state.get("simple_view", False):
-            st.session_state["simple_view"] = simple
-            st.rerun()
+        def _on_simple_toggle():
+            st.session_state["simple_view"] = st.session_state.get("simple_view_toggle", False)
+
+        st.toggle("Simple view", key="simple_view_toggle", on_change=_on_simple_toggle)
 
     st.markdown("<hr style='margin: 8px 0 16px 0; border: none; border-top: 1px solid #C9D1D5;'>", unsafe_allow_html=True)

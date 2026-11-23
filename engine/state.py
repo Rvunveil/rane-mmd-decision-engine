@@ -1,13 +1,13 @@
 """
-Canonical Scenario State Architecture & Control Sync (Section 3)
+Canonical Scenario State Architecture & Control Sync (Section 3 / P0 Fix)
 Team 11:59 · Xovate'26 · Rane (Madras) MMD Decision Engine
 
 Enforces:
-- 3a: Single canonical state dictionary st.session_state["scn"] holding every lever.
-- 3b: Decouples widgets from value= parameters; reads directly from synced session_state keys.
-- 3c: All scenario changes (presets, guided helper, reset, demo) pass through apply_scenario_values().
-- 3d: Clean separation between Control Deck and navigation sidebars.
-- 3e: Glossary lookups from config/glossary.yaml and Simple View toggles.
+- P0: Single canonical state dictionary st.session_state["scn"] holding every lever.
+- P0: apply_scenario_values() NEVER writes widget keys directly; sets _sync_widgets = True.
+- P0: sync_widgets_from_scn() runs at the very top of app.py to safely synchronize widgets before creation.
+- P0: All scenario modifications use callbacks (on_click/on_change) or rerun-safe patterns.
+- Decouples widgets from value= parameter; prevents dual key/value Streamlit warnings.
 """
 
 import os
@@ -42,11 +42,32 @@ DEFAULT_SCN_DICT = {
 # Standalone fallback state store for testing outside active Streamlit runtime
 _FALLBACK_STATE: dict[str, Any] = {}
 
+# Widget key mapping for top-of-script synchronization
+WIDGET_KEY_MAPPING = {
+    "deck_metal": lambda scn: float(scn.get("metal_master", 0.0)),
+    "deck_freight": lambda scn: float(scn.get("freight_multiplier", 1.0)),
+    "deck_delay": lambda scn: int(scn.get("shipping_delay_days", 0)),
+    "deck_fx": lambda scn: float(scn.get("fx_inr_usd", 84.56)),
+    "deck_pass_through": lambda scn: float(scn.get("oem_pass_through_pct", 50.0)),
+    "deck_demand": lambda scn: float(scn.get("demand_volume_pct", 0.0)),
+    "sb_freight": lambda scn: float(scn.get("freight_multiplier", 1.0)),
+    "sb_delay": lambda scn: int(scn.get("shipping_delay_days", 0)),
+    "sb_fx": lambda scn: float(scn.get("fx_inr_usd", 84.56)),
+    "sb_pass_through": lambda scn: float(scn.get("oem_pass_through_pct", 50.0)),
+    "sb_demand": lambda scn: float(scn.get("demand_volume_pct", 0.0)),
+    "fine_copper": lambda scn: float(scn.get("copper", scn.get("metal_master", 0.0))),
+    "fine_aluminium": lambda scn: float(scn.get("aluminium", scn.get("metal_master", 0.0))),
+    "fine_nickel": lambda scn: float(scn.get("nickel", scn.get("metal_master", 0.0))),
+    "fine_steel_hr": lambda scn: float(scn.get("steel_hr", scn.get("metal_master", 0.0))),
+    "fine_steel_cr": lambda scn: float(scn.get("steel_cr", scn.get("metal_master", 0.0))),
+    "fine_resin": lambda scn: float(scn.get("resin", 0.0)),
+    "fine_rubber": lambda scn: float(scn.get("rubber", 0.0)),
+}
+
 
 def _get_state_store():
     """Returns Streamlit session_state if running in app, else fallback dict."""
     try:
-        # Check if session_state is accessible
         _ = st.session_state
         return st.session_state
     except Exception:
@@ -78,7 +99,7 @@ def load_glossary() -> dict[str, str]:
 
 
 def init_canonical_state(state: dict[str, Any] | None = None):
-    """Initializes canonical state structures."""
+    """Initializes canonical state structures and sets up initial widget keys."""
     if state is None:
         state = _get_state_store()
     if "scn" not in state:
@@ -93,6 +114,32 @@ def init_canonical_state(state: dict[str, Any] | None = None):
         state["base_scenario"] = get_default_presets()["base_case"]
     if "active_scenario" not in state:
         state["active_scenario"] = get_current_scenario(state)
+    if "_sync_widgets" not in state:
+        state["_sync_widgets"] = False
+
+    # Initialize each widget key from scn once if missing
+    scn = state["scn"]
+    for widget_key, getter in WIDGET_KEY_MAPPING.items():
+        if widget_key not in state:
+            state[widget_key] = getter(scn)
+
+
+def sync_widgets_from_scn(state: dict[str, Any] | None = None, force: bool = False):
+    """
+    P0 CORE FIX: Copies canonical scn values into EVERY widget key.
+    Must be called at the very top of app.py before any widget is created.
+    """
+    if state is None:
+        state = _get_state_store()
+
+    if "scn" not in state:
+        init_canonical_state(state)
+
+    if state.get("_sync_widgets", False) or force:
+        scn = state["scn"]
+        for widget_key, getter in WIDGET_KEY_MAPPING.items():
+            state[widget_key] = getter(scn)
+        state["_sync_widgets"] = False
 
 
 def get_current_scenario(state: dict[str, Any] | None = None) -> Scenario:
@@ -101,7 +148,6 @@ def get_current_scenario(state: dict[str, Any] | None = None) -> Scenario:
         state = _get_state_store()
     s = state.get("scn", DEFAULT_SCN_DICT)
     
-    # If master metal slider was moved, apply to base metals unless specifically overridden
     master = float(s.get("metal_master", 0.0))
     cu = float(s.get("copper", master))
     ni = float(s.get("nickel", master))
@@ -135,9 +181,8 @@ def get_current_scenario(state: dict[str, Any] | None = None) -> Scenario:
 
 def apply_scenario_values(values: dict[str, Any] | None = None, maybe_values: dict[str, Any] | None = None, source: str = "manual", state: dict[str, Any] | None = None):
     """
-    3c: Single entrypoint to modify canonical state.
-    Updates st.session_state['scn'] and synchronizes all twin widget keys.
-    Supports either apply_scenario_values(values, source=...) or apply_scenario_values(state, values, source=...).
+    P0 FIX: Updates canonical scn dictionary and sets _sync_widgets = True.
+    NEVER writes widget keys directly to avoid StreamlitWidgetAlreadyInstantiatedError.
     """
     if maybe_values is not None:
         target_state = values
@@ -152,34 +197,19 @@ def apply_scenario_values(values: dict[str, Any] | None = None, maybe_values: di
     for k, v in vals.items():
         target_state["scn"][k] = v
 
-    # If manual edit without explicit name, mark Custom
     if not source.startswith("preset:") and "name" not in vals:
         target_state["scn"]["name"] = "Custom"
 
-    # Synchronize Control Deck and sidebar widget keys
-    scn = target_state["scn"]
-    key_mapping = {
-        "deck_metal": scn.get("metal_master", 0.0),
-        "deck_freight": scn.get("freight_multiplier", 1.0),
-        "deck_delay": scn.get("shipping_delay_days", 0),
-        "deck_fx": scn.get("fx_inr_usd", 84.56),
-        "deck_pass_through": scn.get("oem_pass_through_pct", 50.0),
-        "deck_demand": scn.get("demand_volume_pct", 0.0),
-        "sb_freight": scn.get("freight_multiplier", 1.0),
-        "sb_delay": scn.get("shipping_delay_days", 0),
-        "sb_fx": scn.get("fx_inr_usd", 84.56),
-        "sb_pass_through": scn.get("oem_pass_through_pct", 50.0),
-        "sb_demand": scn.get("demand_volume_pct", 0.0)
-    }
-
-    for widget_key, target_val in key_mapping.items():
-        target_state[widget_key] = target_val
-
+    # Set flag for top-of-script sync. Do NOT modify widget keys here.
+    target_state["_sync_widgets"] = True
     target_state["active_scenario"] = get_current_scenario(target_state)
 
 
 def apply_preset_by_name(preset_key_or_state: Any, preset_key_or_none: Any = None, state: dict[str, Any] | None = None):
-    """Loads and activates a calibrated preset. Supports both (preset_key) and (state, preset_key)."""
+    """
+    Loads and activates a calibrated preset.
+    Safe to use directly as a button callback: on_click=apply_preset_by_name, args=(preset_key,).
+    """
     if isinstance(preset_key_or_state, str):
         preset_key = preset_key_or_state
         target_state = state if state is not None else _get_state_store()
@@ -216,5 +246,5 @@ def apply_preset_by_name(preset_key_or_state: Any, preset_key_or_none: Any = Non
 
 
 def reset_to_base(state: dict[str, Any] | None = None):
-    """Restores canonical state to the calibrated base case."""
+    """Restores canonical state to the calibrated base case. Safe as on_click callback."""
     apply_preset_by_name("base_case", state=state)

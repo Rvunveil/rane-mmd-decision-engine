@@ -42,9 +42,7 @@ for col, (k, title, sub) in zip(preset_cols, preset_keys):
         with st.container(border=True):
             st.markdown(f"**{title}**")
             st.caption(sub)
-            if st.button("Load Preset", key=f"btn_p_{k}", use_container_width=True):
-                apply_preset_by_name(k)
-                st.rerun()
+            st.button("Load Preset", key=f"btn_p_{k}", use_container_width=True, on_click=apply_preset_by_name, args=(k,))
 
 # 3. Side-by-Side Comparison Matrix
 section(":material/compare: Multi-Scenario P&L Comparison Matrix", "Side-by-side benchmark of Baseline, Active, and Saved Scenarios")
