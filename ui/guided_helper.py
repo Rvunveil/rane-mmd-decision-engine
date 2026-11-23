@@ -96,11 +96,18 @@ def compute_guided_recommendation(event_type: str, severity: str, custom_val: fl
     cost_impact = abs(min(delta_ebitda, 0.0))
 
     # Prescriptive actions
-    bundle = optimize_action_portfolio(prop_scn, prop_res, cash_budget_cr=15.0)
-    top_action = bundle.actions_selected[0] if bundle.actions_selected else None
+    best_combo, best_spend, best_val = optimize_action_portfolio(prop_res.action_rankings, 15.0)
+    top_action = best_combo[0] if best_combo else (prop_res.action_rankings[0] if prop_res.action_rankings else None)
 
     # Cross-functional lenses
     lenses = compute_cross_functional_lenses(prop_scn, prop_res)
+
+    def _get_act_field(act, field, default=""):
+        if not act:
+            return default
+        if isinstance(act, dict):
+            return act.get(field, default)
+        return getattr(act, field, default)
 
     return {
         "scenario_dict": shock_dict,
@@ -108,10 +115,10 @@ def compute_guided_recommendation(event_type: str, severity: str, custom_val: fl
         "base_pat_cr": base_res.pat_cr,
         "prop_pat_cr": prop_res.pat_cr,
         "prop_ebitda_cr": prop_res.ebitda_cr,
-        "top_action_name": top_action.name if top_action else "Container Consolidation",
-        "top_action_benefit_cr": top_action.net_benefit_cr if top_action else 8.5,
-        "top_action_time": top_action.timeframe if top_action else "2 weeks",
-        "top_action_owner": top_action.owner if top_action else "Logistics & MMD",
+        "top_action_name": _get_act_field(top_action, "title", "Container Consolidation"),
+        "top_action_benefit_cr": _get_act_field(top_action, "net_benefit_cr", 8.5),
+        "top_action_time": _get_act_field(top_action, "time_to_implement", "2 weeks"),
+        "top_action_owner": _get_act_field(top_action, "category", "Logistics & MMD"),
         "finance_cash_gap": lenses.get("Finance", {}).get("primary_kpi", "₹0.0 Cr Working Capital Drag"),
         "production_runway": lenses.get("Production", {}).get("impact_summary", "Runway secure across all lines."),
         "sales_claim": f"₹{prop_res.oem_recovery_cr:.1f} Cr"
