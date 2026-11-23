@@ -1,0 +1,9 @@
+.venv/
+_refs/
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+*.log
+data/raw/
+Dataset xovate (!)/

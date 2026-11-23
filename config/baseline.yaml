@@ -1,0 +1,43 @@
+financials:
+  revenue_cr: 3421.0
+  ebitda_cr: 297.7
+  ebitda_margin_pct: 8.702133878982753
+  pat_cr: 37.6
+  material_spend_cr: 1223.0
+  ocean_freight_spend_cr: 25.0
+  default_oem_pass_through_pct: 50.0
+  default_pass_through_lag_days: 75
+  baseline_freight_usd_40ft: 2172.0
+  tax_rate_pct: 25.17
+  fixed_da_interest_cr: 247.45781638352267 # 297.7 - (37.6 / (1 - 0.2517)) = 297.7 - 50.24218 = 247.4578
+  contribution_margin_pct: 28.0
+
+inputs:
+  - id: "copper"
+    name: "Copper Cathode / Rod"
+    unit_basis: "USD/t"
+    currency: "USD"
+  - id: "nickel"
+    name: "Nickel Metal"
+    unit_basis: "USD/t"
+    currency: "USD"
+  - id: "aluminium"
+    name: "Aluminium (LME Cash)"
+    unit_basis: "USD/t"
+    currency: "USD"
+  - id: "resin"
+    name: "Phenolic Resin"
+    unit_basis: "USD/kg"
+    currency: "USD"
+  - id: "rubber"
+    name: "Natural Rubber (RSS-4)"
+    unit_basis: "INR/100kg"
+    currency: "INR"
+  - id: "steel_hr"
+    name: "Steel HR Coil 2.5mm"
+    unit_basis: "INR/t"
+    currency: "INR"
+  - id: "steel_cr"
+    name: "Steel CR Coil 0.63mm"
+    unit_basis: "INR/t"
+    currency: "INR"

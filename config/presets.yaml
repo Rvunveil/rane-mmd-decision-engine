@@ -1,0 +1,99 @@
+base_case:
+  name: "Base case"
+  description: "Official Xovate'26 calibrated baseline (FY25 average pricing & RBI Forex rates)."
+  evidence: "Handout baseline numbers: Revenue ₹3,421 Cr, EBITDA ₹297.7 Cr, Material ₹1,223 Cr, Freight $2,172/40ft."
+  price_shock_pct:
+    copper: 0.0
+    nickel: 0.0
+    aluminium: 0.0
+    resin: 0.0
+    rubber: 0.0
+    steel_hr: 0.0
+    steel_cr: 0.0
+  freight_multiplier: 1.0
+  fx_inr_usd: 84.5648 # FY25 RBI avg
+  tariff_pct: 0.0
+  demand_volume_pct: 0.0
+  shipping_delay_days: 0
+  oem_pass_through_pct: 50.0
+  pass_through_lag_days: 75
+
+red_sea_hormuz:
+  name: "Red Sea / Hormuz crisis"
+  description: "Severe maritime choke collapse at Bab el-Mandeb and Hormuz; mandatory Cape of Good Hope rerouting."
+  evidence: "Chokepoints dataset: Hormuz transits collapsed from 15.7/day to 0.3/day; Bab el-Mandeb down 70%; global container freight spiked 2.73x to $5,937."
+  price_shock_pct:
+    copper: 12.0
+    nickel: 8.0
+    aluminium: 18.0
+    resin: 10.0
+    rubber: 5.0
+    steel_hr: 6.0
+    steel_cr: 6.0
+  freight_multiplier: 2.73
+  fx_inr_usd: 86.50
+  tariff_pct: 0.0
+  demand_volume_pct: -2.0
+  shipping_delay_days: 18
+  oem_pass_through_pct: 50.0
+  pass_through_lag_days: 90
+
+metal_shock:
+  name: "Metal shock"
+  description: "Synchronized global commodity upswing across base metals and domestic alloy coils."
+  evidence: "Historical LME surges in Copper (>30%) and domestic Ministry of Steel price hikes documented in dataset."
+  price_shock_pct:
+    copper: 35.0
+    nickel: 25.0
+    aluminium: 32.0
+    resin: 15.0
+    rubber: 12.0
+    steel_hr: 28.0
+    steel_cr: 28.0
+  freight_multiplier: 1.25
+  fx_inr_usd: 87.00
+  tariff_pct: 0.0
+  demand_volume_pct: 0.0
+  shipping_delay_days: 5
+  oem_pass_through_pct: 50.0
+  pass_through_lag_days: 75
+
+tariff_fx:
+  name: "Tariff & FX escalation"
+  description: "Sharp Rupee depreciation to ~96 combined with protectionist import duties on raw materials."
+  evidence: "RBI reference rate weakened from 84.6 in FY25 to 94.6+ in mid-2026; proposed border adjustment carbon/material tariffs."
+  price_shock_pct:
+    copper: 10.0
+    nickel: 5.0
+    aluminium: 10.0
+    resin: 8.0
+    rubber: 5.0
+    steel_hr: 12.0
+    steel_cr: 12.0
+  freight_multiplier: 1.30
+  fx_inr_usd: 96.50
+  tariff_pct: 10.0
+  demand_volume_pct: -4.0
+  shipping_delay_days: 7
+  oem_pass_through_pct: 45.0
+  pass_through_lag_days: 90
+
+demand_recession:
+  name: "Demand recession"
+  description: "Automotive vehicle build slump with soft order books and margin compression."
+  evidence: "ACMA historical data: FY20 auto-component industry turnover contracted by -11.7% during cyclical slowdown."
+  price_shock_pct:
+    copper: -10.0
+    nickel: -12.0
+    aluminium: -8.0
+    resin: -5.0
+    rubber: -4.0
+    steel_hr: -10.0
+    steel_cr: -10.0
+  freight_multiplier: 0.85
+  fx_inr_usd: 84.00
+  tariff_pct: 0.0
+  demand_volume_pct: -12.0
+  shipping_delay_days: 0
+  oem_pass_through_pct: 55.0
+  pass_through_lag_days: 60

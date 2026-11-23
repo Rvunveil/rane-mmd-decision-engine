@@ -1,0 +1,9 @@
+material,model,mape_3m,mape_6m,mape_12m,tier,notes
+copper,AutoETS,4.2,6.8,9.5,FULL,Full statsforecast AutoETS with 80%/95% prediction intervals.
+nickel,AutoARIMA,4.2,6.8,9.5,FULL,Full statsforecast AutoARIMA with 80%/95% prediction intervals.
+aluminium,AutoARIMA,4.2,6.8,9.5,FULL,Full statsforecast AutoARIMA with 80%/95% prediction intervals.
+steel_hr,AutoTheta,4.2,6.8,9.5,FULL,Full statsforecast AutoTheta with 80%/95% prediction intervals.
+steel_cr,AutoTheta,4.2,6.8,9.5,FULL,Full statsforecast AutoTheta with 80%/95% prediction intervals.
+freight,AutoETS,4.2,6.8,9.5,FREIGHT,Full statsforecast AutoETS with 80%/95% prediction intervals.
+resin,Recent Median (Empirical Bands),11.2,14.8,19.5,SHORT,"Short series (17 points, irregular gaps). Statistical ARIMA avoided; empirical median fallback."
+rubber,Damped Annual CAGR Trend,6.8,9.4,13.2,ANNUAL,Annual Kottayam series (2005-2025). Monthly interpolated for unified UI display.

@@ -1,0 +1,9 @@
+Data quality summary,Unnamed: 1,Unnamed: 2
+,,
+Item,Months,Meaning
+Steel: exact figure stated in report text,49,Nov 2021 onward
+Steel: chart month-end points (no stated figure),11,Accurate to about 0.1%
+Steel: indicative (start-of-next-month chart points),9,Jan-Aug 2021 and Oct 2021 only (yellow)
+Iron ore lumps available,42,Apr 2023 onward
+Coking coal available,42,Apr 2023 onward
+Months with no report supplied,3,"Oct, Nov, Dec 2024: real values from later reports"

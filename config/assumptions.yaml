@@ -1,0 +1,216 @@
+# Team 11.59 Model Assumptions
+# Every assumption is clearly labelled, editable in UI, and logged in ASSUMPTIONS.md
+
+financial_params:
+  tax_rate_pct: 25.17
+  fixed_da_interest_cr: 247.458 # 297.7 - (37.6 / (1 - 0.2517))
+  contribution_margin_pct: 28.0
+  working_capital_borrowing_rate_pct: 9.5
+  default_pass_through_lag_days: 75
+
+materials:
+  copper:
+    name: "Copper Cathode"
+    spend_share_pct: 10.0
+    spend_cr: 122.3
+    currency: "USD"
+    import_dependent: true
+    base_duty_pct: 5.0
+    handling_per_t_inr: 1500.0
+    inbound_freight_usd_t: 120.0
+    stock_on_hand_tonnes: 210.0
+    supplier_lead_time_days: 42
+    daily_usage_sigma_pct: 15.0
+    primary_origin: "Chile / Peru (via Suez / Cape)"
+    service_level_z: 1.65 # 95%
+  nickel:
+    name: "Nickel Metal"
+    spend_share_pct: 6.0
+    spend_cr: 73.38
+    currency: "USD"
+    import_dependent: true
+    base_duty_pct: 2.5
+    handling_per_t_inr: 1800.0
+    inbound_freight_usd_t: 150.0
+    stock_on_hand_tonnes: 85.0
+    supplier_lead_time_days: 45
+    daily_usage_sigma_pct: 18.0
+    primary_origin: "Indonesia / Russia (via Malacca)"
+    service_level_z: 1.65
+  aluminium:
+    name: "Aluminium (LME)"
+    spend_share_pct: 22.0
+    spend_cr: 269.06
+    currency: "USD"
+    import_dependent: true
+    base_duty_pct: 7.5
+    handling_per_t_inr: 1200.0
+    inbound_freight_usd_t: 110.0
+    stock_on_hand_tonnes: 1650.0
+    supplier_lead_time_days: 35
+    daily_usage_sigma_pct: 12.0
+    primary_origin: "UAE / Bahrain (via Hormuz)"
+    service_level_z: 1.65
+  resin:
+    name: "Phenolic Resin"
+    spend_share_pct: 6.0
+    spend_cr: 73.38
+    currency: "USD"
+    import_dependent: true
+    base_duty_pct: 7.5
+    handling_per_t_inr: 1000.0
+    inbound_freight_usd_t: 90.0
+    stock_on_hand_tonnes: 900.0
+    supplier_lead_time_days: 40
+    daily_usage_sigma_pct: 20.0
+    primary_origin: "East Asia / China (via Malacca)"
+    service_level_z: 1.65
+  rubber:
+    name: "Natural Rubber (RSS-4)"
+    spend_share_pct: 6.0
+    spend_cr: 73.38
+    currency: "INR"
+    import_dependent: false
+    base_duty_pct: 0.0
+    handling_per_t_inr: 1200.0
+    inbound_freight_usd_t: 0.0
+    domestic_freight_per_t_inr: 3500.0
+    stock_on_hand_tonnes: 780.0
+    supplier_lead_time_days: 21
+    daily_usage_sigma_pct: 14.0
+    primary_origin: "Kerala (Kottayam domestic market)"
+    service_level_z: 1.65
+  steel_hr:
+    name: "Steel HR Coil 2.5mm"
+    spend_share_pct: 28.0
+    spend_cr: 342.44
+    currency: "INR"
+    import_dependent: false
+    base_duty_pct: 0.0
+    handling_per_t_inr: 1500.0
+    inbound_freight_usd_t: 0.0
+    domestic_freight_per_t_inr: 2500.0
+    stock_on_hand_tonnes: 7200.0
+    supplier_lead_time_days: 25
+    daily_usage_sigma_pct: 10.0
+    primary_origin: "Jamshedpur / Bellary (Domestic mills)"
+    service_level_z: 1.65
+  steel_cr:
+    name: "Steel CR Coil 0.63mm"
+    spend_share_pct: 22.0
+    spend_cr: 269.06
+    currency: "INR"
+    import_dependent: false
+    base_duty_pct: 0.0
+    handling_per_t_inr: 1600.0
+    inbound_freight_usd_t: 0.0
+    domestic_freight_per_t_inr: 2800.0
+    stock_on_hand_tonnes: 4900.0
+    supplier_lead_time_days: 28
+    daily_usage_sigma_pct: 10.0
+    primary_origin: "Angul / Hazira (Domestic mills)"
+    service_level_z: 1.65
+
+divisions:
+  steering_linkages:
+    name: "Steering & Linkages"
+    revenue_share_pct: 42.0
+    material_cost_share_pct: 40.0
+    weights:
+      steel_hr: 0.45
+      steel_cr: 0.35
+      aluminium: 0.12
+      rubber: 0.05
+      copper: 0.03
+      nickel: 0.0
+      resin: 0.0
+  castings:
+    name: "Light-Metal Castings (India & Mexico)"
+    revenue_share_pct: 28.0
+    material_cost_share_pct: 27.0
+    weights:
+      aluminium: 0.72
+      copper: 0.10
+      steel_hr: 0.10
+      steel_cr: 0.08
+      nickel: 0.0
+      resin: 0.0
+      rubber: 0.0
+  friction_materials:
+    name: "Friction Materials & Brake Pads"
+    revenue_share_pct: 16.0
+    material_cost_share_pct: 18.0
+    weights:
+      resin: 0.32
+      rubber: 0.28
+      copper: 0.20
+      steel_hr: 0.10
+      steel_cr: 0.10
+      aluminium: 0.0
+      nickel: 0.0
+  engine_valves:
+    name: "Engine Valves"
+    revenue_share_pct: 14.0
+    material_cost_share_pct: 15.0
+    weights:
+      steel_cr: 0.40
+      nickel: 0.35
+      steel_hr: 0.15
+      copper: 0.05
+      aluminium: 0.05
+      resin: 0.0
+      rubber: 0.0
+
+container_logistics:
+  max_payload_tonnes: 26.0
+  baseline_ocean_spend_cr: 25.0
+  baseline_rate_usd_40ft: 2172.0
+  sample_inbound_shipments:
+    - id: "SHP-2026-081"
+      material: "copper"
+      origin: "San Antonio, Chile"
+      route: "Cape of Good Hope (Rerouted from Suez)"
+      cargo_tonnes: 24.2
+      eta_days: 38
+      status: "In Transit"
+      carrier: "MSC"
+    - id: "SHP-2026-084"
+      material: "nickel"
+      origin: "Surabaya, Indonesia"
+      route: "Strait of Malacca"
+      cargo_tonnes: 22.0
+      eta_days: 14
+      status: "In Transit"
+      carrier: "ONE"
+    - id: "SHP-2026-089"
+      material: "aluminium"
+      origin: "Jebel Ali, UAE"
+      route: "Strait of Hormuz (Disrupted)"
+      cargo_tonnes: 25.0
+      eta_days: 28
+      status: "Delayed / Bottleneck"
+      carrier: "Maersk"
+    - id: "SHP-2026-092"
+      material: "resin"
+      origin: "Busan, South Korea"
+      route: "East China Sea -> Malacca"
+      cargo_tonnes: 20.5
+      eta_days: 19
+      status: "On Schedule"
+      carrier: "Hapag-Lloyd"
+    - id: "SHP-2026-095"
+      material: "aluminium"
+      origin: "Manama, Bahrain"
+      route: "Strait of Hormuz (Disrupted)"
+      cargo_tonnes: 24.8
+      eta_days: 31
+      status: "Delayed / Bottleneck"
+      carrier: "CMA CGM"
+    - id: "SHP-2026-099"
+      material: "copper"
+      origin: "Valparaiso, Chile"
+      route: "Cape of Good Hope"
+      cargo_tonnes: 23.5
+      eta_days: 42
+      status: "In Transit"
+      carrier: "MSC"
