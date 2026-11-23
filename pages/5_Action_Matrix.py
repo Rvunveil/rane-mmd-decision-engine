@@ -101,10 +101,17 @@ with col_ba2:
 # 3. Cross-Functional Ripple Matrix
 section(":material/hub: Cross-Functional Ripple Matrix (6 Enterprise Functions)", "Evaluating systemic organizational trade-offs across MMD, Finance, Production, HR, Quality, Logistics, and Sales")
 
+def _format_action_option(x):
+    if str(x).startswith("#"):
+        return str(x)
+    r = next((a['rank'] for a in results.action_rankings if a['id'] == x), 1)
+    t = next((a['title'] for a in results.action_rankings if a['id'] == x), x)
+    return f"#{r}: {t}"
+
 selected_act_id = st.selectbox(
     "Inspect Functional Ripple for Action:",
     options=[a["id"] for a in results.action_rankings],
-    format_func=lambda x: f"#{next((a['rank'] for a in results.action_rankings if a['id']==x), 1)}: {next((a['title'] for a in results.action_rankings if a['id']==x), x)}"
+    format_func=_format_action_option
 )
 
 act_obj = next((a for a in results.action_rankings if a["id"] == selected_act_id), top_action)
